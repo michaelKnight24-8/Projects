@@ -1,0 +1,11 @@
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\bin\Debug\netcoreapp3.1\ChessOOP.exe
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\bin\Debug\netcoreapp3.1\ChessOOP.deps.json
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\bin\Debug\netcoreapp3.1\ChessOOP.runtimeconfig.json
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\bin\Debug\netcoreapp3.1\ChessOOP.runtimeconfig.dev.json
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\bin\Debug\netcoreapp3.1\ChessOOP.dll
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\bin\Debug\netcoreapp3.1\ChessOOP.pdb
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\obj\Debug\netcoreapp3.1\ChessOOP.csprojAssemblyReference.cache
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\obj\Debug\netcoreapp3.1\ChessOOP.AssemblyInfoInputs.cache
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\obj\Debug\netcoreapp3.1\ChessOOP.AssemblyInfo.cs
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\obj\Debug\netcoreapp3.1\ChessOOP.dll
+C:\Users\mknig\source\repos\ChessOOP\ChessOOP\obj\Debug\netcoreapp3.1\ChessOOP.pdb
