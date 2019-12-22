@@ -11,9 +11,9 @@ namespace ChessOOP
             override
             public void showPossible(Piece[,] board, int sx, int sy)
             {
-                var player3 = new Player(3);
-                player3.PlayerColor = ConsoleColor.Green;
-                var kingShow = new King(player3);
+                var showPossibleSpots = new Player(3);
+                showPossibleSpots.PlayerColor = ConsoleColor.Green;
+                var kingShow = new King(showPossibleSpots);
                 kingShow.name = "o";
                 //temporarily set the value of the pieces at the spots to the new symbol
                 if (sx - 1 >= 0)
