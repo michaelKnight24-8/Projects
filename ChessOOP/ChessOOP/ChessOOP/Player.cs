@@ -7,7 +7,8 @@ namespace ChessOOP
     {
         public class Player
         {
-            //list of possible colors for a player
+            //list of pieces that the player has captured
+            public List<string> capturedPieces;
           
             public int PlayerNumber { get; set; }
 
@@ -20,6 +21,7 @@ namespace ChessOOP
             public int TempPlayerNum;
             public Player(int number)
             {
+                capturedPieces = new List<string>();
                 PlayerNumber = TempPlayerNum = number;
             }
             public ConsoleColor PlayerColor { get; set; }

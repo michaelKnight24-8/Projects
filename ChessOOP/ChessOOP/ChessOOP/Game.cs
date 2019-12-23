@@ -6,6 +6,8 @@ namespace ChessOOP
 {
     partial class Game
     {
+        public static Player player1 = new Player(1);
+        public static Player player2 = new Player(2);
         public List<string> colorList = new List<string>() { "RED", "BLUE", "DARK BLUE",
                                                           "YELLOW", "CYAN", "WHITE", "GRAY"};
         public static bool hasWon = false;
@@ -27,6 +29,100 @@ namespace ChessOOP
                  new King(new Player(2)),  new Knight(new Player(2)), new Bishop(new Player(2)), new Rook(new Player(2)) }
         };
 
+        public void startGame()
+        {
+            bool specialCase = false;
+            string p1Color = null;
+            string p2Color = null;
+
+            while (true)
+            {
+                Console.WriteLine("Possible colors are: Red, Blue, Dark blue, Yellow, Cyan, White and Gray");
+                Console.Write("Player 1, please choose a color \n > ");
+                p1Color = Console.ReadLine();
+                Console.Write("Player 2, please choose a color \n > ");
+                p2Color = Console.ReadLine();
+                if (!colorList.Contains(p1Color.ToUpper()) || !colorList.Contains(p2Color.ToUpper()))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Please choose a color from the list given");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                    break;
+            }
+
+            /*************************
+             * the main game loop
+             * ***********************/
+            while (!hasWon)
+            {
+                DrawBoard(board, p1Color, p2Color);
+                Console.Write("(Hint: type 'D' to display options, or add an 's' at the end to see the possible moves) \nPlayer {0}, which piece are you going to move? \n> ", player);
+                string source = Console.ReadLine();
+                if (source.Length == 1 && !source.ToUpper().Equals("D"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Please enter a correct command");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    continue;
+                }
+                else
+                {
+                    DisplayOptions();
+                    continue;
+                }
+                if (source.Length == 3 && Char.ToUpper(source[2]) == 'S')
+                {
+                    specialCase = true;
+                    int sourceX = Char.ToUpper(source[0]) - 65;
+                    int sourceY = source[1] - 49;
+                    if (board[sourceY, sourceX] == null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Please choose a spot that is already occupied by a piece");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        continue;
+                    }
+                    Console.WriteLine("These are all the legal moves for the {0} at this spot",
+                        board[sourceY, sourceX].PieceType);
+                    board[sourceY, sourceX].showPossible(board, sourceX, sourceY);
+                    DrawBoard(board, p1Color, p2Color);
+                    Piece.clearPossibleSpotsShown(board);
+                }
+                Console.Write("Where do you want to move it? \n> ");
+                string destination = Console.ReadLine();
+
+                if ((source.Length != 2 || destination.Length != 2 || !isValid(source) || !isValid(destination)) && !specialCase)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Please choose a valid coordinate");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {//convert coordinates to array notation
+                    int sourceX = Char.ToUpper(source[0]) - 65;
+                    int sourceY = source[1] - 49;
+                    int destinationX = Char.ToUpper(destination[0]) - 65;
+                    int destinationY = destination[1] - 49;
+                    if (board[sourceY, sourceX] == null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("You did not select a piece");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    //make sure you aren't trying to access a piece that isn't yours
+                    else if (board[sourceY, sourceX].getPlayer() != player)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("You can't move the other players piece");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else //all good, now call the move function associated with the piece you're on
+                        board[sourceY, sourceX].Move(board, sourceX, sourceY, destinationX, destinationY);
+                }
+            }
+        }
         //Logic for letting the player choose the color
         public ConsoleColor getColor(string player)
         {
@@ -66,88 +162,11 @@ namespace ChessOOP
                 return true;
         }
        
-        public void startGame()
+        public void DisplayOptions()
         {
-            bool specialCase = false;
-            string p1Color = null;
-            string p2Color = null;
- 
-            while (true)
-            {
-                Console.WriteLine("Possible colors are: Red, Blue, Dark blue, Yellow, Cyan, White and Gray");
-                Console.Write("Player 1, please choose a color \n > ");
-                p1Color = Console.ReadLine();
-                Console.Write("Player 2, please choose a color \n > ");
-                p2Color = Console.ReadLine();
-                if (!colorList.Contains(p1Color.ToUpper()) || !colorList.Contains(p2Color.ToUpper()))
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Please choose a color from the list given");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                    break;
-            }
-    
-            /*************************
-             * the main game loop
-             * ***********************/
-            while (!hasWon)
-            {
-                DrawBoard(board, p1Color, p2Color);
-                Console.Write("Player {0}, which piece are you going to move? (Hint: add an 's' at the end to see the possible moves) \n> ", player);
-                string source = Console.ReadLine();
-                if (source.Length == 3 && Char.ToUpper(source[2]) == 'S')
-                {
-                    specialCase = true;
-                    int sourceX = Char.ToUpper(source[0]) - 65;
-                    int sourceY = source[1] - 49;
-                    if (board[sourceY, sourceX] == null)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Please choose a spot that is already occupied by a piece");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        continue;
-                    }
-                    Console.WriteLine("These are all the legal moves for the {0} at this spot",
-                        board[sourceY, sourceX].PieceType);
-                    board[sourceY, sourceX].showPossible(board, sourceX, sourceY);
-                    DrawBoard(board, p1Color, p2Color);
-                    Piece.clearPossibleSpotsShown(board);
-                }
-                Console.Write("Where do you want to move it? \n> ");
-                string destination = Console.ReadLine();
-                
-                if ((source.Length != 2 || destination.Length != 2 || !isValid(source) || !isValid(destination)) && !specialCase)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Please choose a valid coordinate");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                {//convert coordinates to array notation
-                    int sourceX = Char.ToUpper(source[0]) - 65;
-                    int sourceY = source[1] - 49;
-                    int destinationX = Char.ToUpper(destination[0]) - 65;
-                    int destinationY = destination[1] - 49;
-                    if (board[sourceY, sourceX] == null)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("You did not select a piece");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    //make sure you aren't trying to access a piece that isn't yours
-                    else if (board[sourceY, sourceX].getPlayer() != player)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("You can't move the other players piece");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else //all good, now call the move function associated with the piece you're on
-                        board[sourceY, sourceX].Move(board, sourceX, sourceY, destinationX, destinationY);
-                }
-            }
+
         }
+      
         public void DrawBoard(Piece[,] board, string p1Color, string p2Color)
         {
             Console.WriteLine("\n           A     B     C     D     E     F     G     H  ");

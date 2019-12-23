@@ -51,7 +51,19 @@ namespace ChessOOP
                 Console.WriteLine("\nThat is not a legal spot, please try again.");
                 Console.ForegroundColor = ConsoleColor.White;
             }
-         
+            
+            public void CapturePiece(Piece [,] board, int dx, int dy)
+            {
+                Console.WriteLine("\nPlayer {0} took player {1}'s " + board[dy, dx].PieceType +
+                         "!", Game.player, (Game.player == 1 ? 2 : 1));
+
+                //now add it to the capture peices list for the player
+                if (Game.player == 1)
+                    Game.player1.capturedPieces.Add(board[dy, dx].PieceType);
+                else
+                    Game.player2.capturedPieces.Add(board[dy, dx].PieceType);
+
+            }
         
              /*******************************************************************************
              * Used by all the different pieces to actually move the piece to the right spot
@@ -80,8 +92,7 @@ namespace ChessOOP
                         Console.WriteLine("Player {0} has won the match!", Game.player);
                     }
                     else if (board[dy, dx] != null && (board[dy, dx].getPlayer() != Game.player))
-                        Console.WriteLine("\nPlayer {0} took player {1}'s " + board[dy, dx].PieceType +
-                            "!", Game.player, (Game.player == 1 ? 2 : 1));
+                        CapturePiece(board, dx, dy);
 
                     Console.ForegroundColor = ConsoleColor.White;
                     board[dy, dx] = board[sy, sx];
