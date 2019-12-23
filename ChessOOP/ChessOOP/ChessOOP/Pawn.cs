@@ -63,7 +63,7 @@ namespace ChessOOP
                 //check moving forward two spaces after spawn
                 if (sy - dy == 2 || dy - sy == 2)
                 {
-                    if ((board[sy, sx].getPlayer() == 2 && sy == 6) || (board[sy, sx].getPlayer() == 1 && sy == 1))
+                    if ((board[sy, sx].getPlayer() == 2 && sy == 6) || (board[sy, sx].getPlayer() == 1 && sy == 1) && dx == sx)
                     {
                         MovePiece(board, sx, sy, dx, dy);
                     }
@@ -73,6 +73,10 @@ namespace ChessOOP
                         Console.WriteLine("You can only move you pawn forward 2 spaces if it's your first move");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
+                }
+                else if (sy - dy > 1 || dy - sy > 1 || dx - sx > 1 || sx - dx > 1)
+                {
+                    DisplayError();
                 }
                 //up diagonal to kill
                 else if (((sy - dy == sx - dx) && sy - dy == 1) || ((dx - sx == sy - dy) && dx - sx == 1))

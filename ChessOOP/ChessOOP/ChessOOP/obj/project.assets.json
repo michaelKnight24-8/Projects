@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mknig\\source\\repos\\ChessOOP\\ChessOOP\\ChessOOP.csproj",
+      "projectUniqueName": "C:\\Users\\mknig\\Documents\\GitHub\\Projects\\ChessOOP\\ChessOOP\\ChessOOP\\ChessOOP.csproj",
       "projectName": "ChessOOP",
-      "projectPath": "C:\\Users\\mknig\\source\\repos\\ChessOOP\\ChessOOP\\ChessOOP.csproj",
+      "projectPath": "C:\\Users\\mknig\\Documents\\GitHub\\Projects\\ChessOOP\\ChessOOP\\ChessOOP\\ChessOOP.csproj",
       "packagesPath": "C:\\Users\\mknig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mknig\\source\\repos\\ChessOOP\\ChessOOP\\obj\\",
+      "outputPath": "C:\\Users\\mknig\\Documents\\GitHub\\Projects\\ChessOOP\\ChessOOP\\ChessOOP\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mknig\\AppData\\Roaming\\NuGet\\NuGet.Config",

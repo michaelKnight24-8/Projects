@@ -22,7 +22,7 @@ namespace ChessOOP
                         else if (board[sy - 1, sx - 2].getPlayer() != Game.player)
                             board[sy - 1, sx - 2].setPlayerNumber(3);
                     }
-                    if (sy + 1 >= 0)
+                    if (sy + 1 <= 7)
                     {
                         if (board[sy + 1, sx - 2] == null)
                             board[sy + 1, sx - 2] = knightShow;
@@ -40,7 +40,7 @@ namespace ChessOOP
                         else if (board[sy - 2, sx - 1].getPlayer() != Game.player)
                             board[sy - 2, sx - 1].setPlayerNumber(3);
                     }
-                    if (sy + 2 >= 0)
+                    if (sy + 2 <= 7)
                     {
                         if (board[sy + 2, sx - 1] == null)
                             board[sy + 2, sx - 1] = knightShow;
@@ -58,7 +58,7 @@ namespace ChessOOP
                         else if (board[sy - 1, sx + 2].getPlayer() != Game.player)
                             board[sy - 1, sx + 2].setPlayerNumber(3);
                     }
-                    if (sy + 1 >= 0)
+                    if (sy + 1 <= 7)
                     {
                         if (board[sy + 1, sx + 2] == null)
                             board[sy + 1, sx + 2] = knightShow;
@@ -76,7 +76,7 @@ namespace ChessOOP
                         else if (board[sy - 2, sx + 1].getPlayer() != Game.player)
                             board[sy - 2, sx + 1].setPlayerNumber(3);
                     }
-                    if (sy + 2 >= 0) 
+                    if (sy + 2 <= 7) 
                     {
                         if (board[sy + 2, sx + 1] == null)
                             board[sy + 2, sx + 1] = knightShow;

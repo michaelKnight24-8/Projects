@@ -18,11 +18,11 @@ namespace ChessOOP
                 {new Pawn(new Player(1)),  new Pawn(new Player(1)),   new Pawn(new Player(1)),   new Pawn(new Player(1)),
                  new Pawn(new Player(1)),  new Pawn(new Player(1)),   new Pawn(new Player(1)),   new Pawn(new Player(1))},
                 {null, null, null, null, null, null, null, null },
-                {null, null, null, null, null, null, null, null },
+                {null, new King(new Player(2)), null, null, new King(new Player(1)), null, null, null },
                 {null, null, null, null, null, null, null, null },
                 {null, null, null, null, null, null, null, null },
                 {new Pawn(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)), new Pawn(new Player(2)),
-                 new Queen(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)),   new Pawn(new Player(2))},
+                 new Pawn(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)),   new Pawn(new Player(2))},
                 {new Rook(new Player(2)),  new Bishop(new Player(2)), new Knight(new Player(2)), new Queen(new Player(2)),
                  new King(new Player(2)),  new Knight(new Player(2)), new Bishop(new Player(2)), new Rook(new Player(2)) }
         };
