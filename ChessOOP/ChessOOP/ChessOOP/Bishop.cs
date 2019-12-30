@@ -6,7 +6,7 @@ namespace ChessOOP
     {
         public class Bishop : Piece
         {
-            public Bishop(Player player) : base(player) { name = "b"; PieceType = "Bishop"; }
+            public Bishop(Player player) : base(player) { Name = "b"; PieceType = "Bishop"; }
 
             public void MoveRightDiagonal(Piece [,] board, int sx, int sy, int dx, int dy)
             {
@@ -107,7 +107,7 @@ namespace ChessOOP
             {
               
                 var bishopShow = new Bishop(showPossibleSpots);
-                bishopShow.name = "o";
+                bishopShow.Name = "o";
 
                 //for the left up diagonal
                 for (int row = sx - 1, col = sy - 1; row >= 0 && col >= 0; row--, col--)

@@ -60,7 +60,7 @@ namespace ChessOOP
                 DrawBoard(board, p1Color, p2Color);
                 Console.Write("(Hint: type 'D' to display options, or add an 's' at the end to see the possible moves) \nPlayer {0}, which piece are you going to move? \n> ", player);
                 string source = Console.ReadLine();
-                if (source.Length == 1 && !source.ToUpper().Equals("D"))
+                /*if (source.Length == 1 && !source.ToUpper().Equals("D"))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Please enter a correct command");
@@ -71,25 +71,13 @@ namespace ChessOOP
                 {
                     DisplayOptions();
                     continue;
-                }
-                if (source.Length == 3 && Char.ToUpper(source[2]) == 'S')
-                {
-                    specialCase = true;
-                    int sourceX = Char.ToUpper(source[0]) - 65;
-                    int sourceY = source[1] - 49;
-                    if (board[sourceY, sourceX] == null)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Please choose a spot that is already occupied by a piece");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        continue;
-                    }
-                    Console.WriteLine("These are all the legal moves for the {0} at this spot",
-                        board[sourceY, sourceX].PieceType);
-                    board[sourceY, sourceX].showPossible(board, sourceX, sourceY);
-                    DrawBoard(board, p1Color, p2Color);
-                    Piece.clearPossibleSpotsShown(board);
-                }
+                }*/
+              
+                int sourcX = Char.ToUpper(source[0]) - 65;
+                int sourcY = source[1] - 49;
+                board[sourcY, sourcX].showPossible(board, sourcX, sourcY);
+                DrawBoard(board, p1Color, p2Color);
+                Piece.clearPossibleSpotsShown(board);
                 Console.Write("Where do you want to move it? \n> ");
                 string destination = Console.ReadLine();
 
@@ -119,7 +107,12 @@ namespace ChessOOP
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                     else //all good, now call the move function associated with the piece you're on
+                    {
+                       
                         board[sourceY, sourceX].Move(board, sourceX, sourceY, destinationX, destinationY);
+                    }
+      
+                        
                 }
             }
         }
@@ -173,6 +166,7 @@ namespace ChessOOP
             Console.WriteLine("        +-----+-----+-----+-----+-----+-----+-----+-----+");
             for (int row = 0; row < 8; row++)
             {
+                
                 Console.Write("     {0}  :  ", row + 1);
                 for (int col = 0; col < 8; col++)
                 {
@@ -181,13 +175,17 @@ namespace ChessOOP
                                                    board[row, col].getPlayer() == 3 ? ConsoleColor.Green : getColor(p2Color));
 
                     Console.Write((board[row, col] == null ? " " : 
-                        (board[row, col].getIsAlive() ? board[row, col].getName() : " ")));
+                        (board[row, col].isAlive == true ? board[row, col].Name : " ")));
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Write("  :  ");
                 }
 
                 Console.WriteLine("\n        +-----+-----+-----+-----+-----+-----+-----+-----+");
             }
+        }
+        public void displayMenu()
+        {
+            Console.WriteLine("\t\t\t\t\t\t\t\t\thello mate");
         }
     }
 }

@@ -6,13 +6,13 @@ namespace ChessOOP
     {
         public class King : Piece
         {
-            public King(Player player) : base(player) { name = "K"; PieceType = "King"; }
+            public King(Player player) : base(player) { Name = "K"; PieceType = "King"; }
             
             override
             public void showPossible(Piece[,] board, int sx, int sy)
             {
                 var kingShow = new King(showPossibleSpots);
-                kingShow.name = "o";
+                kingShow.Name = "o";
                 //temporarily set the value of the pieces at the spots to the new symbol
                 if (sx - 1 >= 0)
                 {

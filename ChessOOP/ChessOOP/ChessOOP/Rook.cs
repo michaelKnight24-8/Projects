@@ -6,7 +6,7 @@ namespace ChessOOP
     {
         public class Rook : Bishop
         {
-            public Rook(Player player) : base(player) { name = "r"; PieceType = "Rook"; }
+            public Rook(Player player) : base(player) { Name = "r"; PieceType = "Rook"; }
             public void MoveHorizontal(Piece [,] board, int sy, int sx, int dx, int dy)
             {
                 //for if you want to move right
@@ -103,7 +103,7 @@ namespace ChessOOP
             protected void showPossibleRook(Piece[,] board, int sx, int sy)
             {
                 var rookShow = new Rook(showPossibleSpots);
-                rookShow.name = "o";
+                rookShow.Name = "o";
                 //for showing posisble spots horizontally
                 for (int row = sx - 1; row >= 0; row--)
                 {

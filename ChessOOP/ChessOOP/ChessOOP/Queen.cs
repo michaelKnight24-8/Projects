@@ -13,7 +13,7 @@ namespace ChessOOP
          * ***********************************************************************/
         public class Queen : Rook 
         {
-            public Queen(Player player) : base(player) { name = "Q"; PieceType = "Queen"; }
+            public Queen(Player player) : base(player) { Name = "Q"; PieceType = "Queen"; }
             override
             public void showPossible(Piece[,] board, int sx, int sy)
             {

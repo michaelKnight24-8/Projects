@@ -6,12 +6,12 @@ namespace ChessOOP
     {
         public class Pawn : Piece
         {
-            public Pawn(Player player) : base(player) { name = "p"; PieceType = "Pawn"; }
+            public Pawn(Player player) : base(player) { Name = "p"; PieceType = "Pawn"; }
             override
             public void showPossible(Piece[,] board, int sx, int sy)
             {
                 var pawnShow = new Pawn(showPossibleSpots);
-                pawnShow.name = "o";
+                pawnShow.Name = "o";
                 if (board[sy, sx].getPlayer() == 1)
                 {
                     if (sy == 1)

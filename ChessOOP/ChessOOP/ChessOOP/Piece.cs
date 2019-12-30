@@ -6,29 +6,30 @@ namespace ChessOOP
     {
         public abstract class Piece
         {
-           public Player showPossibleSpots;
+            
+            public Player showPossibleSpots;
             public Piece(Player player)
             {
+                //A piece is 'owned' by player three if it falls in the path of a possible spot
+                //of another piece. It's turned green if so
                 showPossibleSpots = new Player(3);
                 showPossibleSpots.PlayerColor = ConsoleColor.Green;
                 this.player = player;
                 isAlive = true;
             }
+            /*************************************************************************
+             * All the inline methods and fields
+             * **********************************************************************/
+            public Player player                      { get; set; }
+            public string PieceType                   { get; set; }
+            public bool isAlive                       { get; set; }
+            public string Name                        { get; set; }
+            public int getPlayer()                    { return player.PlayerNumber; }
+            public void setPlayerNumber(int num)      { player.PlayerNumber = num;  }
+            public int getTempPlayerNumber()          { return player.TempPlayerNum; }
             public abstract void showPossible(Piece[,] board, int sx, int sy);
             public abstract void Move(Piece[,] board, int sx, int sy, int dx, int dy);
-            protected bool isAlive;
-            public bool getIsAlive()                       { return isAlive; }
-            public string name;
-            public void setPlayerNumber(int num)           { player.PlayerNumber = num; }
-            public void setPlayerColor(ConsoleColor color) { player.PlayerColor = color; }
-            public ConsoleColor getPlayerColor()           { return player.PlayerColor; }
-            public string getName()                        { return name; }
-            public int getPlayer()                         { return player.PlayerNumber; }
-            public Player player   { get; set; }
-            public int Player      { get; set; }
-            public string PieceType     { get; set; }
-
-            public int getTempPlayerNumber()               { return player.TempPlayerNum; }
+       
 
             /**********************************************************************************
              * The possible spots need to be cleared, and if any piece was a possible spot for 
@@ -39,7 +40,7 @@ namespace ChessOOP
                 for (int row = 0; row < 8; row++)
                     for (int col = 0; col < 8; col++)
                     {
-                        if (board[row, col] != null && board[row, col].getName().Equals("o"))
+                        if (board[row, col] != null && board[row, col].Name.Equals("o"))
                             board[row, col] = null;
                         else if (board[row, col] != null && board[row, col].getPlayer() == 3)
                             board[row, col].setPlayerNumber(board[row, col].getTempPlayerNumber());
@@ -62,7 +63,6 @@ namespace ChessOOP
                     Game.player1.capturedPieces.Add(board[dy, dx].PieceType);
                 else
                     Game.player2.capturedPieces.Add(board[dy, dx].PieceType);
-
             }
         
              /*******************************************************************************
@@ -86,7 +86,7 @@ namespace ChessOOP
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    if (board[dy, dx].getName().Equals("K"))
+                    if (board[dy, dx].Name.Equals("K"))
                     {
                         Game.hasWon = true;
                         Console.WriteLine("Player {0} has won the match!", Game.player);

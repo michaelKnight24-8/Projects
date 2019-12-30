@@ -6,12 +6,12 @@ namespace ChessOOP
     {
         public class Knight : Piece
         {
-            public Knight(Player player) : base(player) { name = "n"; PieceType = "Knight"; }
+            public Knight(Player player) : base(player) { Name = "n"; PieceType = "Knight"; }
             override
             public void showPossible(Piece[,] board, int sx, int sy)
             {
                 var knightShow = new Knight(showPossibleSpots);
-                knightShow.name = "o";
+                knightShow.Name = "o";
                 //for showing spots to the left
                 if (sx - 2 >= 0)
                 {
