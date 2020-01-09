@@ -2,6 +2,7 @@ package practice;
 
 import javax.swing.*;
 import javax.swing.Action;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,13 +15,55 @@ public class Pawn extends Piece {
         name = "Pawn";
         symbol = (player.getPlayer() == 1 ? 'p' : 'P');
     }
+    public void showPossible(Button [][] board, int sx, int sy)
+    {
+        if (board[sy][sx].getPlayer() == 1)
+        {
+            if (sy == 1)
+            {
+                if (!board[sy + 1][sx].isPiece())
+                {
+                    board[sy + 1][sx].setBackground(Color.GREEN);
+                    if (!board[sy + 2][sx].isPiece())
+                        board[sy + 2][sx].setBackground(Color.green);
+                }
+
+            }
+            else if (sy + 1 <= 7 && !board[sy + 1][sx].isPiece())
+            board[sy + 1][sx].setBackground(Color.GREEN);
+            if (sy + 1 <= 7)
+            {
+                if (sx + 1 <= 7 && board[sy + 1][sx + 1].isPiece() && board[sy + 1][sx + 1].getPlayer() != Game.player)
+                board[sy + 1][sx + 1].setBackground(Color.GREEN);
+                if (sx - 1 >= 0 && board[sy + 1][sx - 1].isPiece() && board[sy + 1][sx - 1].getPlayer() != Game.player)
+                board[sy + 1][sx - 1].setBackground(Color.green);
+            }
+        }
+        else
+        {
+            if (sy == 6)
+            {
+                if (!board[sy - 1][sx].isPiece())
+                {
+                    board[sy - 1][sx].setBackground(Color.GREEN);
+                    if (!board[sy - 2][sx].isPiece())
+                    board[sy - 2][sx].setBackground(Color.GREEN);
+                }
+
+            }
+            else if (sy - 1 >= 0 && !board[sy - 1][sx].isPiece())
+            board[sy - 1][sx].setBackground(Color.GREEN);
+            if (sy - 1 >= 0)
+            {
+                if (sy - 1 >= 0 && board[sy - 1][sx + 1].isPiece() && board[sy - 1][sx + 1].getPlayer() != Game.player)
+                board[sy - 1][sx + 1].setBackground(Color.GREEN);
+                if (sy - 1 >= 0 && board[sy - 1][sx - 1].isPiece() && board[sy - 1][sx - 1].getPlayer() != Game.player)
+                board[sy - 1][sx - 1].setBackground(Color.GREEN);
+            }
+        }
+    }
     @Override
     public void MovePiece(Button [][] board, int sx, int sy, int dx, int dy) {
-        if (board[sy][sx] == board[dy][dx])
-        {
-            Game.clicks = 1;
-            return;
-        }
         //check moving forward two spaces after spawn
         if (sy - dy == 2 || dy - sy == 2)
         {

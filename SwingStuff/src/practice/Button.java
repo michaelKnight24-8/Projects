@@ -8,6 +8,8 @@ public class Button extends JButton {
     private Piece piece;
     public int x;
     public int y;
+    private ImageIcon img;
+    public ImageIcon getImage() { return img; }
     private ImageClass image = new ImageClass();
     public boolean isPiece;
     public Piece getPiece() { return piece; }
@@ -38,6 +40,7 @@ public class Button extends JButton {
     {
         super(ImageClass.getImage(piece.getSymbol()));
         this.piece = piece;
+        img = ImageClass.getImage(piece.getSymbol());
         isPiece = true;
         setBackground(Color.GRAY);
     }

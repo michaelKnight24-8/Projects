@@ -2,15 +2,20 @@ package practice;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.nio.ByteOrder;
-import java.util.Random;
+import java.sql.Array;
+import java.util.*;
+import java.util.List;
 
 public class Game implements MouseListener {
+    public static List<Button> captureListP1;
+    public static List<Button> captureListP2;
     public static int clicks = 1;
     public static final String F = "Last Clicked: ";
     public static int player = 1;
@@ -20,7 +25,7 @@ public class Game implements MouseListener {
     public static JPanel buttonsPanel = new JPanel();
     public static boolean firstTime = true;
     public static int coord[] = new int[2];
-    public static TextArea ta = new TextArea(10,25);
+    public static TextArea ta = new TextArea(5,25);
     public static Button[][] board =
             {
                     { new Button(new Rook(new Player(1))), new Button(new Bishop(new Player(1))), new Button(new Knight(new Player(1))), new Button(new Queen(new Player(1))),
@@ -28,8 +33,8 @@ public class Game implements MouseListener {
                     { new Button(new Pawn(new Player(1))), new Button(new Pawn(new Player(1))), new Button(new Pawn(new Player(1))),
                             new Button(new Pawn(new Player(1))), new Button(new Pawn(new Player(1))), new Button(new Pawn(new Player(1))), new Button(new Pawn(new Player(1))), new Button(new Pawn(new Player(1)))},
                     { new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()},
-                    { new Button(), new Button(new Bishop(new Player(1))), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()},
-                    { new Button(), new Button(), new Button(), new Button(), new Button(new Bishop(new Player(2))), new Button(), new Button(), new Button()},
+                    { new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()},
+                    { new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()},
                     { new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button()},
                     { new Button(new Pawn(new Player(2))), new Button(new Pawn(new Player(2))), new Button(new Pawn(new Player(2))), new Button(new Pawn(new Player(2))),
                             new Button(new Pawn(new Player(2))), new Button(new Pawn(new Player(2))), new Button(new Pawn(new Player(2))), new Button(new Pawn(new Player(2)))},
@@ -38,7 +43,8 @@ public class Game implements MouseListener {
             };
 
     public void startGame() {
-
+        captureListP1 = new LinkedList<>();
+        captureListP2 = new LinkedList<>();
         if (firstTime)
             init();
         drawBoard(board, buttonsPanel);
@@ -48,46 +54,82 @@ public class Game implements MouseListener {
     public void init() {
 
         coord[0] = coord[1] = 0;
-        JLabel background;
-        JLabel background1;
-        ImageIcon img = new ImageIcon("C:\\Users\\mknig\\Downloads\\chessB.jpg");
-        background = new JLabel("where is this",img,JLabel.CENTER);
-        background.setBounds(0,0, 860, 1200);
-        background1 = new JLabel("where is this",img,JLabel.CENTER);
-        background1.setBounds(1130,0, 200, 1200);
-        JLabel background2 = new JLabel("where is this",img,JLabel.CENTER);
-        JLabel background3 = new JLabel("where is this",img,JLabel.CENTER);
-        background2.setBounds(860,400, 400, 400);
-        background3.setBounds(860,-70, 400, 200);
-        //content.setLayout(null);
+        content.setLayout(null);
         ta.setBackground(Color.GRAY);
-        //content.add(background1);
-        //content.add(background);
-        //content.add(background2);
-        //content.add(background3);
-        content.setBorder(new EmptyBorder(130, 400, 150, 150));
+        //var label = new JLabel();
+        //var label1 = new JLabel();
+        content.setBorder(new EmptyBorder(130, 300, 150, 150));
         jf.setSize(1100, 1010);
         firstTime = false;
 
-        buttonsPanel.setBackground(Color.DARK_GRAY);
+        buttonsPanel.setBackground(Color.getHSBColor(210,131,51));
 
         buttonsPanel.setLayout(new GridLayout(8, 8, 3, 3));
+        var l = new JLabel("   SCOREBOARD");
+        l.setForeground(Color.BLACK);
+        l.setFont(new Font("Courier New", Font.BOLD, 20));
+        //ta.setBounds(100,360,100,100);
+        var errorPane = new JScrollPane(ta, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                                            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        var feed = new JLabel("  FEED");
+        feed.setForeground(Color.BLACK);
+        feed.setFont(new Font("Courier New", Font.BOLD, 20));
+        errorPane.setBounds(935, 180, 150, 50);
+        errorPane.setBorder(BorderFactory.createSoftBevelBorder(2,Color.WHITE,Color.BLACK));
+        feed.setBounds(963, 130, 150, 60);
+
 
         content.setLayout(new BorderLayout());
-
+  //      jf.add(label);
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++) {
                 board[i][j].addMouseListener(this);
             }
 
-        var ta2 = new TextArea(10,25);
-        ta2.setBackground(Color.GRAY);
+        var ta2 = new TextArea();
+        var ta3 = new TextArea();
+        ta2.setText("\t          P L A Y E R     1");
+        ta3.setText("\t          P L A Y E R     2");
+
+        ta2.setBackground(Color.getHSBColor(210,131,51));
+        ta3.setBackground(Color.getHSBColor(210,131,51));
+        //ta2.setBounds(200, 133, 150, 153);
+        JScrollPane scorePanePlayer1 =  new JScrollPane(ta2, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                                                      JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scorePanePlayer2 =  new JScrollPane(ta3, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        //label.setIcon(image);
+        //label1.setIcon(image1);
+        scorePanePlayer1.setBounds(50, 180, 250, 20);
+        scorePanePlayer2.setBounds(50, 400, 250, 20);
+        l.setBounds(80, 130, 160, 50);
+        int x = 50;
+        var list = new LinkedList<Button>();
+        list.add(new Button(new Knight(new Player(1))));
+        list.add(new Button(new Rook(new Player(2))));
+        list.add(new Button(new Bishop(new Player(1))));
+        list.add(new Button(new Queen(new Player(2))));
+        list.add(new Button(new Pawn(new Player(2))));
+        list.add(new Button(new King(new Player(1))));
+
+        //label.setBounds(50, 200, 35, 50);
+        //label1.setBounds(88, 200, 35, 50);
+        content.add(errorPane);
+        content.add(l);
+        content.add(feed);
+        //content.add(label);
+        //content.add(label1);
+        content.add(scorePanePlayer2);
+        content.add(scorePanePlayer1);
+
         content.add(buttonsPanel, BorderLayout.CENTER);
         jf.setContentPane(content);
-        jf.add(ta, BorderLayout.EAST);
+        //jf.add(ta, BorderLayout.EAST);
+        //jf.add(ta2, BorderLayout.EAST);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.setVisible(true);
-        content.setBackground(Color.BLACK);
+        content.setBackground(Color.GRAY);
     }
 
     public void drawBoard(Button[][] board, JPanel buttonsPanel) {
@@ -100,6 +142,39 @@ public class Game implements MouseListener {
             }
         buttonsPanel.repaint();
         buttonsPanel.revalidate();
+
+        int p1X = 50;
+        int p1Y = 200;
+        //for player 1's captured pieces
+        for (int i = 0; i < captureListP1.size(); i++) {
+            var label = new JLabel();
+            label.setIcon(captureListP1.get(i).getImage());
+            label.setBounds(p1X, p1Y, 38, 50);
+            content.add(label);
+            p1X += 38;
+            if (i % 5 == 0 && i != 0)
+            {
+                p1X = 50;
+                p1Y += 40;
+            }
+        }
+        int p2X = 50;
+        int p2Y = 420;
+        //for player 2's captured pieces
+        for (int i = 0; i < captureListP2.size(); i++) {
+            var label = new JLabel();
+            label.setIcon(captureListP2.get(i).getImage());
+            label.setBounds(p2X, p2Y, 38, 50);
+            content.add(label);
+            p2X += 38;
+            if (i % 5 == 0 && i != 0)
+            {
+                p2X = 50;
+                p2Y += 40;
+            }
+        }
+        content.repaint();
+        content.revalidate();
     }
 
     @Override
@@ -116,13 +191,22 @@ public class Game implements MouseListener {
                     coord[0] = row;
                     coord[1] = col;
                     clicks = 2;
+                    board[row][col].getPiece().showPossible(board, coord[1], coord[0]);
                 }
             }
             else
                 ta.setText("You can't move the other player's piece\n" + F + "(" + coord[0] + "," + coord[1] + ")");
         } else if (clicks == 2) {
-            board[coord[0]][coord[1]].getPiece().MovePiece(board, coord[1], coord[0], col, row);
+            if (board[row][col] == board[coord[0]][coord[1]])
+                clicks = 1;
+            else
+                board[coord[0]][coord[1]].getPiece().MovePiece(board, coord[1], coord[0], col, row);
+                //resets the background colors to gray instead of green for the show possible
+            for (var buttonRow : board)
+                for (var buttonCol : buttonRow)
+                    buttonCol.setBackground(Color.gray);
         }
+
 
         drawBoard(board, buttonsPanel);
     }
@@ -140,12 +224,14 @@ public class Game implements MouseListener {
     @Override
     public void mouseEntered(MouseEvent e) {
         var button = (Button) e.getSource();
-        button.setBackground(Color.GREEN);
+        if (button.getBackground() != Color.GREEN)
+            button.setBackground(Color.getHSBColor(23,45,67));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         var button = (Button) e.getSource();
-        button.setBackground(Color.GRAY);
+        if (button.getBackground() != Color.GREEN)
+            button.setBackground(Color.GRAY);
     }
 }

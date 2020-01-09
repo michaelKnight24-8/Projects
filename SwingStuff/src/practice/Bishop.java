@@ -1,12 +1,68 @@
 package practice;
 
+import java.awt.*;
+
 public class Bishop extends Piece {
-    public Bishop(Player player)
-    {
+    public Bishop(Player player) {
         super(player);
         name = "Bishop";
         symbol = (player.getPlayer() == 1 ? 'b' : 'B');
         special = false;
+    }
+
+    @Override
+    public void showPossible(Button[][] board, int sx, int sy) {
+        showPossibleBishop(board, sx, sy);
+    }
+    public void showPossibleBishop(Button [][]board, int sx, int sy) {
+        //for the left up diagonal
+        for (int row = sx - 1, col = sy - 1; row >= 0 && col >= 0; row--, col--)
+        {
+            if (!board[col][row].isPiece())
+            board[col][row].setBackground(Color.GREEN);
+            else
+            {
+                if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
+                board[col][row].setBackground(Color.GREEN);
+                break;
+            }
+        }
+        //for the right up diagonal
+        for (int row = sx + 1, col = sy - 1; row <= 7 && col >= 0; row++, col--)
+        {
+            if (!board[col][row].isPiece())
+            board[col][row].setBackground(Color.GREEN);
+            else
+            {
+                if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
+                board[col][row].setBackground(Color.GREEN);
+                break;
+            }
+        }
+        //for the right down diagonal
+        for (int row = sx + 1, col = sy + 1; row <= 7 && col <= 7; row++, col++)
+        {
+            if (!board[col][row].isPiece())
+            board[col][row].setBackground(Color.GREEN);
+            else
+            {
+                if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
+                board[col][row].setBackground(Color.GREEN);
+                break;
+            }
+
+        }//for the left down diagonal
+        for (int row = sx - 1, col = sy + 1; row >= 0 && col <= 7; row--, col++)
+        {
+            if (!board[col][row].isPiece())
+            board[col][row].setBackground(Color.GREEN);
+            else
+            {
+                if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
+                board[col][row].setBackground(Color.GREEN);
+                break;
+            }
+        }
     }
     @Override
     public void MovePiece(Button [][]board, int sx, int sy, int dx, int dy) {
