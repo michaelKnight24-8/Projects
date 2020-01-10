@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 public class Button extends JButton {
     private Piece piece;
+    public Color backgroundColor;
     public int x;
     public int y;
     private ImageIcon img;
@@ -33,7 +34,6 @@ public class Button extends JButton {
 
     public Button()
     {
-        setBackground(Color.GRAY);
         isPiece = false;
     }
     public Button(Piece piece)
@@ -42,7 +42,6 @@ public class Button extends JButton {
         this.piece = piece;
         img = ImageClass.getImage(piece.getSymbol());
         isPiece = true;
-        setBackground(Color.GRAY);
     }
     public String getPieceName()
     {

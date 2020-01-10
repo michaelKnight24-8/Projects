@@ -32,7 +32,6 @@ public class ImageClass {
                 return new ImageIcon("C:\\Users\\mknig\\Downloads\\bishop.png");
             case 'B':
                 return new ImageIcon("C:\\Users\\mknig\\Downloads\\bishopB.png");
-
         }
         return null;
     }

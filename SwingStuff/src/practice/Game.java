@@ -19,6 +19,9 @@ public class Game implements MouseListener {
     public static int clicks = 1;
     public static final String F = "Last Clicked: ";
     public static int player = 1;
+    public JLabel titleLabel;
+    public JLabel rightPiecesPic;
+    public JLabel leftPiecesPic;
     public static boolean hasWon = false;
     public static JFrame jf = new JFrame("Chess");
     public static JPanel content = new JPanel();
@@ -45,6 +48,9 @@ public class Game implements MouseListener {
     public void startGame() {
         captureListP1 = new LinkedList<>();
         captureListP2 = new LinkedList<>();
+        titleLabel = new JLabel("Chess");
+        rightPiecesPic = new JLabel();
+        leftPiecesPic = new JLabel();
         if (firstTime)
             init();
         drawBoard(board, buttonsPanel);
@@ -63,7 +69,8 @@ public class Game implements MouseListener {
         firstTime = false;
 
         buttonsPanel.setBackground(Color.getHSBColor(210,131,51));
-
+        ta.setBackground(Color.BLACK);
+        ta.setForeground(Color.GREEN);
         buttonsPanel.setLayout(new GridLayout(8, 8, 3, 3));
         var l = new JLabel("   SCOREBOARD");
         l.setForeground(Color.BLACK);
@@ -73,6 +80,7 @@ public class Game implements MouseListener {
                                             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         var feed = new JLabel("  FEED");
         feed.setForeground(Color.BLACK);
+
         feed.setFont(new Font("Courier New", Font.BOLD, 20));
         errorPane.setBounds(935, 180, 150, 50);
         errorPane.setBorder(BorderFactory.createSoftBevelBorder(2,Color.WHITE,Color.BLACK));
@@ -86,6 +94,13 @@ public class Game implements MouseListener {
                 board[i][j].addMouseListener(this);
             }
 
+        titleLabel.setForeground(Color.BLACK);
+        titleLabel.setFont(new Font("Courier New", Font.BOLD, 60));
+        titleLabel.setBounds(520, 80, 400, 50);
+        rightPiecesPic.setBounds(710, 80, 400, 50);
+        leftPiecesPic.setBounds(420, 80, 400, 50);
+        leftPiecesPic.setIcon(new ImageIcon("C:\\Users\\mknig\\Documents\\titleWhite.jpg"));
+        rightPiecesPic.setIcon(new ImageIcon("C:\\Users\\mknig\\Documents\\titleBlack.jpg"));
         var ta2 = new TextArea();
         var ta3 = new TextArea();
         ta2.setText("\t          P L A Y E R     1");
@@ -104,22 +119,12 @@ public class Game implements MouseListener {
         scorePanePlayer1.setBounds(50, 180, 250, 20);
         scorePanePlayer2.setBounds(50, 400, 250, 20);
         l.setBounds(80, 130, 160, 50);
-        int x = 50;
-        var list = new LinkedList<Button>();
-        list.add(new Button(new Knight(new Player(1))));
-        list.add(new Button(new Rook(new Player(2))));
-        list.add(new Button(new Bishop(new Player(1))));
-        list.add(new Button(new Queen(new Player(2))));
-        list.add(new Button(new Pawn(new Player(2))));
-        list.add(new Button(new King(new Player(1))));
-
-        //label.setBounds(50, 200, 35, 50);
-        //label1.setBounds(88, 200, 35, 50);
         content.add(errorPane);
         content.add(l);
         content.add(feed);
-        //content.add(label);
-        //content.add(label1);
+        content.add(titleLabel);
+        content.add(leftPiecesPic);
+        content.add(rightPiecesPic);
         content.add(scorePanePlayer2);
         content.add(scorePanePlayer1);
 
@@ -134,12 +139,25 @@ public class Game implements MouseListener {
 
     public void drawBoard(Button[][] board, JPanel buttonsPanel) {
         buttonsPanel.removeAll();
-        for (var i = 0; i < 8; i++)
+        int alternate = 1;
+        for (var i = 0; i < 8; i++) {
             for (var j = 0; j < 8; j++) {
                 buttonsPanel.add(board[i][j]);
                 board[i][j].x = j;
                 board[i][j].y = i;
+                if (board[i][j].getBackground() != Color.GREEN) {
+                    if ((j + alternate) % 2 == 0) {
+                        board[i][j].setBackground(new Color(229, 187, 129));
+                        board[i][j].backgroundColor = new Color(229, 187, 129);
+                    } else {
+                        board[i][j].setBackground(new Color(108, 71, 58));
+                        board[i][j].backgroundColor = new Color(108, 71, 58);
+                    }
+
+                }
             }
+            alternate = (alternate == 1 ? 0 : 1);
+        }
         buttonsPanel.repaint();
         buttonsPanel.revalidate();
 
@@ -204,10 +222,8 @@ public class Game implements MouseListener {
                 //resets the background colors to gray instead of green for the show possible
             for (var buttonRow : board)
                 for (var buttonCol : buttonRow)
-                    buttonCol.setBackground(Color.gray);
+                    buttonCol.setBackground(buttonCol.backgroundColor);
         }
-
-
         drawBoard(board, buttonsPanel);
     }
 
@@ -232,6 +248,9 @@ public class Game implements MouseListener {
     public void mouseExited(MouseEvent e) {
         var button = (Button) e.getSource();
         if (button.getBackground() != Color.GREEN)
-            button.setBackground(Color.GRAY);
+        {
+            button.setBackground(button.backgroundColor);
+        }
+
     }
 }
