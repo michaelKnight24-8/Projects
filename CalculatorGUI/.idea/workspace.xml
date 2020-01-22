@@ -2,17 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3619faa6-e777-4ec7-9c04-d314932f68ac" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/DesignTimeBuild/.dtbcache" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/DesignTimeBuild/.dtbcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CalculatorGUI/practice/Button.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CalculatorGUI/practice/Button.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CalculatorGUI/practice/Calculator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CalculatorGUI/practice/Calculator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Button.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Calculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide-shm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide-wal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/bin/Debug/netcoreapp3.1/ChessOOP.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/bin/Debug/netcoreapp3.1/ChessOOP.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/bin/Debug/netcoreapp3.1/ChessOOP.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/bin/Debug/netcoreapp3.1/ChessOOP.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.csprojAssemblyReference.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Bishop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Button.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Button.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Knight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Rook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Button.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Rook.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/practice/Calculator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="23" lean-forward="true" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+            <state relative-caret-position="272">
+              <caret line="163" column="12" selection-start-line="163" selection-start-column="12" selection-end-line="163" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -54,8 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Button.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+            <state relative-caret-position="238">
+              <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -92,17 +101,18 @@
       <list>
         <option value="$PROJECT_DIR$/src/practice/Main.java" />
         <option value="$PROJECT_DIR$/src/practice/RoundedBorder.java" />
-        <option value="$PROJECT_DIR$/src/practice/Button.java" />
         <option value="$PROJECT_DIR$/src/practice/CustomBorder.java" />
         <option value="$PROJECT_DIR$/src/practice/ButtonBuilder.java" />
+        <option value="$PROJECT_DIR$/src/practice/Button.java" />
         <option value="$PROJECT_DIR$/src/practice/Calculator.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="948" />
-    <option name="width" value="981" />
-    <option name="height" value="1032" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1613" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -110,7 +120,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -133,11 +143,15 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -185,7 +199,7 @@
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14898786" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.151417" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -194,7 +208,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.053285968" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.053285968" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -202,7 +216,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.3285968" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.053285968" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -257,8 +271,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/practice/Button.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="12" column="33" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="33" />
+        <state relative-caret-position="238">
+          <caret line="15" column="36" selection-start-line="15" selection-start-column="36" selection-end-line="15" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -277,13 +291,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/practice/Calculator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="23" lean-forward="true" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+        <state relative-caret-position="272">
+          <caret line="163" column="12" selection-start-line="163" selection-start-column="12" selection-end-line="163" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>javafx-swt</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

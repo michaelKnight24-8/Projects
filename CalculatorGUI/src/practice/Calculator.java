@@ -7,8 +7,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class Calculator extends JFrame implements ActionListener
+public class Calculator extends JFrame implements ActionListener, MouseListener
 {
     private boolean continueWithDigits = false;
     private boolean justUsedEquals = false;
@@ -24,127 +26,40 @@ public class Calculator extends JFrame implements ActionListener
     public Calculator()
     {
         super("Calculator");
-        setSize(500,500);
+        setSize(330,450);
         result = lhs = rhs = "";
         selected = ' ';
         textLabel = new JLabel("");
 
-        textLabel.setPreferredSize(new Dimension(500, 250));
-        textLabel.setForeground(Color.BLACK);
-        textLabel.setFont(new Font("Courier", Font.BOLD, 10));
+        textLabel.setPreferredSize(new Dimension(500, 100));
+        textLabel.setForeground(Color.WHITE);
+        textLabel.setFont(new Font("Dialog",1 ,20));
 
-// sets the text to the upper left corner
-        textLabel.setVerticalAlignment(SwingConstants.NORTH);
+        // sets the text to the upper right corner
+        textLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        textLabel.setBorder(new CompoundBorder( // sets two borders
+        /*textLabel.setBorder(new CompoundBorder( // sets two borders
                 BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK), // outer border
-                BorderFactory.createEmptyBorder(2, 2, 2, 2))); // inner invisi
-
+                BorderFactory.createEmptyBorder(2, 2, 2, 2))); // inner
+*/
         jp = new JPanel();
+        jp.setBackground(Color.BLACK);
         jp.setLayout(null);
-        textLabel.setBounds(50, 20, 230, 50);
+        textLabel.setBounds(50, 50, 230, 20);
         jp.add(textLabel);
 
+        //put this in a seperate function to get rid of clutter in constructor
         //add buttons for #'s 0 - 9
-        b0 = new ButtonBuilder("0", 50, 80).build();
-        b0.addActionListener(this);
-        jp.add(b0);
+        makeButtons();
 
-        b1 = new ButtonBuilder("1", 110, 80).build();
-        b1.addActionListener(this);
-        jp.add(b1);
 
-        b2 = new ButtonBuilder("2", 170, 80).build();
-        b2.addActionListener(this);
-        jp.add(b2);
 
-        b3 = new ButtonBuilder("3", 50, 140).build();
-        b3.addActionListener(this);
-        jp.add(b3);
-
-        b4 = new ButtonBuilder("4", 110, 140).build();
-        b4.addActionListener(this);
-        jp.add(b4);
-
-        b5 = new ButtonBuilder("5", 170, 140).build();
-        b5.addActionListener(this);
-        jp.add(b5);
-
-        b6 = new ButtonBuilder("6", 50, 200).build();
-        b6.addActionListener(this);
-        jp.add(b6);
-
-        b7 = new ButtonBuilder("7", 110, 200).build();
-        b7.addActionListener(this);
-        jp.add(b7);
-
-        b8 = new ButtonBuilder("8", 170, 200).build();
-        b8.addActionListener(this);
-        jp.add(b8);
-
-        b9 = new ButtonBuilder("9", 50, 260).build();
-        b9.addActionListener(this);
-        jp.add(b9);
-
-        bC = new ButtonBuilder("C", 110, 260).withBackGroundColor(Color.lightGray)
-                                                        .withTextColor(Color.BLACK)
-                                                        .build();
-        bC.addActionListener(this);
-        jp.add(bC);
-
-        bD = new ButtonBuilder(".", 170, 260).withBackGroundColor(Color.lightGray)
-                                                        .withTextColor(Color.BLACK)
-                                                        .build();
-        bD.addActionListener(this);
-        jp.add(bD);
-
-        bMult = new ButtonBuilder("x", 230, 80).withBackGroundColor(Color.orange)
-                .build();
-        bMult.addActionListener(this);
-        jp.add(bMult);
-
-        bDiv = new ButtonBuilder("/", 230, 140).withBackGroundColor(Color.orange)
-                .build();
-        bDiv.addActionListener(this);
-        jp.add(bDiv);
-
-        bAdd = new ButtonBuilder("+", 230, 200).withBackGroundColor(Color.orange)
-                .build();
-        bAdd.addActionListener(this);
-        jp.add(bAdd);
-
-        bSub = new ButtonBuilder("-", 230, 260).withBackGroundColor(Color.orange)
-                .build();
-        bSub.addActionListener(this);
-        jp.add(bSub);
-
-        bEq = new ButtonBuilder("=", 230, 320).withBackGroundColor(Color.orange)
-                .build();
-        bEq.addActionListener(this);
-        jp.add(bEq);
-
-        bPi = new ButtonBuilder("π", 50, 320).withBackGroundColor(Color.lightGray)
-                .withTextColor(Color.BLACK)
-                .build();
-        bPi.addActionListener(this);
-        jp.add(bPi);
-
-        bFact = new ButtonBuilder("!", 110, 320).withBackGroundColor(Color.lightGray)
-                .withTextColor(Color.BLACK)
-                .build();
-        bFact.addActionListener(this);
-        jp.add(bFact);
-
-        bEx = new ButtonBuilder("^", 170, 320).withBackGroundColor(Color.lightGray)
-                .withTextColor(Color.BLACK)
-                .build();
-        bEx.addActionListener(this);
-        jp.add(bEx);
 
         add(jp);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -257,17 +172,15 @@ public class Calculator extends JFrame implements ActionListener
                     justUsedEquals = true;
                     break;
                 case 'C':
-                    textLabel.setText("");
+                    textLabel.setText("0");
                     lhs = rhs = "";
                     selected = ' ';
                     break;
-
             }
             //set isPi back to false since we're done
             if (isPi)
                 isPi = false;
         }
-
     }
 
     //separate function so code looks better
@@ -279,5 +192,148 @@ public class Calculator extends JFrame implements ActionListener
         //just display the result right after
         textLabel.setText("" + result);
         justUsedEquals = true;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        var buttonHover = (Button) e.getSource();
+        buttonHover.setBackground(Color.DARK_GRAY);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        var button = (Button) e.getSource();
+        button.setBackground(button.getBaseColor());
+    }
+
+
+    //boring function to make the necessary functions
+    public void makeButtons()
+    {
+        b0 = new ButtonBuilder("0", 50, 80).build();
+        b0.addActionListener(this);
+        b0.addMouseListener(this);
+        jp.add(b0);
+
+        b1 = new ButtonBuilder("1", 110, 80).build();
+        b1.addActionListener(this);
+        b1.addMouseListener(this);
+        jp.add(b1);
+
+        b2 = new ButtonBuilder("2", 170, 80).build();
+        b2.addActionListener(this);
+        b2.addMouseListener(this);
+        jp.add(b2);
+
+        b3 = new ButtonBuilder("3", 50, 140).build();
+        b3.addActionListener(this);
+        b3.addMouseListener(this);
+        jp.add(b3);
+
+        b4 = new ButtonBuilder("4", 110, 140).build();
+        b4.addActionListener(this);
+        b4.addMouseListener(this);
+        jp.add(b4);
+
+        b5 = new ButtonBuilder("5", 170, 140).build();
+        b5.addActionListener(this);
+        b5.addMouseListener(this);
+        jp.add(b5);
+
+        b6 = new ButtonBuilder("6", 50, 200).build();
+        b6.addActionListener(this);
+        b6.addMouseListener(this);
+        jp.add(b6);
+
+        b7 = new ButtonBuilder("7", 110, 200).build();
+        b7.addActionListener(this);
+        b7.addMouseListener(this);
+        jp.add(b7);
+
+        b8 = new ButtonBuilder("8", 170, 200).build();
+        b8.addActionListener(this);
+        b8.addMouseListener(this);
+        jp.add(b8);
+
+        b9 = new ButtonBuilder("9", 50, 260).build();
+        b9.addActionListener(this);
+        b9.addMouseListener(this);
+        jp.add(b9);
+
+        bC = new ButtonBuilder("C", 110, 260).withBackGroundColor(Color.lightGray)
+                .withTextColor(Color.BLACK)
+                .build();
+        bC.addActionListener(this);
+        bC.addMouseListener(this);
+        jp.add(bC);
+
+        bD = new ButtonBuilder(".", 170, 260).withBackGroundColor(Color.lightGray)
+                .withTextColor(Color.BLACK)
+                .build();
+        bD.addActionListener(this);
+        bD.addMouseListener(this);
+        jp.add(bD);
+
+        bMult = new ButtonBuilder("x", 230, 80).withBackGroundColor(Color.orange)
+                .build();
+        bMult.addActionListener(this);
+        bMult.addMouseListener(this);
+        jp.add(bMult);
+
+        bDiv = new ButtonBuilder("/", 230, 140).withBackGroundColor(Color.orange)
+                .build();
+        bDiv.addActionListener(this);
+        bDiv.addMouseListener(this);
+        jp.add(bDiv);
+
+        bAdd = new ButtonBuilder("+", 230, 200).withBackGroundColor(Color.orange)
+                .build();
+        bAdd.addActionListener(this);
+        bAdd.addMouseListener(this);
+        jp.add(bAdd);
+
+        bSub = new ButtonBuilder("-", 230, 260).withBackGroundColor(Color.orange)
+                .build();
+        bSub.addActionListener(this);
+        bSub.addMouseListener(this);
+        jp.add(bSub);
+
+        bEq = new ButtonBuilder("=", 230, 320).withBackGroundColor(Color.orange)
+                .build();
+        bEq.addActionListener(this);
+        bEq.addMouseListener(this);
+        jp.add(bEq);
+
+        bPi = new ButtonBuilder("π", 50, 320).withBackGroundColor(Color.lightGray)
+                .withTextColor(Color.BLACK)
+                .build();
+        bPi.addActionListener(this);
+        bPi.addMouseListener(this);
+        jp.add(bPi);
+        bFact = new ButtonBuilder("!", 110, 320).withBackGroundColor(Color.lightGray)
+                .withTextColor(Color.BLACK)
+                .build();
+        bFact.addActionListener(this);
+        bFact.addMouseListener(this);
+        jp.add(bFact);
+
+        bEx = new ButtonBuilder("^", 170, 320).withBackGroundColor(Color.lightGray)
+                .withTextColor(Color.BLACK)
+                .build();
+        bEx.addActionListener(this);
+        bEx.addMouseListener(this);
+        jp.add(bEx);
     }
 }
