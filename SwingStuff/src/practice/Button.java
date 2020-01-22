@@ -13,6 +13,7 @@ public class Button extends JButton {
     public ImageIcon getImage() { return img; }
     private ImageClass image = new ImageClass();
     public boolean isPiece;
+    public void setImage(ImageIcon img) { setIcon(img); }
     public Piece getPiece() { return piece; }
     public boolean isPiece() { return isPiece; }
     public boolean special() { return piece.special; }
@@ -38,11 +39,12 @@ public class Button extends JButton {
     }
     public Button(Piece piece)
     {
-        super(ImageClass.getImage(piece.getSymbol()));
+        setIcon(ImageClass.getImage(piece.getSymbol()));
         this.piece = piece;
         img = ImageClass.getImage(piece.getSymbol());
         isPiece = true;
     }
+
     public String getPieceName()
     {
         return piece.getName();

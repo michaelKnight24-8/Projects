@@ -1,5 +1,6 @@
 package practice;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Bishop extends Piece {
@@ -19,11 +20,11 @@ public class Bishop extends Piece {
         for (int row = sx - 1, col = sy - 1; row >= 0 && col >= 0; row--, col--)
         {
             if (!board[col][row].isPiece())
-            board[col][row].setBackground(Color.GREEN);
+            board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
-                board[col][row].setBackground(Color.GREEN);
+                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
         }
@@ -31,11 +32,11 @@ public class Bishop extends Piece {
         for (int row = sx + 1, col = sy - 1; row <= 7 && col >= 0; row++, col--)
         {
             if (!board[col][row].isPiece())
-            board[col][row].setBackground(Color.GREEN);
+            board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
-                board[col][row].setBackground(Color.GREEN);
+                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
         }
@@ -43,11 +44,11 @@ public class Bishop extends Piece {
         for (int row = sx + 1, col = sy + 1; row <= 7 && col <= 7; row++, col++)
         {
             if (!board[col][row].isPiece())
-            board[col][row].setBackground(Color.GREEN);
+            board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
-                board[col][row].setBackground(Color.GREEN);
+                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
 
@@ -55,11 +56,11 @@ public class Bishop extends Piece {
         for (int row = sx - 1, col = sy + 1; row >= 0 && col <= 7; row--, col++)
         {
             if (!board[col][row].isPiece())
-            board[col][row].setBackground(Color.GREEN);
+            board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
-                board[col][row].setBackground(Color.GREEN);
+                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
         }

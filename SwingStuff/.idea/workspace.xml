@@ -9,9 +9,19 @@
       <change beforePath="$PROJECT_DIR$/../CalculatorGUI/src/practice/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../CalculatorGUI/src/practice/Calculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.csprojAssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/ChessOOP/obj/Debug/netcoreapp3.1/ChessOOP.csprojAssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Bishop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Button.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Button.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Knight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Rook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Bishop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Button.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/practice/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/ImageClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/ImageClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Rook.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="114" column="56" lean-forward="true" selection-start-line="114" selection-start-column="56" selection-end-line="114" selection-end-column="56" />
+            <state relative-caret-position="3689">
+              <caret line="228" selection-start-line="228" selection-end-line="228" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -37,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/ImageClass.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+            <state relative-caret-position="578">
+              <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -52,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Piece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="60" column="38" lean-forward="true" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
+            <state relative-caret-position="765">
+              <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -64,11 +74,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Bishop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+            <state relative-caret-position="935">
+              <caret line="58" column="47" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
               <folding>
-                <element signature="e#323#324#0" expanded="true" />
-                <element signature="e#372#373#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -86,8 +95,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Knight.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
+            <state>
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -95,12 +106,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Button.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
+            <state relative-caret-position="680">
+              <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#971#972#0" expanded="true" />
-                <element signature="e#1002#1003#0" expanded="true" />
+                <element signature="e#1340#1341#0" expanded="true" />
+                <element signature="e#1378#1379#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -109,8 +120,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Pawn.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="60" column="63" lean-forward="true" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
+            <state relative-caret-position="442">
+              <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="103" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -127,14 +138,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/practice/Rook.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="80" column="57" selection-start-line="80" selection-start-column="57" selection-end-line="80" selection-end-column="57" />
+            <state>
+              <caret lean-forward="true" />
               <folding>
-                <element signature="e#323#324#0" expanded="true" />
-                <element signature="e#370#371#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -160,58 +170,30 @@
         <option value="$PROJECT_DIR$/src/practice/Main.java" />
         <option value="$PROJECT_DIR$/src/practice/Action.java" />
         <option value="$PROJECT_DIR$/src/practice/King.java" />
-        <option value="$PROJECT_DIR$/src/practice/Rook.java" />
-        <option value="$PROJECT_DIR$/src/practice/Bishop.java" />
         <option value="$PROJECT_DIR$/src/practice/Queen.java" />
-        <option value="$PROJECT_DIR$/src/practice/Knight.java" />
-        <option value="$PROJECT_DIR$/src/practice/Pawn.java" />
         <option value="$PROJECT_DIR$/src/practice/Piece.java" />
-        <option value="$PROJECT_DIR$/src/practice/Button.java" />
-        <option value="$PROJECT_DIR$/src/practice/Game.java" />
         <option value="$PROJECT_DIR$/src/practice/ImageClass.java" />
+        <option value="$PROJECT_DIR$/src/practice/Button.java" />
+        <option value="$PROJECT_DIR$/src/practice/Pawn.java" />
+        <option value="$PROJECT_DIR$/src/practice/Game.java" />
+        <option value="$PROJECT_DIR$/src/practice/Bishop.java" />
+        <option value="$PROJECT_DIR$/src/practice/Knight.java" />
+        <option value="$PROJECT_DIR$/src/practice/Rook.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="width" value="980" />
-    <option name="height" value="1031" />
+    <option name="x" value="948" />
+    <option name="y" value="-12" />
+    <option name="width" value="981" />
+    <option name="height" value="1032" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="SwingStuff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SwingStuff" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingStuff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SwingStuff" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingStuff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="SwingStuff" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="practice" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="SwingStuff" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -280,7 +262,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.42628774" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.053285968" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39964476" />
       <window_info anchor="bottom" id="Messages" order="4" weight="0.10124334" />
       <window_info anchor="bottom" id="Version Control" order="5" />
@@ -395,6 +377,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3689">
+          <caret line="228" selection-start-line="228" selection-end-line="228" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/ImageClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="36" column="5" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/Piece.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/Bishop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="935">
+          <caret line="58" column="47" selection-start-line="58" selection-start-column="47" selection-end-line="58" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/practice/King.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -402,24 +424,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Rook.java">
+    <entry file="file://$PROJECT_DIR$/src/practice/Knight.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="80" column="57" selection-start-line="80" selection-start-column="57" selection-end-line="80" selection-end-column="57" />
+        <state>
           <folding>
-            <element signature="e#323#324#0" expanded="true" />
-            <element signature="e#370#371#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Bishop.java">
+    <entry file="file://$PROJECT_DIR$/src/practice/Button.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+        <state relative-caret-position="680">
+          <caret line="47" column="32" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
           <folding>
-            <element signature="e#323#324#0" expanded="true" />
-            <element signature="e#372#373#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1340#1341#0" expanded="true" />
+            <element signature="e#1378#1379#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/Pawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="32" column="29" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="103" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -431,59 +462,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Knight.java">
+    <entry file="file://$PROJECT_DIR$/src/practice/Rook.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="78" column="13" selection-start-line="78" selection-start-column="13" selection-end-line="78" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Button.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="33" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#971#972#0" expanded="true" />
-            <element signature="e#1002#1003#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Piece.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="60" column="38" lean-forward="true" selection-start-line="60" selection-start-column="38" selection-end-line="60" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Pawn.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="60" column="63" lean-forward="true" selection-start-line="60" selection-start-column="63" selection-end-line="60" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="114" column="56" lean-forward="true" selection-start-line="114" selection-start-column="56" selection-end-line="114" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/ImageClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
+        <state>
+          <caret lean-forward="true" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

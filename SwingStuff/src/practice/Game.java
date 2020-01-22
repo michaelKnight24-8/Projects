@@ -221,8 +221,14 @@ public class Game implements MouseListener {
                 board[coord[0]][coord[1]].getPiece().MovePiece(board, coord[1], coord[0], col, row);
                 //resets the background colors to gray instead of green for the show possible
             for (var buttonRow : board)
-                for (var buttonCol : buttonRow)
+                for (var buttonCol : buttonRow) {
+                    if (!buttonCol.isPiece())
+                        buttonCol.setIcon(null);
+                    else
+                        buttonCol.setIcon(buttonCol.getImage());
+
                     buttonCol.setBackground(buttonCol.backgroundColor);
+                }
         }
         drawBoard(board, buttonsPanel);
     }
