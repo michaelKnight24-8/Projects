@@ -1,23 +1,10 @@
 package practice;
 
 import java.net.SecureCacheResponse;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
-
-    /**TODO
-     *
-     *  LET THE USER SPECIFICY HOW MANY NUMBERS, AND WHICH ALGORITHM THEY ARE GOING TO USE
-     *  COUNT THE AMOUNT OF COMPARES, AND LET THE USER SEE THAT, AND HOW LONG IT TOOK IN SECONDS
-     *  once the user chooses the sorting method, and how much, call the method sending in the
-     *  amount of numbers they want to be sorted. Fill the array with random numbers. Then copy that array
-     *  before we sort it with the algorithm. Call the sort() method on the copy. Once the original is done
-     *  being sorted via the algorithm, compare the two.
-     *  <---------I M P O R T A N T------->
-     *      START THE TIMER after I'VE ALREADY SORTED THE COPY SO THAT
-     *      THE SORTING TIME DOENS'T FACTOR INTO THE ACTUAL TIME
-     *      function to display the info, another to call the correct class
-     */
 
     public static String [] sortNames = {"Bubble", "Selection", "Insertion", "Merge", "Quick", "Compare all sorts"};
     public static Scanner scan = new Scanner(System.in);
@@ -25,40 +12,17 @@ public class Main {
         boolean compare = false;
         displayMenu();
         int size = getSize();
-        int choice = getSort();
-        float start = System.currentTimeMillis();
-        String sortName = "";
-        switch (choice) {
-            case 1:
-                new Bubble(size);
-                sortName = "Bubble";
-                break;
-            case 2:
-                new Selection(size);
-                sortName = "Selection";
-                break;
-            case 3:
-                new Insertion(size);
-                sortName = "Insertion";
-                break;
-            case 4:
-                new Merge(size);
-                sortName = "Merge";
-                break;
-            case 5:
-                new Quick(size);
-                sortName = "Quick";
-                break;
-            case 6:
-                compareAllSorts(size);
-                compare = true;
-                break;
-        }
+        int choice = getSort() - 1;
+        //list of all the sorts for ease of access
+        Sorts [] sortList = { new Bubble(size), new Selection(size), new Insertion(size),
+                new Merge(size), new Quick(size) };
 
-        if (!compare) {
-            System.out.println(sortName + " sort took " + Float.toString((System.currentTimeMillis() - start) / 1000)
+        if (choice != 5) {
+            //call the correct sorting algorithm
+            System.out.println(sortList[choice].getName() + " sort took " + sortList[choice].sort()
                     + " seconds to correctly sort " + size + " numbers!");
         }
+        else compareAllSorts(sortList);
     }
 
     public static void displayMenu() {
@@ -87,29 +51,39 @@ public class Main {
 
     public static int getSize() {
         int size;
-        System.out.println("How many numbers are we going to be sorting? (number between 10000 and 40000)");
+        System.out.println("How many numbers are we going to be sorting? (number between 10000 and 100000)");
         while (true) {
             try {
                 size = Integer.parseInt(scan.nextLine());
-                if (size >= 10_000 && size <= 40_000) break;
+                if (size >= 10_000 && size <= 100_000) break;
                 else
-                    System.out.println("Error! Please enter a number between 10000 and 40000");
+                    System.out.println("Error! Please enter a number between 10000 and 100000");
             }
             catch (NumberFormatException e) {
-                System.out.println("Error! Please enter a number between 10000 and 40000 (No commas)");
+                System.out.println("Error! Please enter a number between 10000 and 100000 (No commas)");
             }
         }
         return size;
     }
 
-    public static void compareAllSorts(int size) {
-        Sorts [] sortList = { new Bubble(size), new Selection(size), new Insertion(size),
-                new Merge(size), new Quick(size) };
-
-        System.out.println("      Sort Name  |  Time  |   Compares   ");
-        System.out.println(" ----------------+--------+--------------");
-        for (var sort : sortList){
-            sort.sort();
+    public static void compareAllSorts(Sorts [] sortList) {
+        System.out.println(" |    Sort Name   |   Time   |   Compares   ");
+        System.out.println(" +----------------+----------+--------------");
+        for (var sorts : sortList){
+            String sortTime = Double.toString(sorts.sort());
+            System.out.println(" | " + sorts.getName() + getSpacing(sorts.getName(), 15) + "|  " +
+                    sortTime + getSpacing(sortTime, 8) + "|   " + sorts.getCompares());
         }
+    }
+
+    //small function get the spacing correct for the table
+    public static String getSpacing(String name, int baseLength) {
+        String spacing = "";
+        int spaceLength = baseLength - name.length();
+
+        for (int i = 0; i < spaceLength; i++) {
+            spacing += " ";
+        }
+        return spacing;
     }
 }

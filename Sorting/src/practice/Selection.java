@@ -1,17 +1,29 @@
 package practice;
 
+import java.util.Arrays;
+
 public class Selection extends Sorts {
 
     public Selection(int size) {
-        super();
-        this.size = size;
+        super(size, "Selection");
     }
 
     @Override
-    public float sort() {
+    public double sort() {
         //get the time at the start
-        float start = System.currentTimeMillis();
-        System.out.println("selection");
-        return (System.currentTimeMillis() - start / 1000);
+        double start = System.currentTimeMillis();
+
+        for (int i = 0; i < size; i++) {
+            int min = i;
+            for (int j = i; j < size; j++) {
+                if (array[j] < array[min]) {
+                    min = j;
+                    compares++;
+                }
+            }
+            swap(array, min, i);
+        }
+
+        return (System.currentTimeMillis() - start) / 1000;
     }
 }

@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="17268b4d-f6b8-4a50-afb8-52ee9977674f" name="Default Changelist" comment="" />
+    <list default="true" id="17268b4d-f6b8-4a50-afb8-52ee9977674f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CalculatorGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CalculatorGUI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Bubble.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Bubble.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Insertion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Insertion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Merge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Merge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Quick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Quick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Selection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Selection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Sorts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Sorts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Action.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Action.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Bishop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Piece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/out/production/SwingStuff/practice/Rook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SwingStuff/src/practice/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SwingStuff/src/practice/Rook.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -10,16 +37,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/practice/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="912">
-              <caret line="58" column="65" selection-start-line="58" selection-start-column="65" selection-end-line="58" selection-end-column="65" />
+            <state>
+              <caret lean-forward="true" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -30,21 +56,21 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Sorts.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-              <folding>
-                <element signature="e#121#122#0" expanded="true" />
-                <element signature="e#149#150#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="136">
+              <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Bubble.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="16">
+              <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+              <folding>
+                <element signature="e#110#111#0" expanded="true" />
+                <element signature="e#137#138#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -52,8 +78,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Selection.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="153">
+              <caret line="19" column="28" lean-forward="true" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+              <folding>
+                <element signature="e#116#117#0" expanded="true" />
+                <element signature="e#143#144#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,8 +91,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Insertion.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="97">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+              <folding>
+                <element signature="e#116#117#0" expanded="true" />
+                <element signature="e#143#144#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -70,8 +104,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Merge.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="288">
+              <caret line="49" column="27" lean-forward="true" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
+              <folding>
+                <element signature="e#108#109#0" expanded="true" />
+                <element signature="e#135#136#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,8 +117,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/practice/Quick.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="35" />
+            <state relative-caret-position="216">
+              <caret line="34" column="36" lean-forward="true" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+              <folding>
+                <element signature="e#108#109#0" expanded="true" />
+                <element signature="e#135#136#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,16 +136,19 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/practice/Sorts.java" />
-        <option value="$PROJECT_DIR$/src/practice/Main.java" />
-        <option value="$PROJECT_DIR$/src/practice/Quick.java" />
-        <option value="$PROJECT_DIR$/src/practice/Merge.java" />
+        <option value="$PROJECT_DIR$/src/practice/Bubble.java" />
         <option value="$PROJECT_DIR$/src/practice/Insertion.java" />
         <option value="$PROJECT_DIR$/src/practice/Selection.java" />
-        <option value="$PROJECT_DIR$/src/practice/Bubble.java" />
+        <option value="$PROJECT_DIR$/src/practice/Merge.java" />
+        <option value="$PROJECT_DIR$/src/practice/Quick.java" />
+        <option value="$PROJECT_DIR$/src/practice/Sorts.java" />
+        <option value="$PROJECT_DIR$/src/practice/Main.java" />
       </list>
     </option>
   </component>
@@ -113,6 +158,7 @@
     <option name="width" value="1614" />
     <option name="height" value="876" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -145,6 +191,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -198,7 +245,7 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.15899919" />
+      <window_info content_ui="combo" id="Project" order="5" weight="0.15899919" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
@@ -206,7 +253,7 @@
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" />
-      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.10069445" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.24652778" />
       <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
@@ -220,61 +267,105 @@
       <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Designer" order="0" />
+      <window_info id="UI Designer" order="1" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.15899919" />
+      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="2" weight="0.3298611" />
+      <window_info anchor="bottom" id="Version Control" order="3" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info anchor="bottom" id="Find" order="5" />
+      <window_info active="true" anchor="bottom" id="Run" order="6" visible="true" weight="0.4496528" />
+      <window_info anchor="bottom" id="Debug" order="7" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="8" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="10" />
+      <window_info anchor="right" id="Theme Preview" order="0" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
+      <window_info anchor="right" id="Maven" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="6" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" weight="0.25" />
+    </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/practice/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/practice/Bubble.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="58" column="65" selection-start-line="58" selection-start-column="65" selection-end-line="58" selection-end-column="65" />
+        <state relative-caret-position="16">
+          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#137#138#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Sorts.java">
+    <entry file="file://$PROJECT_DIR$/src/practice/Insertion.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="97">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
           <folding>
-            <element signature="e#121#122#0" expanded="true" />
-            <element signature="e#149#150#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#143#144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/Merge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="49" column="27" lean-forward="true" selection-start-line="49" selection-start-column="27" selection-end-line="49" selection-end-column="27" />
+          <folding>
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#135#136#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/practice/Selection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Insertion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Merge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        <state relative-caret-position="153">
+          <caret line="19" column="28" lean-forward="true" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
+          <folding>
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#143#144#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/practice/Quick.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="8" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="35" />
+        <state relative-caret-position="216">
+          <caret line="34" column="36" lean-forward="true" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+          <folding>
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#135#136#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/practice/Bubble.java">
+    <entry file="file://$PROJECT_DIR$/src/practice/Sorts.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="35" selection-start-line="11" selection-start-column="35" selection-end-line="11" selection-end-column="35" />
+        <state relative-caret-position="136">
+          <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/practice/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret lean-forward="true" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
