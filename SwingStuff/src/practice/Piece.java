@@ -8,9 +8,10 @@ import static practice.Game.F;
 import static practice.Game.buttonsPanel;
 
 public abstract class Piece {
-    Game game = new Game();
-    Player p;
-    ImageIcon image;
+    public int possibleSpots;
+    public Game game;
+    public Player p;
+    private ImageIcon image;
     public char symbol;
     protected boolean special;
     //player 1 is white, player 2 is black
@@ -18,7 +19,7 @@ public abstract class Piece {
     public boolean alive;
     public boolean isAlive() { return alive; }
     public Boolean isWhite() { return isWhite; }
-    ImageIcon getImage()     { return image; }
+    public ImageIcon getImage()     { return image; }
     public String name;
     public char getSymbol()  { return symbol; }
     public String getName()  { return name;}
@@ -26,6 +27,8 @@ public abstract class Piece {
     public int y;
     public Piece(Player player)
     {
+        possibleSpots = 0;
+        game = new Game();
         alive = true;
         p = player;
         isWhite = player.getPlayer() == 1;

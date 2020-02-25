@@ -1,6 +1,5 @@
 package practice;
-
-import java.awt.*;
+import javax.swing.*;
 
 public class Rook extends Bishop {
 
@@ -11,32 +10,35 @@ public class Rook extends Bishop {
         symbol = (player.getPlayer() == 1 ? 'r' : 'R');
         special = false;
     }
+    
     @Override
     public void showPossible(Button [][] board, int sx, int sy) {
         showPossibleRook(board, sx, sy);
     }
+
     public void showPossibleRook(Button [][] board, int sx, int sy){
         //for showing posisble spots horizontally
         for (int row = sx - 1; row >= 0; row--)
         {
             if (!board[sy][row].isPiece())
-            board[sy][row].setBackground(Color.GREEN);
+            board[sy][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[sy][row].getPlayer() != board[sy][sx].getPlayer())
-                board[sy][row].setBackground(Color.GREEN);
+                board[sy][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
 
         }
+
         for (int row = sx + 1; row < 8; row++)
         {
             if (!board[sy][row].isPiece())
-            board[sy][row].setBackground(Color.GREEN);
+            board[sy][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[sy][row].getPlayer() != board[sy][sx].getPlayer())
-                board[sy][row].setBackground(Color.GREEN);
+                board[sy][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
         }
@@ -45,11 +47,11 @@ public class Rook extends Bishop {
         for (int col = sy + 1; col < 8; col++)
         {
             if (!board[col][sx].isPiece())
-            board[col][sx].setBackground(Color.GREEN);
+            board[col][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             else
             {
                 if (board[col][sx].getPlayer() != board[sy][sx].getPlayer())
-                board[col][sx].setBackground(Color.GREEN);
+                board[col][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
         }
@@ -57,11 +59,11 @@ public class Rook extends Bishop {
         for (int col = sy - 1; col >= 0; col--)
         {
             if (!board[col][sx].isPiece())
-            board[col][sx].setBackground(Color.GREEN);
-                    else
+            board[col][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+            else
             {
                 if (board[col][sx].getPlayer() != board[sy][sx].getPlayer())
-                board[col][sx].setBackground(Color.GREEN);
+                board[col][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 break;
             }
         }
@@ -112,6 +114,7 @@ public class Rook extends Bishop {
         //we moved to a legal spot unoccupied by your own piece
         Move(board, sx, sy, dx, dy);
     }
+
     public void MoveVertical(Button [][] board, int sx, int sy, int dx, int dy)
     {
         if (sy > dy)
@@ -155,6 +158,7 @@ public class Rook extends Bishop {
             Move(board, sx, sy, dx, dy);
         }
     }
+
     @Override
     public void MovePiece(Button [][]board, int sx, int sy, int dx, int dy) {
         if (sy == dy)

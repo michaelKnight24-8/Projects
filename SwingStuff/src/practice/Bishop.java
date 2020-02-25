@@ -19,25 +19,33 @@ public class Bishop extends Piece {
         //for the left up diagonal
         for (int row = sx - 1, col = sy - 1; row >= 0 && col >= 0; row--, col--)
         {
-            if (!board[col][row].isPiece())
-            board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+            if (!board[col][row].isPiece()) {
+                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+                possibleSpots++;
+            }
             else
             {
-                if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
-                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
-                break;
+                if (board[col][row].getPlayer() != board[sy][sx].getPlayer()) {
+                    board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+                    possibleSpots++;
+                    break;
+                }
             }
         }
         //for the right up diagonal
         for (int row = sx + 1, col = sy - 1; row <= 7 && col >= 0; row++, col--)
         {
-            if (!board[col][row].isPiece())
-            board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+            if (!board[col][row].isPiece()) {
+                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+                possibleSpots++;
+            }
             else
             {
-                if (board[col][row].getPlayer() != board[sy][sx].getPlayer())
-                board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
-                break;
+                if (board[col][row].getPlayer() != board[sy][sx].getPlayer()) {
+                    board[col][row].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+                    possibleSpots++;
+                    break;
+                }
             }
         }
         //for the right down diagonal

@@ -23,20 +23,20 @@ public class Pawn extends Piece {
             {
                 if (!board[sy + 1][sx].isPiece())
                 {
-                    board[sy + 1][sx].setBackground(Color.GREEN);
+                    board[sy + 1][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     if (!board[sy + 2][sx].isPiece())
-                        board[sy + 2][sx].setBackground(Color.green);
+                        board[sy + 2][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
 
             }
             else if (sy + 1 <= 7 && !board[sy + 1][sx].isPiece())
-            board[sy + 1][sx].setBackground(Color.GREEN);
+            board[sy + 1][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             if (sy + 1 <= 7)
             {
                 if (sx + 1 <= 7 && board[sy + 1][sx + 1].isPiece() && board[sy + 1][sx + 1].getPlayer() != Game.player)
-                board[sy + 1][sx + 1].setBackground(Color.GREEN);
+                board[sy + 1][sx + 1].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 if (sx - 1 >= 0 && board[sy + 1][sx - 1].isPiece() && board[sy + 1][sx - 1].getPlayer() != Game.player)
-                board[sy + 1][sx - 1].setBackground(Color.green);
+                board[sy + 1][sx - 1].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             }
         }
         else
@@ -45,20 +45,20 @@ public class Pawn extends Piece {
             {
                 if (!board[sy - 1][sx].isPiece())
                 {
-                    board[sy - 1][sx].setBackground(Color.GREEN);
+                    board[sy - 1][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     if (!board[sy - 2][sx].isPiece())
-                    board[sy - 2][sx].setBackground(Color.GREEN);
+                    board[sy - 2][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
 
             }
             else if (sy - 1 >= 0 && !board[sy - 1][sx].isPiece())
-            board[sy - 1][sx].setBackground(Color.GREEN);
+            board[sy - 1][sx].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             if (sy - 1 >= 0)
             {
-                if (sy - 1 >= 0 && board[sy - 1][sx + 1].isPiece() && board[sy - 1][sx + 1].getPlayer() != Game.player)
-                board[sy - 1][sx + 1].setBackground(Color.GREEN);
-                if (sy - 1 >= 0 && board[sy - 1][sx - 1].isPiece() && board[sy - 1][sx - 1].getPlayer() != Game.player)
-                board[sy - 1][sx - 1].setBackground(Color.GREEN);
+                if (board[sy - 1][sx + 1].isPiece() && board[sy - 1][sx + 1].getPlayer() != Game.player)
+                board[sy - 1][sx + 1].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
+                if (board[sy - 1][sx - 1].isPiece() && board[sy - 1][sx - 1].getPlayer() != Game.player)
+                board[sy - 1][sx - 1].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             }
         }
     }

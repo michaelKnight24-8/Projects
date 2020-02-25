@@ -1,6 +1,7 @@
 package practice;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
@@ -12,6 +13,8 @@ import java.nio.ByteOrder;
 import java.sql.Array;
 import java.util.*;
 import java.util.List;
+
+import static javax.swing.BorderFactory.createTitledBorder;
 
 public class Game implements MouseListener {
     public static List<Button> captureListP1;
@@ -28,7 +31,7 @@ public class Game implements MouseListener {
     public static JPanel buttonsPanel = new JPanel();
     public static boolean firstTime = true;
     public static int coord[] = new int[2];
-    public static TextArea ta = new TextArea(5,25);
+    public static JTextArea ta = new JTextArea(5,25);
     public static Button[][] board =
             {
                     { new Button(new Rook(new Player(1))), new Button(new Bishop(new Player(1))), new Button(new Knight(new Player(1))), new Button(new Queen(new Player(1))),
@@ -61,9 +64,6 @@ public class Game implements MouseListener {
 
         coord[0] = coord[1] = 0;
         content.setLayout(null);
-        ta.setBackground(Color.GRAY);
-        //var label = new JLabel();
-        //var label1 = new JLabel();
         content.setBorder(new EmptyBorder(130, 300, 150, 150));
         jf.setSize(1100, 1010);
         firstTime = false;
@@ -71,6 +71,9 @@ public class Game implements MouseListener {
         buttonsPanel.setBackground(Color.getHSBColor(210,131,51));
         ta.setBackground(Color.BLACK);
         ta.setForeground(Color.GREEN);
+        ta.setBorder(BorderFactory.createTitledBorder("Feed"));
+        TitledBorder titledBorder = (TitledBorder)ta.getBorder();
+        titledBorder.setTitleColor(Color.green);
         buttonsPanel.setLayout(new GridLayout(8, 8, 3, 3));
         var l = new JLabel("   SCOREBOARD");
         l.setForeground(Color.BLACK);
@@ -119,6 +122,7 @@ public class Game implements MouseListener {
         scorePanePlayer1.setBounds(50, 180, 250, 20);
         scorePanePlayer2.setBounds(50, 400, 250, 20);
         l.setBounds(80, 130, 160, 50);
+        //add everything to the JPanel
         content.add(errorPane);
         content.add(l);
         content.add(feed);
@@ -127,7 +131,6 @@ public class Game implements MouseListener {
         content.add(rightPiecesPic);
         content.add(scorePanePlayer2);
         content.add(scorePanePlayer1);
-
         content.add(buttonsPanel, BorderLayout.CENTER);
         jf.setContentPane(content);
         //jf.add(ta, BorderLayout.EAST);
@@ -138,6 +141,7 @@ public class Game implements MouseListener {
     }
 
     public void drawBoard(Button[][] board, JPanel buttonsPanel) {
+
         buttonsPanel.removeAll();
         int alternate = 1;
         for (var i = 0; i < 8; i++) {

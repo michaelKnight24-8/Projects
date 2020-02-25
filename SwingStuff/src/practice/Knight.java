@@ -1,5 +1,6 @@
 package practice;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Knight extends Piece {
@@ -18,60 +19,74 @@ public class Knight extends Piece {
 
             if (sy - 1 >= 0) {
                 if (!board[sy - 1][sx - 2].isPiece())
-                    board[sy - 1][sx - 2].setBackground(Color.GREEN);
+                    board[sy - 1][sx - 2].setImage(new
+                            ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 else if (board[sy - 1][sx - 2].getPlayer() != Game.player)
-                    board[sy - 1][sx - 2].setBackground(Color.GREEN);
+                    board[sy - 1][sx - 2].setImage(new
+                            ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             }
             if (sy + 1 <= 7) {
                 if (!board[sy + 1][sx - 2].isPiece())
-                    board[sy + 1][sx - 2].setBackground(Color.GREEN);
+                    board[sy + 1][sx - 2].setImage(new
+                            ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 else if (board[sy + 1][sx - 2].getPlayer() != Game.player)
-                    board[sy + 1][sx - 2].setBackground(Color.GREEN);
+                    board[sy + 1][sx - 2].setImage(new
+                            ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             }
         }
         if (sx - 1 >= 0)
         {
             if (sy - 2 >= 0) {
                 if (!board[sy - 2][sx - 1].isPiece())
-                    board[sy - 2][sx - 1].setBackground(Color.GREEN);
+                    board[sy - 2][sx - 1].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 else if (board[sy - 2][sx - 1].getPlayer() != Game.player)
-                    board[sy - 2][sx - 1].setBackground(Color.GREEN);
+                    board[sy - 2][sx - 1].setImage(new ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
             }
                 if (sy + 2 <= 7) {
                     if (!board[sy + 2][sx - 1].isPiece())
-                        board[sy + 2][sx - 1].setBackground(Color.GREEN);
+                        board[sy + 2][sx - 1].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     else if (board[sy + 2][sx - 1].getPlayer() != Game.player)
-                        board[sy + 2][sx - 1].setBackground(Color.GREEN);
+                        board[sy + 2][sx - 1].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
             }
             //for showig possible spots to the right
             if (sx + 2 <= 7) {
                 if (sy - 1 >= 0) {
                     if (!board[sy - 1][sx + 2].isPiece())
-                        board[sy - 1][sx + 2].setBackground(Color.GREEN);
+                        board[sy - 1][sx + 2].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     else if (board[sy - 1][sx + 2].getPlayer() != Game.player)
-                        board[sy - 1][sx + 2].setBackground(Color.GREEN);
+                        board[sy - 1][sx + 2].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
                 if (sy + 1 <= 7) {
                     if (!board[sy + 1][sx + 2].isPiece())
-                        board[sy + 1][sx + 2].setBackground(Color.GREEN);
+                        board[sy + 1][sx + 2].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     else if (board[sy + 1][sx + 2].getPlayer() != Game.player)
-                        board[sy + 1][sx + 2].setBackground(Color.GREEN);
+                        board[sy + 1][sx + 2].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
             }
             if (sx + 1 <= 7) {
                 if (sy - 2 >= 0) {
                     if (!board[sy - 2][sx + 1].isPiece())
-                        board[sy - 2][sx + 1].setBackground(Color.GREEN);
+                        board[sy - 2][sx + 1].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     else if (board[sy - 2][sx + 1].getPlayer() != Game.player)
-                        board[sy - 2][sx + 1].setBackground(Color.GREEN);
+                        board[sy - 2][sx + 1].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
                 if (sy + 2 <= 7) {
 
                     if (!board[sy + 2][sx + 1].isPiece())
-                        board[sy + 2][sx + 1].setBackground(Color.GREEN);
+                        board[sy + 2][sx + 1].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                     else if (board[sy + 2][sx + 1].getPlayer() != Game.player)
-                        board[sy + 2][sx + 1].setBackground(Color.GREEN);
+                        board[sy + 2][sx + 1].setImage(new
+                                ImageIcon("C:\\Users\\mknig\\Downloads\\showPossible.png"));
                 }
             }
         }
