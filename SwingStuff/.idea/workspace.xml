@@ -5,20 +5,7 @@
       <change beforePath="$PROJECT_DIR$/../CalculatorGUI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../CalculatorGUI/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Action.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Action.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Bishop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Game.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Pawn.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Rook.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Bishop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Knight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Pawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Piece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/practice/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Rook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Sorting/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Sorting/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,8 +46,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/practice/Piece.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="61" column="13" lean-forward="true" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
+            <state relative-caret-position="208">
+              <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -188,6 +175,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,8 +199,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -269,10 +256,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
+    <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18805489" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1904762" />
       <window_info id="Designer" order="1" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="UI Designer" order="3" />
@@ -281,7 +268,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.052910052" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.052083332" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39964476" />
       <window_info anchor="bottom" id="Messages" order="4" weight="0.10124334" />
       <window_info anchor="bottom" id="Version Control" order="5" />
@@ -464,8 +451,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/practice/Piece.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="61" column="13" lean-forward="true" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="13" />
+        <state relative-caret-position="208">
+          <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
