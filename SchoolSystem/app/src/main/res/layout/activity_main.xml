@@ -73,7 +73,7 @@
             app:layout_constraintVertical_bias="0.57" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/switchSave"
             android:layout_width="51dp"
             android:layout_height="42dp"
             android:layout_marginStart="28dp"
@@ -92,7 +92,7 @@
             app:layout_constraintBottom_toTopOf="@+id/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/switch1"
+            app:layout_constraintStart_toEndOf="@+id/switchSave"
             app:layout_constraintTop_toBottomOf="@+id/password"
             app:layout_constraintVertical_bias="0.07999998" />
 

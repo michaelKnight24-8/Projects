@@ -7,13 +7,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText userName;
-    EditText password;
+    private EditText userName;
+    private EditText password;
     private final String DEFAULT = "N/A";
+    private SharedPreferences sP;
+    private Switch switchSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +24,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         userName = findViewById(R.id.userName);
         password = findViewById(R.id.password);
+        switchSave = findViewById(R.id.switchSave);
+
+        //first check to see if the user wants to stay logged in
+        sP = getSharedPreferences("Login-info", 0);
+        if (!sP.getBoolean("saveUsername", false)) {
+            Intent intent = new Intent(MainActivity.this, com.example.schoolmanagementsystem.MainScreen.class);
+            startActivity(intent);
+        }
+
+        //set up the listener for thew switch
+        switchSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor = sP.edit();
+
+                if (switchSave.isChecked()) editor.putBoolean("saveUserName", true);
+                else editor.putBoolean("saveUserName", true);
+
+                editor.apply();
+            }
+        });
+
     }
 
     public void login(View v) {
-        SharedPreferences sP = getSharedPreferences("Login-Info", 0);
+        sP = getSharedPreferences("Login-Info", 0);
         String username = userName.getText().toString();
 
         //first make sure that all fields are entered in properly
@@ -52,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signUp(View v) {
-        SharedPreferences sP = getSharedPreferences("Login-Info", 0);
+        sP = getSharedPreferences("Login-Info", 0);
         //first make sure that all the fields are filled out
         if (userName.getText().toString().isEmpty() ||
                 password.getText().toString().isEmpty())
@@ -63,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("username", userName.getText().toString());
             editor.putString(userName.getText().toString(), password.getText().toString());
             Toast.makeText(getApplicationContext(), "You have been signed up!", Toast.LENGTH_LONG).show();
-            editor.commit();
+            editor.apply();
             userName.getText().clear();
             password.getText().clear();
         }
