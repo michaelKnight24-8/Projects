@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         //first check to see if the user wants to stay logged in
         sP = getSharedPreferences("Login-info", 0);
         if (!sP.getBoolean("saveUsername", false)) {
-            Intent intent = new Intent(MainActivity.this, com.example.schoolmanagementsystem.MainScreen.class);
+            Intent intent = new Intent(MainActivity.this, com.example.schoolmanagementsystem.MainScreenNavigation.class);
             startActivity(intent);
         }
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                 //now check to see if the password was entered correctly
                 if (password.getText().toString().equals(sP.getString(username, DEFAULT))) {
                     Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainActivity.this, com.example.schoolmanagementsystem.MainScreen.class);
+                    Intent intent = new Intent(MainActivity.this, com.example.schoolmanagementsystem.MainScreenNavigation.class);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Invalid credentials", Toast.LENGTH_LONG).show();

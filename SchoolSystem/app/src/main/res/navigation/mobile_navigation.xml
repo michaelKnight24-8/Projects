@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.schoolmanagementsystem.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.schoolmanagementsystem.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_assignments"
+        android:name="com.example.schoolmanagementsystem.ui.assignments.AssignmentsFragment"
+        android:label="Assignments"
+        tools:layout="@layout/fragment_assignments" />
+
+    <fragment
+        android:id="@+id/navigation_email"
+        android:name="com.example.schoolmanagementsystem.ui.assignments.EmailFragment"
+        android:label="Email"
+        tools:layout="@layout/fragment_email" />
+
+    <fragment
+        android:id="@+id/navigation_students"
+        android:name="com.example.schoolmanagementsystem.ui.assignments.StudentsFragment"
+        android:label="Students"
+        tools:layout="@layout/fragment_students" />
+
+
+</navigation>
