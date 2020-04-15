@@ -1,17 +1,22 @@
 package com.example.schoolmanagementsystem.ui.home;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -25,11 +30,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel implements View.OnClickListener {
+public class HomeViewModel extends ViewModel implements View.OnClickListener, View.OnLongClickListener {
 
+    private SharedPreferences sP;
+    private String title, description;
     private MutableLiveData<String> mText;
     private Context context;
-    private int month, year, day;
+    private int month, year, day, currentMonth, currentYear;
     //view object to access the textviews from the home fragment
     private View view;
     //list of all the textviews used for the calendar
@@ -44,9 +51,11 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
         mText = new MutableLiveData<>();
         Date date = new Date();
         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        this.year  = localDate.getYear();
-        this.month = localDate.getMonthValue();
-        this.day   = localDate.getDayOfMonth();
+        year  = localDate.getYear();
+        currentYear = year;
+        currentMonth = localDate.getMonthValue();
+        month = currentMonth;
+        day   = localDate.getDayOfMonth();
     }
 
     public void setView(View view, Context context) {
@@ -54,7 +63,12 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
         this.view = view;
         textViews = new LinkedList<>();
         initTextViews();
-        displayCalendar(month, year);
+        displayCalendar();
+
+        //shared preferences object to store, and recall the events the user
+        //has added
+        sP = context.getSharedPreferences("listOfEvents", 0);
+
     }
 
     public LiveData<String> getText() {
@@ -92,17 +106,40 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
         return (daysPassed + days) % 7;
     }
 
-    void displayCalendar(int month, int year) {
+    //small function to clear the values in the text views so that each month can
+    //be displayed properly
+    private void clearTextViewText() {
+        for (TextView textView : textViews)
+                textView.setText("");
+    }
+
+    void displayCalendar() {
+
+        //if December was the previous month, increment the year, and set the
+        //month to January
+        if (month == 13) {
+            month = 1;
+            year++;
+        } else if (month == 0) {
+            month = 12;
+            year--;
+        }
+
+        clearTextViewText();
         TextView startDay;
         String[] months = {"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
         TextView monthDisplay = view.findViewById(R.id.tvMonthDisplay);
-        monthDisplay.setText(months[month - 1]);
+        Log.v("Month Number:", Integer.toString(month));
+        String dateDisplayText = months[month - 1] + "   " + year;
+        monthDisplay.setText(dateDisplayText);
         int day = calcDaysInMonth(month, year);
-        //print(f'\n{months_tuple[month - 1]}, {year}')
+
         int offset = calcOffset(month, year);
         int textViewIndex = 0;
-        //print('  Su  Mo  Tu  We  Th  Fr  Sa')
+
+        //switch statement to get where the first day of the month
+        //falls in the week
         switch (offset) {
             case 6:
                 textViewIndex = 0;
@@ -126,6 +163,7 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
                 textViewIndex = 6;
                 break;
         }
+
         //now print out the numbers, with the correct spacing
         for (int i = 1; i < day + 1; i++, textViewIndex++) {
             String currentDay = Integer.toString(i);
@@ -134,8 +172,11 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
             else
                 textViews.get(textViewIndex).setText(currentDay);
             textViews.get(textViewIndex).setOnClickListener(this);
-            if (i == this.day)
+            textViews.get(textViewIndex).setOnLongClickListener(this);
+            if (i == this.day && month == currentMonth)
                 textViews.get(textViewIndex).setTextColor(Color.GREEN);
+            else
+                textViews.get(textViewIndex).setTextColor(Color.BLACK);
         }
     }
 
@@ -200,21 +241,56 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
     }
 
 
-    public void setEventNotifier(int viewTag) {
+    public void setEventNotifier(final int viewTag) {
         boolean hasEventAlready = false;
-        String text = textViews.get(viewTag).getText().toString();
+        final String text = textViews.get(viewTag).getText().toString();
         if (text.length() >= 5) {
             hasEventAlready = true;
         }
 
         if (!hasEventAlready) {
-            Log.v("Length:", Integer.toString(text.length()));
-            text += "\n o";
-            textViews.get(viewTag).setText(text);
+            AlertDialog.Builder eventDialog = new AlertDialog.Builder(context);
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            eventDialog.setTitle("Add an event");
+
+            final EditText titleBox = new EditText(context);
+            titleBox.setHint("Title");
+            titleBox.setPadding(20,100,0,50);
+            layout.addView(titleBox);
+
+            final EditText descriptionBox = new EditText(context);
+            descriptionBox.setHint("Description");
+            descriptionBox.setPadding(20,0,0,50);
+            layout.addView(descriptionBox); // Another add method
+
+            eventDialog.setView(layout); // Again this is a set method, not add
+
+            //first set positive button
+            eventDialog.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String eventText = text;
+                    eventText += "\n o";
+                    textViews.get(viewTag).setText(eventText);
+                    title = titleBox.getText().toString();
+                    description = descriptionBox.getText().toString();
+                    Toast.makeText(context, "Event added successfully", Toast.LENGTH_LONG).show();
+                }
+            });
+            //now negative button
+            eventDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(context, "Event cancelled", Toast.LENGTH_LONG).show();
+                }
+            });
+            eventDialog.show();
         } else {
             Toast.makeText(context, "You already have an event on this day", Toast.LENGTH_LONG).show();
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -222,13 +298,64 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener {
         if (v instanceof Button) {
             switch (v.getId()) {
                 case R.id.buttonLeft:
-                    Log.v("Change", "Month going backward one");
+                    this.month--;
+                    displayCalendar();
                     break;
                 case R.id.buttonRight:
-                    Log.v("Change", "Month going forward one");
+                    this.month++;
+                    displayCalendar();
                     break;
             }
         } else //it was a text view
             setEventNotifier(Integer.parseInt(v.getTag().toString()) - 1);
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+
+        //let the user either view the current event, add an event, or delete the
+        //event that is set for the day
+        AlertDialog showOptionsDialog = new AlertDialog.Builder(context).create();
+        showOptionsDialog.setTitle("Event Options");
+        showOptionsDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Make new event", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        showOptionsDialog.setButton(DialogInterface.BUTTON_POSITIVE, "View event", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        showOptionsDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Delete event", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        showOptionsDialog.show();
+//        AlertDialog.Builder showEventDialog = new AlertDialog.Builder(context);
+//        LinearLayout layout = new LinearLayout(context);
+//        layout.setOrientation(LinearLayout.VERTICAL);
+//        showEventDialog.setTitle("Event Details");
+//
+//        final EditText titleBox = new EditText(context);
+//        titleBox.setText(title);
+//        titleBox.setFocusable(false);
+//        titleBox.setPadding(20,100,0,50);
+//        layout.addView(titleBox);
+//
+//        final EditText descriptionBox = new EditText(context);
+//        descriptionBox.setText(description);
+//        descriptionBox.setFocusable(false);
+//        descriptionBox.setPadding(20,0,0,50);
+//        layout.addView(descriptionBox); // Another add method
+//
+//        showEventDialog.setView(layout);
+//        showEventDialog.show();
+        return false;
     }
 }

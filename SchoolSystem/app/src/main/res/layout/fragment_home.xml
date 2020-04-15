@@ -52,7 +52,6 @@
         android:id="@+id/tv14"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:onClick="addEvent"
         android:tag="14"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv13"
         app:layout_constraintStart_toEndOf="@+id/tv13" />
@@ -118,7 +117,6 @@
         android:height="40dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="addEvent"
         android:tag="7"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv6"
         app:layout_constraintStart_toEndOf="@+id/tv6" />
@@ -129,9 +127,6 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:height="40dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="addEvent"
         android:tag="1"
         app:layout_constraintLeft_toLeftOf="@id/tvSunday"
         app:layout_constraintTop_toBottomOf="@id/tvSunday" />
@@ -425,7 +420,8 @@
         android:id="@+id/tvMonthDisplay"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
         android:width="280dp"
         android:gravity="center"
         android:text="December"
@@ -437,9 +433,9 @@
         android:id="@+id/buttonLeft"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="268dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="284dp"
         android:text="@string/left_month_change"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -451,4 +447,5 @@
         android:text="@string/right_month_change"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvMonthDisplay"
         app:layout_constraintStart_toEndOf="@+id/tvMonthDisplay" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

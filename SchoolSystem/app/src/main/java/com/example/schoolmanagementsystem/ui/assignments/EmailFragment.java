@@ -22,14 +22,7 @@ public class EmailFragment extends Fragment {
                 ViewGroup container, Bundle savedInstanceState) {
             emailViewModel =
                     ViewModelProviders.of(this).get(EmailViewModel.class);
-            View root = inflater.inflate(R.layout.fragment_assignments, container, false);
-            final TextView textView = root.findViewById(R.id.text_notifications);
-            emailViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-                @Override
-                public void onChanged(@Nullable String s) {
-                    textView.setText(s);
-                }
-            });
+            View root = inflater.inflate(R.layout.fragment_email, container, false);
             return root;
         }
 }

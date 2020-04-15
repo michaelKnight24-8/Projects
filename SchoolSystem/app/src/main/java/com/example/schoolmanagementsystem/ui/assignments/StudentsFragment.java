@@ -21,14 +21,7 @@ public class StudentsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         studentsViewModel =
                 ViewModelProviders.of(this).get(StudentsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_assignments, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        studentsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        View root = inflater.inflate(R.layout.fragment_students, container, false);
         return root;
     }
 }
