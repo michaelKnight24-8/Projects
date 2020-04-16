@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.schoolmanagementsystem.ui.assignments.StudentsFragment">
+
     <TextView
-        android:id="@+id/text_email"
+        android:id="@+id/studentsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
+        android:text="Students Currently Enrolled "
+        android:textSize="24sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
+        android:layout_height="443dp"
+        android:layout_below="@+id/studentsTitle"
+        android:background="@android:color/darker_gray"
+        android:padding="4dp"
+        android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/addStudent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:text="email"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@id/recyclerView"
+        android:text="ADD" />
+
+    <Button
+        android:id="@+id/deleteStudent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerView"
+        android:layout_alignParentRight="false"
+        android:layout_marginLeft="0dp"
+        android:layout_toRightOf="@id/addStudent"
+        android:text="DELETE" />
+
+    <TextView
+        android:id="@+id/tvEdit"
+        android:layout_width="42dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/studentsTitle"
+        android:text="Edit"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+</RelativeLayout>

@@ -32,7 +32,6 @@ import java.util.List;
 
 public class HomeViewModel extends ViewModel implements View.OnClickListener, View.OnLongClickListener {
 
-    private SharedPreferences sP;
     private String title, description;
     private MutableLiveData<String> mText;
     private Context context;
@@ -56,6 +55,8 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener, Vi
         currentMonth = localDate.getMonthValue();
         month = currentMonth;
         day   = localDate.getDayOfMonth();
+        title = "";
+        description = "";
     }
 
     public void setView(View view, Context context) {
@@ -64,11 +65,6 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener, Vi
         textViews = new LinkedList<>();
         initTextViews();
         displayCalendar();
-
-        //shared preferences object to store, and recall the events the user
-        //has added
-        sP = context.getSharedPreferences("listOfEvents", 0);
-
     }
 
     public LiveData<String> getText() {
@@ -270,24 +266,29 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener, Vi
             eventDialog.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    String eventText = text;
-                    eventText += "\n o";
-                    textViews.get(viewTag).setText(eventText);
-                    title = titleBox.getText().toString();
-                    description = descriptionBox.getText().toString();
-                    Toast.makeText(context, "Event added successfully", Toast.LENGTH_LONG).show();
+                    if (descriptionBox.getText().toString().isEmpty() ||
+                            titleBox.getText().toString().isEmpty())
+                        toastMessage("Please fill out all fields");
+                    else {
+                        String eventText = text;
+                        eventText += "\n o";
+                        textViews.get(viewTag).setText(eventText);
+                        title = titleBox.getText().toString();
+                        description = descriptionBox.getText().toString();
+                        toastMessage("Event added successfully");
+                    }
                 }
             });
             //now negative button
             eventDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(context, "Event cancelled", Toast.LENGTH_LONG).show();
+                    toastMessage("Event cancelled");
                 }
             });
             eventDialog.show();
         } else {
-            Toast.makeText(context, "You already have an event on this day", Toast.LENGTH_LONG).show();
+            toastMessage("You already have an event on this day");
         }
     }
 
@@ -311,21 +312,45 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener, Vi
     }
 
     @Override
-    public boolean onLongClick(View v) {
+    public boolean onLongClick(final View v) {
 
         //let the user either view the current event, add an event, or delete the
         //event that is set for the day
         AlertDialog showOptionsDialog = new AlertDialog.Builder(context).create();
         showOptionsDialog.setTitle("Event Options");
-        showOptionsDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Make new event", new DialogInterface.OnClickListener() {
+        showOptionsDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "New event", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                setEventNotifier(Integer.parseInt(v.getTag().toString()) - 1);
             }
         });
         showOptionsDialog.setButton(DialogInterface.BUTTON_POSITIVE, "View event", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                if (!title.equals("")) {
+                    AlertDialog.Builder showEventDialog = new AlertDialog.Builder(context);
+                    LinearLayout layout = new LinearLayout(context);
+                    layout.setOrientation(LinearLayout.VERTICAL);
+                    showEventDialog.setTitle("Event Details");
+
+                    final EditText titleBox = new EditText(context);
+                    titleBox.setText(title);
+                    titleBox.setFocusable(false);
+                    titleBox.setPadding(20, 100, 0, 50);
+                    layout.addView(titleBox);
+
+                    final EditText descriptionBox = new EditText(context);
+                    descriptionBox.setText(description);
+                    descriptionBox.setFocusable(false);
+                    descriptionBox.setPadding(20, 0, 0, 50);
+                    layout.addView(descriptionBox); // Another add method
+
+                    showEventDialog.setView(layout);
+                    showEventDialog.show();
+                } else {
+                    toastMessage("No event currently schedule for this day");
+                }
 
             }
         });
@@ -337,25 +362,10 @@ public class HomeViewModel extends ViewModel implements View.OnClickListener, Vi
         });
 
         showOptionsDialog.show();
-//        AlertDialog.Builder showEventDialog = new AlertDialog.Builder(context);
-//        LinearLayout layout = new LinearLayout(context);
-//        layout.setOrientation(LinearLayout.VERTICAL);
-//        showEventDialog.setTitle("Event Details");
-//
-//        final EditText titleBox = new EditText(context);
-//        titleBox.setText(title);
-//        titleBox.setFocusable(false);
-//        titleBox.setPadding(20,100,0,50);
-//        layout.addView(titleBox);
-//
-//        final EditText descriptionBox = new EditText(context);
-//        descriptionBox.setText(description);
-//        descriptionBox.setFocusable(false);
-//        descriptionBox.setPadding(20,0,0,50);
-//        layout.addView(descriptionBox); // Another add method
-//
-//        showEventDialog.setView(layout);
-//        showEventDialog.show();
         return false;
+    }
+
+    private void toastMessage(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }
