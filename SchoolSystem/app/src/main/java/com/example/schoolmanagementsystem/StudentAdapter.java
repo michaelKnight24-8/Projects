@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,36 +22,53 @@ import java.util.List;
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
 
     private ArrayList<StudentItem> studentList;
-    private static List<TextView> deleteButtonViews;
-    private static int DELETE_IS_DISPLAYED = 1;
-    static int tags = 1;
+    public OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public StudentAdapter(ArrayList<StudentItem> studentList) {
         this.studentList = studentList;
-        deleteButtonViews = new LinkedList<>();
     }
+
     public static class StudentViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView nameView;
-        TextView cancelButton;
+        ImageView imgView;
 
-        public StudentViewHolder(@NonNull final View itemView, final ArrayList<StudentItem> list) {
+        public StudentViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
             image = itemView.findViewById(R.id.imageViewStudent);
             nameView = itemView.findViewById(R.id.nameView);
-            cancelButton = itemView.findViewById(R.id.cancelBtn);
-            //Log.v("Data:", list.get((Integer)cancelButton.getTag() - 1).getStudentName());
-            cancelButton.setTag(StudentAdapter.tags++);
-            cancelButton.setOnClickListener(new View.OnClickListener() {
+            imgView = itemView.findViewById(R.id.deleteButton);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Tag is " + cancelButton.getTag().toString(), Toast.LENGTH_LONG).show();
-
-                    StudentsFragment.updateTheAdapter(list, (Integer)cancelButton.getTag());
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            listener.onItemClick(position);
+                    }
                 }
             });
-            deleteButtonViews.add(cancelButton);
 
+            imgView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION)
+                            listener.onDeleteClick(position);
+                    }
+                }
+            });
         }
     }
 
@@ -59,8 +77,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.student_item, parent, false);
-        StudentViewHolder svh = new StudentViewHolder(v, studentList);
+        StudentViewHolder svh = new StudentViewHolder(v, listener);
         return svh;
+    }
+
+    public static void addDeleteButton() {
+
     }
 
     @Override
@@ -76,14 +98,10 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     }
 
     public static void showDelete(View v) {
-        String text = (DELETE_IS_DISPLAYED == 1 ? "Done" : "Edit");
-        for (TextView tv : deleteButtonViews)
-                tv.setVisibility((DELETE_IS_DISPLAYED == 1 ? View.VISIBLE : View.GONE));
-        TextView editButton = v.findViewById(R.id.tvEdit);
-        editButton.setText(text);
-        DELETE_IS_DISPLAYED *= -1;
+
     }
 
-    public ArrayList getStudentList() { return studentList; }
+    public static void addStudent(View v) {
 
+    }
 }

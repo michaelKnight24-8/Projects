@@ -21,35 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="443dp"
         android:layout_below="@+id/studentsTitle"
-        android:background="@android:color/darker_gray"
+        android:background="@color/design_default_color_primary"
         android:padding="4dp"
         android:scrollbars="vertical" />
-
     <Button
-        android:id="@+id/addStudent"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerView"
-        android:text="ADD" />
+        android:text="ADD A STUDENT"
+        android:layout_below="@+id/recyclerView"
+        android:gravity="center"/>
 
-    <Button
-        android:id="@+id/deleteStudent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recyclerView"
-        android:layout_alignParentRight="false"
-        android:layout_marginLeft="0dp"
-        android:layout_toRightOf="@id/addStudent"
-        android:text="DELETE" />
 
-    <TextView
-        android:id="@+id/tvEdit"
-        android:layout_width="42dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="25dp"
-        android:layout_toRightOf="@id/studentsTitle"
-        android:text="Edit"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp" />
 </RelativeLayout>

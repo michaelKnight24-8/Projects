@@ -12,24 +12,10 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/cancelBtn"
-            android:layout_width="40dp"
-            android:layout_height="12dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="2dp"
-            android:background="@drawable/cancel_button"
-            android:gravity="center"
-            android:textColor="@color/design_default_color_error"
-            android:textSize="30sp"
-            android:visibility="gone" />
-
         <ImageView
             android:id="@+id/imageViewStudent"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_toRightOf="@+id/cancelBtn"
             android:background="@drawable/ic_students"
             android:padding="2dp" />
 
@@ -44,5 +30,14 @@
             android:text="Student Name"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/deleteButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_delete_black_24dp"
+            android:visibility="visible"/>
+
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

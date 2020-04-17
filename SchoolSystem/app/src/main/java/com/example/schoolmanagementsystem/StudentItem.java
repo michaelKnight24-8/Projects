@@ -4,14 +4,11 @@ package com.example.schoolmanagementsystem;
 public class StudentItem {
     private int imgResource;
     private String studentName;
-    private int tag;
 
     public StudentItem(int imgResource, String studentName) {
         this.imgResource = imgResource;
         this.studentName = studentName;
     }
-
-    public void setTag(int tag) { this.tag = tag; }
 
     public int getImgResource() {
         return imgResource;
@@ -20,6 +17,4 @@ public class StudentItem {
     public String getStudentName() {
         return studentName;
     }
-
-    public int getTag() { return tag; }
 }

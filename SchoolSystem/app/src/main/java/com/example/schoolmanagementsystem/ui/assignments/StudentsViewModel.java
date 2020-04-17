@@ -27,9 +27,4 @@ public class StudentsViewModel extends ViewModel {
         return mText;
     }
 
-    public void editOption() {
-        //now move all the view over a little bit to make way for
-        //the delete attribute
-    }
-
 }
