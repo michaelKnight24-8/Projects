@@ -1,6 +1,9 @@
 package com.example.schoolmanagementsystem.ui.assignments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +38,9 @@ public class StudentsFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private static ArrayList<StudentItem> studentList;
     private View v;
+    private EditText searchText;
+    private TextView clearText;
+    private Button addButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,10 +48,65 @@ public class StudentsFragment extends Fragment {
                 ViewModelProviders.of(this).get(StudentsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_students, container, false);
         studentList = new ArrayList<>();
-
+        searchText = root.findViewById(R.id.textViewSearch);
         v = root;
+        addButton = root.findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                AlertDialog.Builder eventDialog = new AlertDialog.Builder(v.getContext());
+                final EditText nameText = new EditText(v.getContext());
+                eventDialog.setTitle("Enter name of Student");
+                eventDialog.setView(nameText);
+                eventDialog.setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (nameText.getText().toString().equals("")) {
+                            Toast.makeText(v.getContext(), "Please fill out all fields", Toast.LENGTH_LONG);
+                        } else {
+                            String name = nameText.getText().toString().trim();
+                            studentList.add(new StudentItem(R.drawable.ic_students, name));
+                            rAdapter.notifyItemInserted(studentList.size() - 1);
+                        }
+                    }
+                });
+                eventDialog.show();
+
+            }
+        });
+
+        //build the recycler view
         createExampleList();
         buildRecyclerView();
+        clearText = root.findViewById(R.id.clearText);
+
+        //clear the edit text field when the clear button is clicked
+        clearText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText.setText("");
+            }
+        });
+
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+                clearText.setVisibility(View.VISIBLE);
+                if (searchText.getText().toString().equals(""))
+                    clearText.setVisibility(View.GONE);
+            }
+        });
         return root;
     }
 
@@ -71,6 +133,7 @@ public class StudentsFragment extends Fragment {
         studentList.add(new StudentItem(R.drawable.ic_students, "John Knight"));
         studentList.add(new StudentItem(R.drawable.ic_students, "Mr Bean"));
         studentList.add(new StudentItem(R.drawable.ic_students, "Maja Knight"));
+        studentList.add(new StudentItem(R.drawable.ic_students, "James Knight"));
     }
 
     private void buildRecyclerView() {
@@ -91,5 +154,14 @@ public class StudentsFragment extends Fragment {
                 updateTheAdapter(position);
             }
         });
+    }
+
+    private void filter(String text) {
+        ArrayList<StudentItem> filteredList = new ArrayList<>();
+
+        for (StudentItem item : studentList)
+            if (item.getStudentName().toLowerCase().contains(text.toLowerCase()))
+                filteredList.add(item);
+        rAdapter.filterList(filteredList);
     }
 }

@@ -1,27 +1,18 @@
 package com.example.schoolmanagementsystem;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.schoolmanagementsystem.ui.assignments.StudentsFragment;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
-public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
-
-    private ArrayList<StudentItem> studentList;
+public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
+    private ArrayList<AssignmentsItem> assignmentList;
     public OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -33,20 +24,21 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         this.listener = listener;
     }
 
-    public StudentAdapter(ArrayList<StudentItem> studentList) {
-        this.studentList = studentList;
+    public AssignmentAdapter(ArrayList<AssignmentsItem> assignmentList) {
+        this.assignmentList = assignmentList;
     }
 
-    public static class StudentViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
-        TextView nameView;
+    public static class AssignmentViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+        TextView dueDate;
         ImageView imgView;
 
-        public StudentViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
+
+        public AssignmentViewHolder(@NonNull final View itemView, final OnItemClickListener listener) {
             super(itemView);
-            image = itemView.findViewById(R.id.imageViewStudent);
-            nameView = itemView.findViewById(R.id.nameView);
-            imgView = itemView.findViewById(R.id.deleteButton);
+            imgView = itemView.findViewById(R.id.imageView);
+            title = itemView.findViewById(R.id.tvTitle);
+            dueDate = itemView.findViewById(R.id.tvDueDate);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -74,27 +66,23 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     @NonNull
     @Override
-    public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AssignmentAdapter.AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.student_item, parent, false);
-        StudentViewHolder svh = new StudentViewHolder(v, listener);
+                .inflate(R.layout.assignments_item, parent, false);
+        AssignmentViewHolder svh = new AssignmentViewHolder(v, listener);
         return svh;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
-        StudentItem sI = studentList.get(position);
-        holder.image.setImageResource(sI.getImgResource());
-        holder.nameView.setText(sI.getStudentName());
+    public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
+        AssignmentsItem aI = assignmentList.get(position);
+        holder.title.setText(aI.getTitle());
+        holder.dueDate.setText(aI.getDueDate());
     }
 
     @Override
     public int getItemCount() {
-        return studentList.size();
+        return assignmentList.size();
     }
 
-    public void filterList(ArrayList<StudentItem> list) {
-        studentList = list;
-        notifyDataSetChanged();
-    }
 }

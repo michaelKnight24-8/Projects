@@ -2,152 +2,181 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.schoolmanagementsystem.ui.assignments.AssignmentsFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/tvCourse1"
-        android:layout_width="183dp"
-        android:layout_height="171dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="64dp"
-        android:background="@drawable/button_borders"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvCourse2"
-        android:layout_width="183dp"
-        android:layout_height="171dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:background="@drawable/border_red"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCourse1"
-        app:layout_constraintStart_toEndOf="@+id/tvCourse1" />
-
-    <TextView
-        android:id="@+id/tvCourse3"
-        android:layout_width="183dp"
-        android:layout_height="171dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/border_green"
-        app:layout_constraintStart_toStartOf="@+id/tvCourse1"
-        app:layout_constraintTop_toBottomOf="@+id/tvCourse1" />
-
-    <TextView
-        android:id="@+id/tvCourse4"
-        android:layout_width="183dp"
-        android:layout_height="171dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:background="@drawable/border_yellow"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvCourse3"
-        app:layout_constraintStart_toEndOf="@+id/tvCourse3" />
-
-    <TextView
-        android:id="@+id/tvCourses"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="16dp"
-        android:text="Courses"
-        android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvSeeAll"
-        android:layout_width="79dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="169dp"
-        android:layout_marginLeft="169dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginRight="29dp"
-        android:text="See all"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/tvCourses"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="182dp"
-        android:layout_height="89dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginRight="33dp"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="Math 101"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvCourse1"
-        app:layout_constraintEnd_toStartOf="@+id/tvCourse2"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvCourse1"
-        app:layout_constraintVertical_bias="0.487" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="183dp"
-        android:layout_height="89dp"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="English 125"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/tvCourse2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvCourse2"
-        app:layout_constraintTop_toTopOf="@+id/tvCourse2" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="183dp"
-        android:layout_height="89dp"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="Science 100"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/tvCourse3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvCourse3"
-        app:layout_constraintTop_toTopOf="@+id/tvCourse3" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="183dp"
-        android:layout_height="89dp"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:text="History 112"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/tvCourse4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tvCourse4"
-        app:layout_constraintTop_toTopOf="@+id/tvCourse4" />
-
-    <RelativeLayout
-        android:layout_width="458dp"
-        android:layout_height="255dp"
-        tools:layout_editor_absoluteY="531dp">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
-            android:padding="4dp"
-            android:scrollbars="vertical" />
-    </RelativeLayout>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvCourse1"
+                android:layout_width="183dp"
+                android:layout_height="171dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="64dp"
+                android:background="@drawable/button_borders"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCourse2"
+                android:layout_width="183dp"
+                android:layout_height="171dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/border_red"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvCourse1"
+                app:layout_constraintStart_toEndOf="@+id/tvCourse1" />
+
+            <TextView
+                android:id="@+id/tvCourse3"
+                android:layout_width="183dp"
+                android:layout_height="171dp"
+                android:layout_marginTop="52dp"
+                android:background="@drawable/border_green"
+                app:layout_constraintStart_toStartOf="@+id/tvCourse1"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourse1" />
+
+            <TextView
+                android:id="@+id/tvCourse4"
+                android:layout_width="183dp"
+                android:layout_height="171dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/border_yellow"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvCourse3"
+                app:layout_constraintStart_toEndOf="@+id/tvCourse3" />
+
+            <TextView
+                android:id="@+id/tvCourses"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginTop="16dp"
+                android:text="Courses"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSeeAll"
+                android:layout_width="79dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="169dp"
+                android:layout_marginLeft="169dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="29dp"
+                android:layout_marginRight="29dp"
+                android:text="See all"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/tvCourses"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="182dp"
+                android:layout_height="89dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginEnd="33dp"
+                android:layout_marginRight="33dp"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:text="Math 101"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvCourse1"
+                app:layout_constraintEnd_toStartOf="@+id/tvCourse2"
+                app:layout_constraintHorizontal_bias="0.444"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvCourse1"
+                app:layout_constraintVertical_bias="0.487" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="183dp"
+                android:layout_height="89dp"
+                android:layout_marginTop="40dp"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:text="English 125"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvCourse2"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvCourse2"
+                app:layout_constraintTop_toTopOf="@+id/tvCourse2" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="183dp"
+                android:layout_height="89dp"
+                android:layout_marginTop="40dp"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:text="Science 100"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvCourse3"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvCourse3"
+                app:layout_constraintTop_toTopOf="@+id/tvCourse3" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="183dp"
+                android:layout_height="89dp"
+                android:layout_marginTop="40dp"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:text="History 112"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvCourse4"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/tvCourse4"
+                app:layout_constraintTop_toTopOf="@+id/tvCourse4" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/tvCourse3"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="990dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="108dp"
+                    android:text="Current Assignments"
+                    android:textSize="24sp"
+                    tools:layout_editor_absoluteX="0dp" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="200dp"
+                    android:background="@android:color/darker_gray"
+                    android:padding="4dp"
+                    android:scrollbars="vertical" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
