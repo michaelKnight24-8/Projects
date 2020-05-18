@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.schoolmanagementsystem.ui.assignments.AssignmentsViewModel;
+
 import java.util.ArrayList;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
@@ -29,8 +31,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
     }
 
     public static class AssignmentViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView dueDate;
+        TextView title, dueDate, section;
         ImageView imgView;
 
 
@@ -39,6 +40,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
             imgView = itemView.findViewById(R.id.imageView);
             title = itemView.findViewById(R.id.tvTitle);
             dueDate = itemView.findViewById(R.id.tvDueDate);
+            section = itemView.findViewById(R.id.section);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,8 +58,10 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
                 public void onClick(View v) {
                     if (listener != null) {
                         int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION)
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onDeleteClick(position);
+                            AssignmentsViewModel.saveData();
+                        }
                     }
                 }
             });
@@ -78,6 +82,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         AssignmentsItem aI = assignmentList.get(position);
         holder.title.setText(aI.getTitle());
         holder.dueDate.setText(aI.getDueDate());
+        holder.section.setText(aI.getSection());
     }
 
     @Override

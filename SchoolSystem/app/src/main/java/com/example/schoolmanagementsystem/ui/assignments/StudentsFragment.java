@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -25,8 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.schoolmanagementsystem.R;
 import com.example.schoolmanagementsystem.StudentAdapter;
 import com.example.schoolmanagementsystem.StudentItem;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -137,7 +133,7 @@ public class StudentsFragment extends Fragment {
     }
 
     private void buildRecyclerView() {
-        rView = v.findViewById(R.id.recyclerView);
+        rView = v.findViewById(R.id.assignmentRecyclerView);
         layoutManager = new LinearLayoutManager(this.getContext());
         rAdapter = new StudentAdapter(studentList);
         rView.setLayoutManager(layoutManager);

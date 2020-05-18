@@ -37,7 +37,7 @@
         android:textSize="20sp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/assignmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="402dp"
         android:layout_below="@+id/searchImg"
@@ -50,7 +50,7 @@
         android:id="@+id/addButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerView"
+        android:layout_below="@+id/assignmentRecyclerView"
         android:layout_marginBottom="0dp"
         android:gravity="center"
         android:text="ADD A STUDENT" />

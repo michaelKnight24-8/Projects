@@ -1,10 +1,11 @@
 package com.example.schoolmanagementsystem;
 
 public class AssignmentsItem {
-    private String title, dueDate;
+    private String title, dueDate, section;
 
-    public AssignmentsItem(String title, String dueDate) {
+    public AssignmentsItem(String title, String dueDate, String section) {
         this.title = title;
+        this.section = section;
         this.dueDate = dueDate;
     }
 
@@ -15,4 +16,6 @@ public class AssignmentsItem {
     public String getDueDate() {
         return dueDate;
     }
+
+    public String getSection() { return section; }
 }

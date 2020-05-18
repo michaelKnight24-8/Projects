@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9b18484a-be66-4d6a-a323-f7b48b5b7bd0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/DesignTimeBuild/.dtbcache" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/DesignTimeBuild/.dtbcache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/../ChessOOP/ChessOOP/.vs/ChessOOP/v16/Server/sqlite3/storage.ide" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/MathAssignmentsActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/AssignmentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/AssignmentAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/AssignmentsItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/AssignmentsItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/ui/assignments/AssignmentsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/ui/assignments/AssignmentsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/ui/assignments/AssignmentsViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/ui/assignments/AssignmentsViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/ui/assignments/StudentsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/java/com/example/schoolmanagementsystem/ui/assignments/StudentsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/activity_math_assignments.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/activity_math_assignments.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/assignments_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/assignments_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/fragment_assignments.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/fragment_assignments.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/fragment_students.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/fragment_students.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/student_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/layout/student_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SchoolSystem/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../SchoolSystem/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Action.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Action.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Bishop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Button.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Button.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/ImageClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/ImageClass.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/King.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/King.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Knight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Pawn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Piece.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Queen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SwingStuff/practice/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SwingStuff/practice/Rook.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/practice/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/practice/Pawn.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="isMigrated" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1bamaqzSJYq8MTHz7bVcr8oTxjP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\mknig\Downloads\SwingStuff\src\practice" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="practice" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="practice.Main" />
+      <module name="SwingStuff" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9b18484a-be66-4d6a-a323-f7b48b5b7bd0" name="Default Changelist" comment="" />
+      <created>1577310528142</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1577310528142</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="490" y="234" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1588878664539">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="490" y="234" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1280.689@0.0.1280.689" timestamp="1588878664539" />
+    <state width="1237" height="2" key="GridCell.Tab.0.bottom" timestamp="1589250499496">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state width="1237" height="2" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1589250499496" />
+    <state width="1237" height="2" key="GridCell.Tab.0.center" timestamp="1589250499496">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state width="1237" height="2" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1589250499496" />
+    <state width="1237" height="2" key="GridCell.Tab.0.left" timestamp="1589250499495">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state width="1237" height="2" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1589250499495" />
+    <state width="1237" height="2" key="GridCell.Tab.0.right" timestamp="1589250499496">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state width="1237" height="2" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1589250499496" />
+    <state x="337" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1589564990730">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="337" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1589564990730" />
+    <state x="91" y="0" key="new project wizard" timestamp="1589565022807">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="91" y="0" key="new project wizard/0.0.1280.689@0.0.1280.689" timestamp="1589565022807" />
+  </component>
+</project>

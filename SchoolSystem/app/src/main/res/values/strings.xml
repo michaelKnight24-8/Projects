@@ -6,4 +6,10 @@
     <string name="title_notifications">Notifications</string>
     <string name="left_month_change">&lt;</string>
     <string name="right_month_change">&gt;</string>
+    <string-array name="subjects">
+        <item>Math</item>
+        <item>English</item>
+        <item>Science</item>
+        <item>History</item>
+    </string-array>
 </resources>
