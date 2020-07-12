@@ -24,4 +24,24 @@ public class Employee extends Person {
     public String getPastExperience() { return pastExperience; }
 
     public String getPassword() { return password; }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "position='" + position + '\'' +
+                ", college='" + college + '\'' +
+                ", pastExperience='" + pastExperience + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleInitial='" + middleInitial + '\'' +
+                ", email='" + email + '\'' +
+                ", number='" + number + '\'' +
+                ", DOB='" + DOB + '\'' +
+                ", emergencyNumber='" + emergencyNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", sex='" + sex + '\'' +
+                ", emergencyRelation='" + emergencyRelation + '\'' +
+                '}';
+    }
 }

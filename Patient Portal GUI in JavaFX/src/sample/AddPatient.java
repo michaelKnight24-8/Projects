@@ -89,7 +89,6 @@ public class AddPatient {
         gp.addRow(9, emergencyT, relationT);
 
         //now add the text field to the gridpane
-
         mainLayout.setCenter(gp);
         addPatient = new Scene(mainLayout, 580,600);
     }

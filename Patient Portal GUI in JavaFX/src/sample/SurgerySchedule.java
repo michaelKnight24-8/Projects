@@ -30,9 +30,9 @@ public class SurgerySchedule {
     private ObservableList<Surgery> getSurgeries() {
         ObservableList<Surgery> surgeries = FXCollections.observableArrayList();
         surgeries.add(new Surgery(2, "Michael", "Rob", "General",
-                "James", "5:30", "Alisha", "Dr Tores", "105B"));
+                "James", "5:30", "Alisha", "Dr Tores", "105B", "today"));
         surgeries.add(new Surgery(2, "Derek", "Rob", "Appendectomy",
-                "Penis", "7:00", "Alisha", "Dr Tores", "110"));
+                "Penis", "7:00", "Alisha", "Dr Tores", "110", "Tomorrow"));
 
         return surgeries;
     }

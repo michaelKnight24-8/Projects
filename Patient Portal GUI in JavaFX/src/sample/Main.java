@@ -14,6 +14,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -32,7 +36,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        try {
+            Connection c = DBUtil.getConnection();
+            Statement state = c.createStatement();
+            state.execute("CREATE TABLE surgery(ORoom INTEGER, surgeon TEXT, anes TEXT, surgeryType TEXT, patient TEXT," +
+                            " time TEXT, RN TEXT, scrub TEXT, patientRoom TEXT, date TEXT)");
 
+            //ALWYAS CLOSE IT!!!!!
+        } catch(SQLException e) {
+            System.out.println(e); }
         //to hold the search results
         resultView = new ListView();
         resultView.setMinWidth(600);
@@ -52,7 +64,6 @@ public class Main extends Application {
 
     //function to separate the building of the layout from the scene setting and such
     public void initLayouts() {
-
         //background color
         BackgroundFill background_fill = new BackgroundFill(Color.rgb(105,105,105),
                 CornerRadii.EMPTY, Insets.EMPTY);
@@ -137,10 +148,10 @@ public class Main extends Application {
             AddEmployee aE = new AddEmployee(homePage, back);
             window.setScene(aE.getScene());
             window.setTitle("Add An Employee");
-            window.setMaxWidth(800);
+            window.setMaxWidth(700);
             window.setMaxHeight(700);
-            window.setMinHeight(600);
-            window.setMinWidth(600);
+            window.setMinHeight(700);
+            window.setMinWidth(700);
             window.show();
         });
         addEmployee.setStyle("-fx-background-color: lightskyblue");
@@ -148,6 +159,16 @@ public class Main extends Application {
         //new surgery
         addSurgery = new Button("Schedule a surgery");
         addSurgery.setStyle("-fx-background-color: lightskyblue");
+        addSurgery.setOnAction(e -> {
+            AddSurgery as = new AddSurgery(homePage, back);
+            window.setScene(as.getScene());
+            window.setTitle("Schedule A Surgery");
+            window.setMaxWidth(600);
+            window.setMaxHeight(500);
+            window.setMinHeight(500);
+            window.setMinWidth(600);
+            window.show();
+        });
 
         //search button
         search = new Button("Search");

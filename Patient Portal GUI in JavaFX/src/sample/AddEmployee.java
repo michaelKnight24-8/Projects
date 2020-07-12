@@ -183,6 +183,11 @@ public class AddEmployee {
                 height.equals("") || weight.equals("") || emergencyRelation.equals("") || sex.equals("") ||
                 position.equals("") || college.equals("") ||  pastExperience.equals("")) {
             Alert.display();
+        } else {
+            Employee e = new Employee(firstName, lastName, middleInitial, email, number,
+                    DOB, emergencyNumber, address, sex, college, position,
+                    pastExperience, emergencyRelation);
+            System.out.println(e.toString());
         }
 
     }

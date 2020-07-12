@@ -2,9 +2,10 @@ package sample;
 
 public class Surgery {
     public int OR;
-    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom;
+    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom, date;
 
-    public Surgery(int OR, String surgeon, String anes, String surgeryType, String patient, String time, String RN, String scrub, String patientRoom) {
+    public Surgery(int OR, String surgeon, String anes, String surgeryType, String patient, String time, String RN,
+                   String scrub, String patientRoom, String date) {
         this.OR = OR;
         this.surgeon = surgeon;
         this.anes = anes;
@@ -14,15 +15,16 @@ public class Surgery {
         this.RN = RN;
         this.scrub = scrub;
         this.patientRoom = patientRoom;
+        this.date = date;
     }
+
+    public String getDate() { return date; }
 
     public int getOR() {
         return OR;
     }
 
-    public String getSurgeon() {
-        return surgeon;
-    }
+    public String getSurgeon() { return surgeon; }
 
     public String getAnes() {
         return anes;
