@@ -22,11 +22,15 @@ import java.util.EventListener;
 public class Calendar implements EventHandler<ActionEvent> {
 
     public int year, month, day, currentYear, currentMonth;
+    public int context;
     public Scene scene;
     public GridPane calPane;
     public BorderPane mainLayout;
     public HBox header;
     public VBox vbox;
+    public final int SURGERY = 1;
+    public final int APPOINTMENT = 2;
+    public final int BOOK_APPOINTMENT = 3;
 
     private CButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
             btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20, btn21, btn22,
@@ -36,10 +40,10 @@ public class Calendar implements EventHandler<ActionEvent> {
 
     public Scene getScene() { return new Scene(mainLayout,465,550); }
 
-    public Calendar() {
+    public Calendar(int context) {
         //set up the scene with gridpane,  positioniong the buttons and the main label for
         //the months
-
+        this.context = context;
         buttons = new ArrayList<>();
         initButtons();
         Date date = new Date();
@@ -108,7 +112,6 @@ public class Calendar implements EventHandler<ActionEvent> {
     }
 
     public void displayCalendar() {
-
         //if December was the previous month, increment the year, and set the
         //month to January
         if (month == 13) {
@@ -172,7 +175,7 @@ public class Calendar implements EventHandler<ActionEvent> {
             buttons.get(texbtniewIndex).setText(currentDay);
             buttons.get(texbtniewIndex).setOnAction(this);
 
-            if (i == this.day && month == currentMonth)
+            if (i == this.day && month == currentMonth && currentYear == year)
                 buttons.get(texbtniewIndex).setStyle("-fx-background-color: rgb(150,150,150);");
             else
                 buttons.get(texbtniewIndex).setStyle("-fx-background-color: white; ");
@@ -253,9 +256,14 @@ public class Calendar implements EventHandler<ActionEvent> {
         calPane.setVgap(5);
     }
 
-    private void getFromDatabase(int month, String text, int year) {
-        SurgerySchedule surgery = new SurgerySchedule(month + "/" + text + "/" + year);
-        SurgeryWindow.display(surgery.getScene());
+    private void getFromDatabase(int month, String text, int year, int context) {
+
+        if (context == SURGERY) {
+            SurgerySchedule surgery = new SurgerySchedule(month + "/" + text + "/" + year);
+            SurgeryWindow.display(surgery.getScene());
+        } else {
+            AppointmentSchedule appointments = new AppointmentSchedule(month + "/" + text + "/" + year);
+        }
     }
 
     @Override
@@ -277,7 +285,13 @@ public class Calendar implements EventHandler<ActionEvent> {
                     displayCalendar();
                     break;
                 default:
-                    getFromDatabase(this.month, ((CButton) e.getSource()).getText(), this.year);
+                    if (context == BOOK_APPOINTMENT) {
+                        AddAppointment aa = new AddAppointment();
+                    } else if (context == APPOINTMENT) {
+                        getFromDatabase(this.month, ((CButton) e.getSource()).getText(), this.year, APPOINTMENT);
+                    } else {
+                        getFromDatabase(this.month, ((CButton) e.getSource()).getText(), this.year, SURGERY);
+                    }
                     break;
             }
         }

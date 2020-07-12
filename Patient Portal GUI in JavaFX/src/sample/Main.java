@@ -24,7 +24,8 @@ import java.util.regex.Pattern;
 public class Main extends Application {
     public Stage window;
     public Scene homePage;
-    public Button back, addPatient, search, addSurgery, addEmployee, refinedSearch, calBtn;
+    public Button back, addPatient, search, addSurgery, addEmployee, refinedSearch,
+            calBtn, bookAppointment, viewAppointments;
     public BorderPane mainLayout;
     public VBox header, buttons;
     public Label searchL;
@@ -33,18 +34,20 @@ public class Main extends Application {
     public TextField searchField;
     public ToggleGroup radioGroup;
     public RadioButton patientBtn, employeeBtn;
-
+    public final int SURGERY = 1;
+    public final int APPOINTMENT = 2;
+    public final int BOOK_APPOINTMENT = 3;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        try {
-            Connection c = DBUtil.getConnection();
-            Statement state = c.createStatement();
-            state.execute("CREATE TABLE surgery(ORoom INTEGER, surgeon TEXT, anes TEXT, surgeryType TEXT, patient TEXT," +
-                            " time TEXT, RN TEXT, scrub TEXT, patientRoom TEXT, date TEXT)");
-
-            //ALWYAS CLOSE IT!!!!!
-        } catch(SQLException e) {
-            System.out.println(e); }
+//        try {
+////            Connection c = DBUtil.getConnection();
+////            Statement state = c.createStatement();
+////            state.execute("CREATE TABLE surgery(ORoom INTEGER, surgeon TEXT, anes TEXT, surgeryType TEXT, patient TEXT," +
+////                            " time TEXT, RN TEXT, scrub TEXT, patientRoom TEXT, date TEXT)");
+//
+//            //ALWYAS CLOSE IT!!!!!
+//        } catch(SQLException e) {
+//            System.out.println(e); }
         //to hold the search results
         resultView = new ListView();
         resultView.setMinWidth(600);
@@ -120,10 +123,23 @@ public class Main extends Application {
             window.show();
         });
 
+        viewAppointments = new Button("View Appointments");
+        viewAppointments.setOnAction(e -> {
+            Calendar calendar = new Calendar(APPOINTMENT);
+            CalendarPane.display(calendar.getScene());
+        });
+        viewAppointments.setStyle("-fx-background-color: lightskyblue");
+
+        bookAppointment = new Button("Book Appointment");
+        bookAppointment.setOnAction(e -> {
+            Calendar calendar = new Calendar(BOOK_APPOINTMENT);
+            CalendarPane.display(calendar.getScene());
+        });
+        bookAppointment.setStyle("-fx-background-color: lightskyblue");
         //view calendar
         calBtn = new Button("View Scheduled Surgeries");
         calBtn.setOnAction(e -> {
-            Calendar calendar = new Calendar();
+            Calendar calendar = new Calendar(SURGERY);
             CalendarPane.display(calendar.getScene());
         });
         calBtn.setStyle("-fx-background-color: lightskyblue");
@@ -178,7 +194,8 @@ public class Main extends Application {
         refinedSearch = new Button("Refined Search");
         refinedSearch.setStyle("-fx-background-color: lightskyblue");
 
-        buttons.getChildren().addAll(refinedSearch, calBtn, addSurgery, addPatient, addEmployee);
+        buttons.getChildren().addAll(refinedSearch, calBtn, addSurgery, addPatient,
+                addEmployee, bookAppointment, viewAppointments);
     }
 
     public static void main(String[] args) {

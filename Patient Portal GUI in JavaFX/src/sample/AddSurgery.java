@@ -26,7 +26,7 @@ public class AddSurgery {
         datePicker = new DatePicker();
         scheduledSurgeries = new Button("View Scheduled Surgeries");
         scheduledSurgeries.setOnAction(e -> {
-            Calendar calendar = new Calendar();
+            Calendar calendar = new Calendar(1);
             CalendarPane.display(calendar.getScene());
         });
         mainLayout = new GridPane();
