@@ -286,7 +286,8 @@ public class Calendar implements EventHandler<ActionEvent> {
                     break;
                 default:
                     if (context == BOOK_APPOINTMENT) {
-                        AddAppointment aa = new AddAppointment();
+                        AddAppointment aa = new AddAppointment(this.month + "/" +
+                                ((CButton) e.getSource()).getText() + "/" + this.year);
                     } else if (context == APPOINTMENT) {
                         getFromDatabase(this.month, ((CButton) e.getSource()).getText(), this.year, APPOINTMENT);
                     } else {

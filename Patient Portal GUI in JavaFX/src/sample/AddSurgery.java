@@ -6,33 +6,42 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class AddSurgery {
     public int OR;
-    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom, date;
-    public PLabel surgeonL, anesL, surgeryTypeL, patientL, timeL, RNL, scrubL, patientRoomL, ORL, dateL;
-    public PText surgeonT, anesT, surgeryTypeT, patientT, timeT, RNT, scrubT, patientRoomT, ORT;
+    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom, date, results;
+    public PLabel surgeonL, anesL, surgeryTypeL, patientL, timeL, RNL, scrubL, patientRoomL, ORL, dateL, resultsL;
+    public PText surgeonT, anesT, surgeryTypeT, patientT, timeT, RNT, scrubT, patientRoomT, ORT, dateHide;
     public DatePicker datePicker;
+    public TextArea resultsT;
     public Button scheduledSurgeries, back, saveBtn;
     public Scene addSurgery, homePage;
     public Stage window;
     public GridPane mainLayout;
     public HBox buttons;
+    public Surgery surgery;
+    public boolean editing;
 
-    public AddSurgery(Scene homePage, Button back) {
+    public AddSurgery() {
+
+        editing = false;
         datePicker = new DatePicker();
         scheduledSurgeries = new Button("View Scheduled Surgeries");
         scheduledSurgeries.setOnAction(e -> {
             Calendar calendar = new Calendar(1);
-            CalendarPane.display(calendar.getScene());
+            CalendarPane.display(calendar.getScene(), 1);
         });
         mainLayout = new GridPane();
-
-        this.homePage = homePage;
-        this.back = back;
         window = new Stage();
         window.setTitle("Schedule A Surgery");
         saveBtn = new Button("ADD");
@@ -40,7 +49,8 @@ public class AddSurgery {
         saveBtn.setOnAction(e -> saveSurgery());
 
         buttons = new HBox(10);
-        buttons.getChildren().addAll(saveBtn, back);
+        buttons.getChildren().addAll(saveBtn);
+        buttons.setPadding(new Insets(0,0,20,0));
         initTextFields();
         initLabels();
         initLayout();
@@ -53,9 +63,27 @@ public class AddSurgery {
         addSurgery = new Scene(mainLayout, 580,600);
     }
 
-    public Scene getScene() { return addSurgery; }
+    public AddSurgery(Surgery surgery) {
+        this();
+        this.surgery = surgery;
+        fillTextFields();
+        editing = true;
+    }
+
+    public void display() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setScene(addSurgery);
+        window.setTitle("Schedule A Surgery");
+        window.setMaxWidth(600);
+        window.setMaxHeight(600);
+        window.setMinHeight(600);
+        window.setMinWidth(600);
+        window.showAndWait();
+    }
 
     private void initTextFields() {
+
         surgeonT = new PText(200);
         anesT = new PText(200);
         surgeryTypeT = new PText(100);
@@ -65,6 +93,14 @@ public class AddSurgery {
         scrubT = new PText(200);
         patientRoomT = new PText(50);
         ORT = new PText(50);
+        resultsT = new TextArea();
+        resultsT.setMinHeight(100);
+        resultsT.setMaxWidth(200);
+        resultsT.setWrapText(true);
+        dateHide = new PText(50);
+        dateHide.setVisible(false);
+        dateHide.setText("");
+        resultsT.setText("Pending");
     }
 
     private void initLabels() {
@@ -78,6 +114,7 @@ public class AddSurgery {
         patientRoomL = new PLabel("Patient Room");
         ORL = new PLabel("O.R.");
         dateL = new PLabel("Date");
+        resultsL = new PLabel("Results");
     }
 
     private void initLayout() {
@@ -95,13 +132,90 @@ public class AddSurgery {
         mainLayout.addRow(7, RNT, scrubT);
         mainLayout.addRow(8, ORL, patientRoomL);
         mainLayout.addRow(9, ORT, patientRoomT);
-        mainLayout.addRow(11, new Label(""), new Label(""), buttons);
+        mainLayout.addRow(10, resultsL);
+        mainLayout.addRow(11, resultsT, dateHide);
+        mainLayout.addRow(13, new Label(""), new Label(""), buttons);
         mainLayout.setHgap(20);
         mainLayout.setVgap(10);
         mainLayout.setPadding(new Insets(20, 0, 0, 30));
     }
 
-    public void saveSurgery() {
+    private void fillTextFields() {
+        surgeonT.setText(surgery.getSurgeon());
+        anesT.setText(surgery.getAnes());
+        surgeryTypeT.setText(surgery.getSurgeryType());
+        patientT.setText(surgery.getPatient());
+        timeT.setText(surgery.getTime());
+        RNT.setText(surgery.getRN());
+        scrubT.setText(surgery.getScrub());
+        patientRoomT.setText(surgery.getPatientRoom());
+        ORT.setText(Integer.toString(surgery.getOR()));
+        resultsT.setText(surgery.getResults());
+        dateHide.setText(surgery.getDate());
+    }
 
+    //first check to make sure that all the fields have been entered in
+    private void saveSurgery() {
+
+        //now get the data that was entered in
+
+        if (surgeonT.getText().equals("") || anesT.getText().equals("") || surgeryTypeT.getText().equals("") ||
+                patientT.getText().equals("") || timeT.getText().equals("") || RNT.getText().equals("")
+                || scrubT.getText().equals("") || patientRoomT.getText().equals("") || ORT.getText().equals("")) {
+            Alert.display();
+        } else {
+            String sql = "INSERT INTO surgery (ORoom, surgeon, anes," +
+                    " surgeryType, patient, time, RN, scrub, patientRoom, date, results) "
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            Connection conn = DBUtil.getConnection();
+            try {
+                if (editing) deleteFromDatabase(conn);
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, Integer.parseInt(ORT.getText()));
+                pstmt.setString(2, surgeonT.getText());
+                pstmt.setString(3, anesT.getText());
+                pstmt.setString(4, surgeryTypeT.getText());
+                pstmt.setString(5, patientT.getText());
+                pstmt.setString(6, timeT.getText());
+                pstmt.setString(7, RNT.getText());
+                pstmt.setString(8, scrubT.getText());
+                pstmt.setString(9, patientRoomT.getText());
+
+                if (!editing) {
+                    date = datePicker.getValue().getMonthValue() +
+                            "/" + datePicker.getValue().getDayOfMonth() +
+                            "/" + datePicker.getValue().getYear();
+                } else {
+                    date = dateHide.getText();
+                }
+                pstmt.setString(10, date);
+                pstmt.setString(11, resultsT.getText());
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("SQL Error: " + e);
+            } finally {
+                try { conn.close(); }
+                catch (SQLException e) { System.out.println("SQL ERROR: " + e); }
+            }
+        }
+        editing = false;
+    }
+
+    private void deleteFromDatabase(Connection conn) {
+        //delete it form the database, then call the save function and save it as
+        //a new one!
+        String sql = "DELETE FROM surgery WHERE ORoom = ? and patient = ? and surgeryType = ?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            // set the corresponding param
+            pstmt.setInt(1, surgery.getOR());
+            pstmt.setString(2, surgery.getPatient());
+            pstmt.setString(3, surgery.getSurgeryType());
+            // execute the delete statement
+            pstmt.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println("SQL ERROR: " + e);
+        }
     }
 }

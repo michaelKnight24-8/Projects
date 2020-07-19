@@ -2,10 +2,10 @@ package sample;
 
 public class Surgery {
     public int OR;
-    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom, date;
+    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom, date, results;
 
     public Surgery(int OR, String surgeon, String anes, String surgeryType, String patient, String time, String RN,
-                   String scrub, String patientRoom, String date) {
+                   String scrub, String patientRoom, String date, String results) {
         this.OR = OR;
         this.surgeon = surgeon;
         this.anes = anes;
@@ -16,13 +16,12 @@ public class Surgery {
         this.scrub = scrub;
         this.patientRoom = patientRoom;
         this.date = date;
+        this.results = results;
     }
 
     public String getDate() { return date; }
 
-    public int getOR() {
-        return OR;
-    }
+    public int getOR() { return OR; }
 
     public String getSurgeon() { return surgeon; }
 
@@ -46,11 +45,27 @@ public class Surgery {
         return RN;
     }
 
+    public String getResults() { return results; }
+
     public String getScrub() {
         return scrub;
     }
 
-    public String getPatientRoom() {
-        return patientRoom;
+    public String getPatientRoom() { return patientRoom; }
+
+    @Override
+    public String toString() {
+        return "Surgery{" +
+                "OR=" + OR +
+                ", surgeon='" + surgeon + '\'' +
+                ", anes='" + anes + '\'' +
+                ", surgeryType='" + surgeryType + '\'' +
+                ", patient='" + patient + '\'' +
+                ", time='" + time + '\'' +
+                ", RN='" + RN + '\'' +
+                ", scrub='" + scrub + '\'' +
+                ", patientRoom='" + patientRoom + '\'' +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

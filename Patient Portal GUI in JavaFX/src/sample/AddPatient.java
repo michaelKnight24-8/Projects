@@ -7,6 +7,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -164,8 +167,27 @@ public class AddPatient {
             Alert.display();
         }
         else {
-            patient = new Patient(firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address, height, weight,
-                    sex, emergencyRelation);
+            String name = firstName + " " + lastName;
+            String sql = "INSERT INTO patient (name, middleInitial, email," +
+                    " number, DOB, emergencyNumber, address, height, weight, sex, emergencyRelation) "
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+            try (Connection conn = DBUtil.getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, name);
+                pstmt.setString(2, middleInitial);
+                pstmt.setString(3, email);
+                pstmt.setString(4, number);
+                pstmt.setString(5, DOB);
+                pstmt.setString(6, emergencyNumber);
+                pstmt.setString(7, address);
+                pstmt.setString(8, height);
+                pstmt.setString(9, weight);
+                pstmt.setString(10, sex);
+                pstmt.setString(11, emergencyRelation);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("SQL Error: " + e);
+            }
         }
     }
 }

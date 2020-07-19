@@ -7,6 +7,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -24,7 +28,7 @@ public class AddEmployee {
     public Button saveBtn, closeBtn, back;
 
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
-            height, weight, sex, emergencyRelation, position, college, pastExperience;
+            height, weight, sex, emergencyRelation, position, college, pastExperience, name;
 
     public AddEmployee(Scene homePage, Button back) {
         this.homePage = homePage;
@@ -178,17 +182,37 @@ public class AddEmployee {
 
         //then make sure that they have been entered in, so a nurse doesn't accidentally forget
         //to fill one out
+        name = firstName + " " + lastName;
+        String sql = "INSERT INTO employee (name, middleInitial, email," +
+                " number, DOB, emergencyNumber, address, sex, college, position, pastExperience, emergencyRelation) "
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
                 email.equals("") || number.equals("") || emergencyNumber.equals("") || address.equals("") ||
                 height.equals("") || weight.equals("") || emergencyRelation.equals("") || sex.equals("") ||
                 position.equals("") || college.equals("") ||  pastExperience.equals("")) {
             Alert.display();
         } else {
-            Employee e = new Employee(firstName, lastName, middleInitial, email, number,
-                    DOB, emergencyNumber, address, sex, college, position,
-                    pastExperience, emergencyRelation);
-            System.out.println(e.toString());
+            //insert it into the database!
+            //get the connection
+            //use prepared statement so that I can use variables as values to insert
+            try ( Connection conn = DBUtil.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, name);
+                pstmt.setString(2, middleInitial);
+                pstmt.setString(3, email);
+                pstmt.setString(4, number);
+                pstmt.setString(5, DOB);
+                pstmt.setString(6, emergencyNumber);
+                pstmt.setString(7, address);
+                pstmt.setString(8, sex);
+                pstmt.setString(9, college);
+                pstmt.setString(10, position);
+                pstmt.setString(11, pastExperience);
+                pstmt.setString(12, emergencyRelation);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("SQL Error: " + e);
+            }
         }
-
     }
 }

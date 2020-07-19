@@ -44,4 +44,8 @@ public class Employee extends Person {
                 ", emergencyRelation='" + emergencyRelation + '\'' +
                 '}';
     }
+
+    public void display() {
+        
+    }
 }

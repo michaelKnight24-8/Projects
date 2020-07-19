@@ -1,14 +1,13 @@
 package sample;
 
 public class Appointment {
-    public String date, patientName, patientEmail, nurse, doctor, drugsPrescribed,
+    public String date, patientName, nurse, doctor, drugsPrescribed,
         additionalRemarks, reasonForAppointment, time, room;
 
-    public Appointment(String date, String patientName, String patientEmail, String nurse, String doctor,
+    public Appointment(String date, String patientName, String nurse, String doctor,
                        String drugsPrescribed, String additionalRemarks, String reasonForAppointment,
                        String time, String room) {
         this.patientName = patientName;
-        this.patientEmail = patientEmail;
         this.nurse = nurse;
         this.doctor = doctor;
         this.drugsPrescribed = drugsPrescribed;
@@ -16,6 +15,7 @@ public class Appointment {
         this.reasonForAppointment = reasonForAppointment;
         this.room = room;
         this.time = time;
+        this.date = date;
     }
 
     public String getRoom() { return room; }
@@ -28,10 +28,6 @@ public class Appointment {
 
     public String getPatientName() {
         return patientName;
-    }
-
-    public String getPatientEmail() {
-        return patientEmail;
     }
 
     public String getNurse() {
@@ -52,5 +48,20 @@ public class Appointment {
 
     public String getReasonForAppointment() {
         return reasonForAppointment;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "date='" + date + '\'' +
+                ", patientName='" + patientName + '\'' +
+                ", nurse='" + nurse + '\'' +
+                ", doctor='" + doctor + '\'' +
+                ", drugsPrescribed='" + drugsPrescribed + '\'' +
+                ", additionalRemarks='" + additionalRemarks + '\'' +
+                ", reasonForAppointment='" + reasonForAppointment + '\'' +
+                ", time='" + time + '\'' +
+                ", room='" + room + '\'' +
+                '}';
     }
 }

@@ -14,10 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -39,15 +36,6 @@ public class Main extends Application {
     public final int BOOK_APPOINTMENT = 3;
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        try {
-////            Connection c = DBUtil.getConnection();
-////            Statement state = c.createStatement();
-////            state.execute("CREATE TABLE surgery(ORoom INTEGER, surgeon TEXT, anes TEXT, surgeryType TEXT, patient TEXT," +
-////                            " time TEXT, RN TEXT, scrub TEXT, patientRoom TEXT, date TEXT)");
-//
-//            //ALWYAS CLOSE IT!!!!!
-//        } catch(SQLException e) {
-//            System.out.println(e); }
         //to hold the search results
         resultView = new ListView();
         resultView.setMinWidth(600);
@@ -126,21 +114,22 @@ public class Main extends Application {
         viewAppointments = new Button("View Appointments");
         viewAppointments.setOnAction(e -> {
             Calendar calendar = new Calendar(APPOINTMENT);
-            CalendarPane.display(calendar.getScene());
+            CalendarPane.display(calendar.getScene(), APPOINTMENT);
         });
         viewAppointments.setStyle("-fx-background-color: lightskyblue");
 
         bookAppointment = new Button("Book Appointment");
         bookAppointment.setOnAction(e -> {
             Calendar calendar = new Calendar(BOOK_APPOINTMENT);
-            CalendarPane.display(calendar.getScene());
+            CalendarPane.display(calendar.getScene(), BOOK_APPOINTMENT);
         });
         bookAppointment.setStyle("-fx-background-color: lightskyblue");
+
         //view calendar
         calBtn = new Button("View Scheduled Surgeries");
         calBtn.setOnAction(e -> {
             Calendar calendar = new Calendar(SURGERY);
-            CalendarPane.display(calendar.getScene());
+            CalendarPane.display(calendar.getScene(), SURGERY);
         });
         calBtn.setStyle("-fx-background-color: lightskyblue");
 
@@ -176,14 +165,8 @@ public class Main extends Application {
         addSurgery = new Button("Schedule a surgery");
         addSurgery.setStyle("-fx-background-color: lightskyblue");
         addSurgery.setOnAction(e -> {
-            AddSurgery as = new AddSurgery(homePage, back);
-            window.setScene(as.getScene());
-            window.setTitle("Schedule A Surgery");
-            window.setMaxWidth(600);
-            window.setMaxHeight(500);
-            window.setMinHeight(500);
-            window.setMinWidth(600);
-            window.show();
+            AddSurgery as = new AddSurgery();
+            as.display();
         });
 
         //search button

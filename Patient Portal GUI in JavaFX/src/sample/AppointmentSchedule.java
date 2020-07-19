@@ -2,15 +2,20 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class AppointmentSchedule {
 
@@ -28,16 +33,26 @@ public class AppointmentSchedule {
 
     private ObservableList<Appointment> getAppointments() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        appointments.add(new Appointment("today", "michael", "some email", "NUrse me!",
-                "Doctor you!", "hard core meth", "He needs HELP",
-                "Penis", "1:00pm", "4b"));
+        try {
+            Connection conn = DBUtil.getConnection();
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery("SELECT * FROM appointments");
+            while (rs.next()) {
+                appointments.add(new Appointment(rs.getString("date"), rs.getString("patientName"),
+                        rs.getString("nurse"), rs.getString("doctor"), rs.getString("drugsPrescribed"),
+                        rs.getString("additionalRemarks"), rs.getString("reasonForAppointment"),
+                        rs.getString("time"), rs.getString("room")));
+            }
+        } catch (SQLException error){
+            System.out.println("SQL ERROR: " + error);
+        }
         return appointments;
     }
 
     public void display() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Surgeries schedule for selected day");
+        window.setTitle("Appointments scheduled for selected day");
         window.setScene(new Scene(vbox,402,400));
         window.setMinWidth(402);
         window.setMaxWidth(415);
@@ -45,7 +60,6 @@ public class AppointmentSchedule {
     }
 
     private void initTable() {
-
         //for name column
         TableColumn <Appointment, String> patientName = new TableColumn<>("Patient");
         patientName.setCellValueFactory(new PropertyValueFactory<>("patientName"));
@@ -73,6 +87,18 @@ public class AppointmentSchedule {
         label.setAlignment(Pos.CENTER);
         label.setMinWidth(402);
         label.setStyle("-fx-font: 24 Arial;");
+        ContextMenu menu = new ContextMenu();
+        MenuItem view = new MenuItem("View/Edit");
+        view.setOnAction(e -> {
+            Appointment a = table.getSelectionModel().getSelectedItem();
+            AddAppointment aa = new AddAppointment(this.day, table.getSelectionModel().getSelectedItem());
+        });
+        menu.getItems().addAll(view, new SeparatorMenuItem(), new MenuItem("Delete"));
+        table.setOnMouseClicked(e -> {
+            if (table.getSelectionModel().getSelectedItem() != null)
+                menu.show(table, e.getScreenX(), e.getScreenY());
+        });
+
         vbox.getChildren().addAll(label, table);
     }
 }

@@ -4,12 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SurgerySchedule {
 
@@ -24,15 +26,32 @@ public class SurgerySchedule {
     }
 
     public Scene getScene() {
-        return new Scene(vbox,830,400);
+        return new Scene(vbox,930,400);
     }
 
     private ObservableList<Surgery> getSurgeries() {
         ObservableList<Surgery> surgeries = FXCollections.observableArrayList();
-        surgeries.add(new Surgery(2, "Michael", "Rob", "General",
-                "James", "5:30", "Alisha", "Dr Tores", "105B", "today"));
-        surgeries.add(new Surgery(2, "Derek", "Rob", "Appendectomy",
-                "Penis", "7:00", "Alisha", "Dr Tores", "110", "Tomorrow"));
+        Connection conn = null;
+        try {
+            conn = DBUtil.getConnection();
+            Statement state = conn.createStatement();
+            ResultSet rs = state.executeQuery("SELECT * FROM surgery");
+            if (rs != null) {
+                while (rs.next()) {
+                    if (rs.getString("date").equals(day)) {
+                        surgeries.add(new Surgery(rs.getInt("ORoom"), rs.getString("surgeon"),
+                                rs.getString("anes"), rs.getString("surgeryType"), rs.getString("patient"),
+                                rs.getString("time"), rs.getString("RN"), rs.getString("scrub"),
+                                rs.getString("patientRoom"), rs.getString("date"), rs.getString("results")));
+                    }
+                }
+            }
+        } catch (SQLException error){
+            System.out.println("SQL ERROR: " + error);
+        } finally {
+            try { conn.close(); }
+            catch (SQLException e) { System.out.println("SQL ERROR: " + e); }
+        }
 
         return surgeries;
     }
@@ -84,13 +103,32 @@ public class SurgerySchedule {
         patientRoom.setCellValueFactory(new PropertyValueFactory<>("patientRoom"));
         patientRoom.setMinWidth(50);
 
+        //results!
+        TableColumn<Surgery, String> results = new TableColumn<>("Results");
+        results.setCellValueFactory(new PropertyValueFactory<>("results"));
+        results.setMinWidth(100);
+
         table.setItems(getSurgeries());
-        table.getColumns().addAll(ORCol,surgeon,anes,anesType,
-                patient,time,rn,scrub,patientRoom);
+        table.getColumns().addAll(ORCol, surgeon, anes, anesType,
+                patient, time, rn, scrub, patientRoom, results);
         Label label = new Label("SURGERIES FOR " + this.day);
         label.setAlignment(Pos.CENTER);
-        label.setMinWidth(830);
+        label.setMinWidth(930);
         label.setStyle("-fx-font: 24 Arial;");
+
+        ContextMenu menu = new ContextMenu();
+        MenuItem view = new MenuItem("View/Edit");
+        view.setOnAction(e -> {
+            Surgery surgery = table.getSelectionModel().getSelectedItem();
+            AddSurgery addSurgery = new AddSurgery(table.getSelectionModel().getSelectedItem());
+            addSurgery.display();
+        });
+        menu.getItems().addAll(view, new SeparatorMenuItem(), new MenuItem("Delete"));
+        table.setOnMouseClicked(e -> {
+            if (table.getSelectionModel().getSelectedItem() != null)
+                menu.show(table, e.getScreenX(), e.getScreenY());
+        });
+
         vbox.getChildren().addAll(label, table);
     }
 }
