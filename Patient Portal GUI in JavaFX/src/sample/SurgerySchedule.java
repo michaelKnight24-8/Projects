@@ -18,7 +18,10 @@ public class SurgerySchedule {
     public TableView<Surgery> table;
     public VBox vbox;
     public String day;
-    public SurgerySchedule(String day) {
+    public Connection conn;
+
+    public SurgerySchedule(String day, Connection conn) {
+        this.conn = conn;
         table = new TableView<>();
         vbox = new VBox(5);
         this.day = day;
@@ -31,9 +34,10 @@ public class SurgerySchedule {
 
     private ObservableList<Surgery> getSurgeries() {
         ObservableList<Surgery> surgeries = FXCollections.observableArrayList();
-        Connection conn = null;
+
         try {
-            conn = DBUtil.getConnection();
+            if (conn == null)
+                conn = DBUtil.getConnection();
             Statement state = conn.createStatement();
             ResultSet rs = state.executeQuery("SELECT * FROM surgery");
             if (rs != null) {
@@ -48,9 +52,6 @@ public class SurgerySchedule {
             }
         } catch (SQLException error){
             System.out.println("SQL ERROR: " + error);
-        } finally {
-            try { conn.close(); }
-            catch (SQLException e) { System.out.println("SQL ERROR: " + e); }
         }
 
         return surgeries;
@@ -120,7 +121,7 @@ public class SurgerySchedule {
         MenuItem view = new MenuItem("View/Edit");
         view.setOnAction(e -> {
             Surgery surgery = table.getSelectionModel().getSelectedItem();
-            AddSurgery addSurgery = new AddSurgery(table.getSelectionModel().getSelectedItem());
+            AddSurgery addSurgery = new AddSurgery(table.getSelectionModel().getSelectedItem(), conn);
             addSurgery.display();
         });
         menu.getItems().addAll(view, new SeparatorMenuItem(), new MenuItem("Delete"));

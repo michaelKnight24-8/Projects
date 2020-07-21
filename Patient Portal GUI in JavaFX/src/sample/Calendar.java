@@ -13,6 +13,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class Calendar implements EventHandler<ActionEvent> {
     public final int SURGERY = 1;
     public final int APPOINTMENT = 2;
     public final int BOOK_APPOINTMENT = 3;
+    public Connection conn;
+
 
     private CButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
             btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20, btn21, btn22,
@@ -40,9 +43,10 @@ public class Calendar implements EventHandler<ActionEvent> {
 
     public Scene getScene() { return new Scene(mainLayout,465,550); }
 
-    public Calendar(int context) {
+    public Calendar(int context, Connection conn) {
         //set up the scene with gridpane,  positioniong the buttons and the main label for
         //the months
+        this.conn = conn;
         this.context = context;
         buttons = new ArrayList<>();
         initButtons();
@@ -259,7 +263,7 @@ public class Calendar implements EventHandler<ActionEvent> {
     private void getFromDatabase(int month, String text, int year, int context) {
 
         if (context == SURGERY) {
-            SurgerySchedule surgery = new SurgerySchedule(month + "/" + text + "/" + year);
+            SurgerySchedule surgery = new SurgerySchedule(month + "/" + text + "/" + year, conn);
             SurgeryWindow.display(surgery.getScene());
         } else {
             AppointmentSchedule appointments = new AppointmentSchedule(month + "/" + text + "/" + year);

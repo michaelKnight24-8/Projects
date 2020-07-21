@@ -31,14 +31,16 @@ public class AddSurgery {
     public HBox buttons;
     public Surgery surgery;
     public boolean editing;
+    public Connection conn;
 
-    public AddSurgery() {
+    public AddSurgery(Connection conn) {
 
+        this.conn = conn;
         editing = false;
         datePicker = new DatePicker();
         scheduledSurgeries = new Button("View Scheduled Surgeries");
         scheduledSurgeries.setOnAction(e -> {
-            Calendar calendar = new Calendar(1);
+            Calendar calendar = new Calendar(1, conn);
             CalendarPane.display(calendar.getScene(), 1);
         });
         mainLayout = new GridPane();
@@ -63,8 +65,8 @@ public class AddSurgery {
         addSurgery = new Scene(mainLayout, 580,600);
     }
 
-    public AddSurgery(Surgery surgery) {
-        this();
+    public AddSurgery(Surgery surgery, Connection conn) {
+        this(conn);
         this.surgery = surgery;
         fillTextFields();
         editing = true;
@@ -167,7 +169,8 @@ public class AddSurgery {
             String sql = "INSERT INTO surgery (ORoom, surgeon, anes," +
                     " surgeryType, patient, time, RN, scrub, patientRoom, date, results) "
                     + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-            Connection conn = DBUtil.getConnection();
+            if (conn == null)
+                conn = DBUtil.getConnection();
             try {
                 if (editing) deleteFromDatabase(conn);
                 PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -193,9 +196,6 @@ public class AddSurgery {
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println("SQL Error: " + e);
-            } finally {
-                try { conn.close(); }
-                catch (SQLException e) { System.out.println("SQL ERROR: " + e); }
             }
         }
         editing = false;

@@ -3,6 +3,8 @@ package sample;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -22,7 +25,7 @@ public class Main extends Application {
     public Stage window;
     public Scene homePage;
     public Button back, addPatient, search, addSurgery, addEmployee, refinedSearch,
-            calBtn, bookAppointment, viewAppointments;
+            calBtn, bookAppointment, viewAppointments, info;
     public BorderPane mainLayout;
     public VBox header, buttons;
     public Label searchL;
@@ -34,8 +37,23 @@ public class Main extends Application {
     public final int SURGERY = 1;
     public final int APPOINTMENT = 2;
     public final int BOOK_APPOINTMENT = 3;
+    public Connection conn;
+    public String currentUserName;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        //database connection that will be passed around between
+        //view and functions so that I don't keep opening and closing it
+        conn = DBUtil.getConnection();
+
+        window = primaryStage;
+        //now get the login page ready.
+        getLoginPage();
+    }
+
+    //this is called once the login has been verified as accurate
+    public void initHomePage() {
         //to hold the search results
         resultView = new ListView();
         resultView.setMinWidth(600);
@@ -45,13 +63,18 @@ public class Main extends Application {
 
         middle = new HBox(50);
         mainLayout = new BorderPane();
-        window = primaryStage;
         initLayouts();
 
+        window.setMinWidth(900);
+        window.setMinHeight(600);
         window.setTitle("Homepage");
+
+        //only go here if the login was real, or verifie
         window.setScene(homePage);
+        window.centerOnScreen();
         window.show();
     }
+
 
     //function to separate the building of the layout from the scene setting and such
     public void initLayouts() {
@@ -90,6 +113,7 @@ public class Main extends Application {
         header.getChildren().addAll(searchL, radioButtons, searchContainer, middle);
         mainLayout.setTop(header);
         mainLayout.setBackground(background);
+
         homePage = new Scene(mainLayout, 900,600);
     }
 
@@ -113,14 +137,23 @@ public class Main extends Application {
 
         viewAppointments = new Button("View Appointments");
         viewAppointments.setOnAction(e -> {
-            Calendar calendar = new Calendar(APPOINTMENT);
+            Calendar calendar = new Calendar(APPOINTMENT, conn);
             CalendarPane.display(calendar.getScene(), APPOINTMENT);
         });
         viewAppointments.setStyle("-fx-background-color: lightskyblue");
 
+        info = new Button("View Profile");
+        info.setStyle("-fx-background-color: lightskyblue");
+        info.setOnAction(e -> {
+            //query the database for the information about the user that has signed in via their
+            //name
+            Employee employee = this.getEmployee();
+            employee.display();
+        });
+
         bookAppointment = new Button("Book Appointment");
         bookAppointment.setOnAction(e -> {
-            Calendar calendar = new Calendar(BOOK_APPOINTMENT);
+            Calendar calendar = new Calendar(BOOK_APPOINTMENT, conn);
             CalendarPane.display(calendar.getScene(), BOOK_APPOINTMENT);
         });
         bookAppointment.setStyle("-fx-background-color: lightskyblue");
@@ -128,7 +161,7 @@ public class Main extends Application {
         //view calendar
         calBtn = new Button("View Scheduled Surgeries");
         calBtn.setOnAction(e -> {
-            Calendar calendar = new Calendar(SURGERY);
+            Calendar calendar = new Calendar(SURGERY, conn);
             CalendarPane.display(calendar.getScene(), SURGERY);
         });
         calBtn.setStyle("-fx-background-color: lightskyblue");
@@ -165,7 +198,7 @@ public class Main extends Application {
         addSurgery = new Button("Schedule a surgery");
         addSurgery.setStyle("-fx-background-color: lightskyblue");
         addSurgery.setOnAction(e -> {
-            AddSurgery as = new AddSurgery();
+            AddSurgery as = new AddSurgery(conn);
             as.display();
         });
 
@@ -178,10 +211,125 @@ public class Main extends Application {
         refinedSearch.setStyle("-fx-background-color: lightskyblue");
 
         buttons.getChildren().addAll(refinedSearch, calBtn, addSurgery, addPatient,
-                addEmployee, bookAppointment, viewAppointments);
+                addEmployee, bookAppointment, viewAppointments, info);
+    }
+
+    private void getLoginPage() {
+
+        //init the labels
+        Label welcome = new Label("Welcome");
+        Label email = new Label("Email:");
+        email.setPadding(new Insets(0,0,0,50));
+        email.setTextFill(Color.WHITE);
+        Label password = new Label("Password:");
+        password.setTextFill(Color.WHITE);
+        password.setPadding(new Insets(0,0,0,50));
+        welcome.setStyle("-fx-font: 24 Arial");
+        welcome.setTextFill(Color.WHITE);
+        welcome.setMinWidth(100);
+        welcome.setPadding(new Insets(45,0,0,50));
+
+        //now the text input fields
+        PText emailT = new PText(200);
+        PText passwordT = new PText(200);
+
+        VBox loginHolder = new VBox(30);
+        BackgroundFill background_fill = new BackgroundFill(Color.rgb(105,105,105),
+                CornerRadii.EMPTY, Insets.EMPTY);
+
+        // create Background
+        Background background = new Background(background_fill);
+
+        loginHolder.setMinHeight(250);
+        loginHolder.setMaxSize(350,250);
+        loginHolder.setMinWidth(350);
+
+
+
+        Button button = new Button("Login");
+        button.setOnAction(e -> {
+            if (validateLogin(emailT.getText(), passwordT.getText())) initHomePage();
+            else {
+                Alert.displayInvalidLogin();
+            }
+        });
+
+        BorderPane bkd = new BorderPane();
+        bkd.setBackground(background);
+
+        BorderPane middle = new BorderPane();
+        GridPane login = new GridPane();
+        login.setMaxSize(350,250);
+        login.addRow(1, email, emailT);
+        login.addRow(2, new Label(""));
+        login.addRow(3, password, passwordT);
+        login.addRow(4, new Label(""));
+        VBox buttons = new VBox();
+        buttons.getChildren().add(button);
+        buttons.setPadding(new Insets(0,0,0,100));
+        login.addRow(5, new Label(""),buttons);
+        login.setHgap(20);
+        button.setStyle("-fx-background-color: steelblue");
+
+        loginHolder.setStyle("-fx-background-size: 1200 900;\n" +
+                "    -fx-background-radius: 18 18 18 18;\n" +
+                "    -fx-border-radius: 18 18 18 18;\n" +
+                "    -fx-background-color: rgb(53,53,53);");
+       // loginHolder.setBackground(new Background(new BackgroundFill(Color.rgb(53,53,53),
+                //CornerRadii.EMPTY, Insets.EMPTY)));
+        loginHolder.getChildren().addAll(welcome, login);
+        //loginHolder.setPadding(new Insets(150,0,0,70));
+        bkd.setCenter(loginHolder);
+
+
+        window.setScene(new Scene(bkd));
+        window.setMinHeight(500);
+        window.setMinWidth(400);
+        window.show();
+    }
+
+    //find the column in the database associated with taht email, and see if the password
+    //is correct
+    private boolean validateLogin(String email, String password) {
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM login WHERE email = ?");
+            pstm.setString(1, email);
+            ResultSet rs = pstm.executeQuery();
+            if (rs != null && rs.getString("password").equals(password)) {
+                //use this to query for the details about the person
+                //that is currently logged in
+                this.currentUserName = rs.getString("name");
+                return true;
+            }
+            else
+                return false;
+
+        } catch (SQLException error) {
+            System.out.println("SQL ERROR in main.java 298: " + error);
+        }
+        return false;
     }
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    private Employee getEmployee() {
+        Employee employee = null;
+        try {
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM employee WHERE name = ?");
+            pstm.setString(1, currentUserName);
+            ResultSet rs = pstm.executeQuery();
+            String [] names = rs.getString("name").split(" ");
+            employee = new Employee(names[0], names[1], rs.getString("middleInitial"),
+                    rs.getString("email"), rs.getString("number"), rs.getString("DOB"),
+                    rs.getString("emergencyNumber"), rs.getString("address"), rs.getString("sex"),
+                    rs.getString("college"), rs.getString("position"), rs.getString("pastExperience"),
+                    rs.getString("emergencyRelation"));
+        } catch (SQLException err) {
+            System.out.println("SQL ERROR: " + err);
+        }
+        return employee;
     }
 }
