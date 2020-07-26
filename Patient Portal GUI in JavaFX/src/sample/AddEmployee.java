@@ -26,11 +26,13 @@ public class AddEmployee {
     public ComboBox sexC;
     public DatePicker date;
     public Button saveBtn, closeBtn, back;
+    public Connection conn;
 
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation, position, college, pastExperience, name;
 
-    public AddEmployee(Scene homePage, Button back) {
+    public AddEmployee(Scene homePage, Button back, Connection conn) {
+        this.conn = conn;
         this.homePage = homePage;
         this.back = back;
         window = new Stage();
@@ -195,8 +197,8 @@ public class AddEmployee {
             //insert it into the database!
             //get the connection
             //use prepared statement so that I can use variables as values to insert
-            try ( Connection conn = DBUtil.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, name);
                 pstmt.setString(2, middleInitial);
                 pstmt.setString(3, email);

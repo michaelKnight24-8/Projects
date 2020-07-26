@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,11 +15,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -39,6 +44,7 @@ public class Main extends Application {
     public final int BOOK_APPOINTMENT = 3;
     public Connection conn;
     public String currentUserName;
+    private TableView <Person> table;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -170,7 +176,7 @@ public class Main extends Application {
         addPatient = new Button("Add Patient");
         addPatient.setStyle("-fx-background-color: lightskyblue;");
         addPatient.setOnAction(e -> {
-            AddPatient ap = new AddPatient(homePage, back);
+            AddPatient ap = new AddPatient(homePage, back, conn);
             window.setScene(ap.getScene());
             window.setTitle("Add A Patient");
             window.setMaxWidth(800);
@@ -183,7 +189,7 @@ public class Main extends Application {
         //new employee
         addEmployee = new Button("Add Employee");
         addEmployee.setOnAction(e -> {
-            AddEmployee aE = new AddEmployee(homePage, back);
+            AddEmployee aE = new AddEmployee(homePage, back, conn);
             window.setScene(aE.getScene());
             window.setTitle("Add An Employee");
             window.setMaxWidth(700);
@@ -209,6 +215,7 @@ public class Main extends Application {
         //refined search
         refinedSearch = new Button("Refined Search");
         refinedSearch.setStyle("-fx-background-color: lightskyblue");
+        refinedSearch.setOnAction(e -> displayRefinedSearch());
 
         buttons.getChildren().addAll(refinedSearch, calBtn, addSurgery, addPatient,
                 addEmployee, bookAppointment, viewAppointments, info);
@@ -292,23 +299,23 @@ public class Main extends Application {
     //is correct
     private boolean validateLogin(String email, String password) {
 
-        try {
-            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM login WHERE email = ?");
-            pstm.setString(1, email);
-            ResultSet rs = pstm.executeQuery();
-            if (rs != null && rs.getString("password").equals(password)) {
-                //use this to query for the details about the person
-                //that is currently logged in
-                this.currentUserName = rs.getString("name");
-                return true;
-            }
-            else
-                return false;
-
-        } catch (SQLException error) {
-            System.out.println("SQL ERROR in main.java 298: " + error);
-        }
-        return false;
+//        try {
+//            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM login WHERE email = ?");
+//            pstm.setString(1, email);
+//            ResultSet rs = pstm.executeQuery();
+//            if (rs != null && rs.getString("password").equals(password)) {
+//                //use this to query for the details about the person
+//                //that is currently logged in
+//                this.currentUserName = rs.getString("name");
+//                return true;
+//            }
+//            else
+//                return false;
+//
+//        } catch (SQLException error) {
+//            System.out.println("SQL ERROR in main.java 298: " + error);
+//        }
+        return true;
     }
 
     public static void main(String[] args) {
@@ -332,4 +339,83 @@ public class Main extends Application {
         }
         return employee;
     }
+
+    private void displayRefinedSearch() {
+        //logic for displaying the refined search section
+        Stage window = new Stage();
+    }
+
+    //get the people that are associated with the search parameters the the user
+    //has chose to search for
+    private ObservableList<Person> getPeople(HashMap<String, String> parameters, String dbTable) {
+        ObservableList<Person> people = FXCollections.observableArrayList();
+
+        try {
+            int mapLength = parameters.size();
+            int index = 1;
+            //prepare the statement now
+            String SQL = "SELECT * FROM ? WHERE ";
+
+            for (String value : parameters.keySet()) {
+                SQL += (index != mapLength ? "? = ? and " : "? = ?");
+                index++;
+            }
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, dbTable);
+            int pstmIndex = 2;
+
+            //now set the ? marks with variables
+            for (Map.Entry<String,String> entry : parameters.entrySet()) {
+                pstm.setString(pstmIndex++, entry.getKey());
+                pstm.setString(pstmIndex++, entry.getValue());
+            }
+            ResultSet rs = pstm.executeQuery();
+            while (rs.next()) {
+                if (dbTable.equals("Employee")) {
+                    people.add(new Employee())
+                } else {
+                    people.add(new Patient())
+                }
+            }
+        } catch (SQLException error) {
+            System.out.println("SQL ERROR: " + error);
+        }
+        return people;
+    }
+    private void initRefinedTable() {
+
+    }
+        //init the checkboxes
+        CheckBox searchByName = new CheckBox("Name");
+        CheckBox addressSearch = new CheckBox("Address");
+        CheckBox numberSearch = new CheckBox("Number");
+        CheckBox emailSearch = new CheckBox("email");
+
+        //lets you choose between searching for a patient, or an employee
+        ToggleGroup radioSearch;
+        RadioButton patientSearch, employeeSearch;
+        radioSearch = new ToggleGroup();
+        patientSearch = new RadioButton("Patient");
+        patientSearch.setToggleGroup(radioSearch);
+        patientSearch.setSelected(true);
+        employeeSearch = new RadioButton("Employee");
+        employeeSearch.setToggleGroup(radioSearch);
+        HBox choose = new HBox(30);
+        choose.getChildren().addAll(patientSearch, employeeSearch);
+
+        //logic for the window
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Refined Search");
+        Label header = new Label("Search By");
+
+        Button okBtn = new Button("OK");
+        okBtn.setMinWidth(100);
+        okBtn.setOnAction(e -> window.close());
+
+        VBox v = new VBox();
+        v.getChildren().addAll(header, choose, searchByName, addressSearch, numberSearch, emailSearch, okBtn);
+        window.setScene(new Scene(v,300,150));
+        window.showAndWait();
+    }
+
 }

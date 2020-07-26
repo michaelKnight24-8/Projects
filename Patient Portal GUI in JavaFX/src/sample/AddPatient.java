@@ -26,10 +26,12 @@ public class AddPatient {
     public Patient patient;
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation;
+    private Connection conn;
 
-    public AddPatient(Scene homePage, Button back) {
+    public AddPatient(Scene homePage, Button back, Connection conn) {
         this.homePage = homePage;
         this.back = back;
+        this.conn = conn;
         window = new Stage();
         window.setTitle("Add A Patient");
 
@@ -171,8 +173,8 @@ public class AddPatient {
             String sql = "INSERT INTO patient (name, middleInitial, email," +
                     " number, DOB, emergencyNumber, address, height, weight, sex, emergencyRelation) "
                     + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-            try (Connection conn = DBUtil.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, name);
                 pstmt.setString(2, middleInitial);
                 pstmt.setString(3, email);

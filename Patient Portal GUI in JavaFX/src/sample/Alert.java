@@ -24,7 +24,6 @@ public class Alert {
         v.getChildren().addAll(label, okBtn);
         window.setScene(new Scene(v,300,150));
         window.showAndWait();
-
     }
 
     public static void display() {
