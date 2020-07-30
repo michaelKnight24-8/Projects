@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -27,6 +28,16 @@ public class AddPatient {
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation;
     private Connection conn;
+    private boolean editing;
+    private ListView <Appointment> appointmentsHolder;
+    private ListView <Surgery> surgeriesHolder;
+
+    //for when deleting the patient from the database
+    public AddPatient(Connection conn, Patient patient) {
+        this.conn = conn;
+        this.patient = patient;
+        deleteFromDatabase();
+    }
 
     public AddPatient(Scene homePage, Button back, Connection conn) {
         this.homePage = homePage;
@@ -34,7 +45,7 @@ public class AddPatient {
         this.conn = conn;
         window = new Stage();
         window.setTitle("Add A Patient");
-
+        editing = false;
         //get things ready for the labels
         initLabels();
         initTextFields();
@@ -45,7 +56,7 @@ public class AddPatient {
         //hbox for the buttons at the bottom
         HBox buttons = new HBox();
 
-        saveBtn = new Button("ADD");
+        saveBtn = new Button("SAVE");
         closeBtn = new Button("CLOSE");
 
         closeBtn.setOnAction(e -> window.close());
@@ -57,6 +68,11 @@ public class AddPatient {
         buttons.getChildren().addAll(saveBtn, back, closeBtn);
         buttons.setPadding(new Insets(10, 0,30, 340));
 
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            boolean save = Alert.closeProgram();
+            if (save) savePatient();
+        });
         //main layout for the window
         BorderPane mainLayout = new BorderPane();
 
@@ -93,12 +109,35 @@ public class AddPatient {
         gp.addRow(8, emergencyL, relationL);
         gp.addRow(9, emergencyT, relationT);
 
+        //for the appointment history
+        Label appointments = new Label("Appointment History");
+        appointments.setStyle("-fx-font: 24 arial;");
+        VBox apt = new VBox(10);
+        apt.setPadding(new Insets(30,10,0,0));
+        appointmentsHolder = new ListView<>();
+        appointmentsHolder.setMinSize(300,200);
+        appointmentsHolder.setMaxSize(300,200);
+
+        //for the surgeries history
+        apt.getChildren().addAll(appointments, appointmentsHolder);
         //now add the text field to the gridpane
         mainLayout.setCenter(gp);
-        addPatient = new Scene(mainLayout, 580,600);
+        mainLayout.setRight(apt);
+
+
+        addPatient = new Scene(mainLayout, 600,600);
+    }
+
+    public AddPatient(Scene homePage, Button home, Connection conn, Patient patient) {
+        this(homePage, home, conn);
+        this.patient = patient;
+        fillTextFields();
+        editing = true;
+        fillAppointmentHistory();
     }
 
     public Scene getScene() { return addPatient; }
+
     //initialize all the labels
     public void initLabels() {
         fnL = new PLabel("First Name");
@@ -114,6 +153,38 @@ public class AddPatient {
         dobL = new PLabel("Date Of Birth");
         sexL = new PLabel("Sex");
         relationL = new PLabel("Relation To Patient");
+    }
+
+    //fill in the appointment history, if there is one for the patient
+    private void fillAppointmentHistory() {
+        //first query the database for the appointments that correspond to the current patient
+        //that we are examining. Then add the matches to the list view
+        String SQL = "SELECT * FROM appointments WHERE patientName = ?";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            String name = patient.getFirstName() + " " + patient.getLastName();
+            pstm.setString(1, name);
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Got here boi");
+                appointmentsHolder.getItems().add(new Appointment(rs.getString("date"),
+                        rs.getString("patientName"), rs.getString("nurse"), rs.getString("doctor"),
+                        rs.getString("drugsPrescribed"), rs.getString("additionalRemarks"),
+                        rs.getString("reasonForAppointment"), rs.getString("time"), rs.getString("room")));
+            }
+        }
+        catch (SQLException error) {
+            System.out.println("SQL ERROR: "+ error);
+        }
+        appointmentsHolder.setStyle("-fx-font: 24 arial;");
+        appointmentsHolder.setOnMouseClicked(e -> {
+            Alert.displayAppointmentData(appointmentsHolder.getSelectionModel().getSelectedItem());
+        });
+    }
+
+    private void fillSurgeryHistory() {
+
     }
 
     //initialize the text fields
@@ -149,7 +220,7 @@ public class AddPatient {
         middleInitial = miT.getText().toUpperCase();
         email = emailT.getText();
         number = numberT.getText();
-        DOB = date.getEditor().getText();
+        DOB = DateFormat.fixDate(date.getEditor().getText());
         emergencyNumber = emergencyT.getText();
         address = address1T.getText() + " " + address2T.getText();
         height = heightT.getText();
@@ -170,26 +241,73 @@ public class AddPatient {
         }
         else {
             String name = firstName + " " + lastName;
-            String sql = "INSERT INTO patient (name, middleInitial, email," +
+            String sql = "INSERT INTO patient (firstName, lastName, middleInitial, email," +
                     " number, DOB, emergencyNumber, address, height, weight, sex, emergencyRelation) "
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             try {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, name);
-                pstmt.setString(2, middleInitial);
-                pstmt.setString(3, email);
-                pstmt.setString(4, number);
-                pstmt.setString(5, DOB);
-                pstmt.setString(6, emergencyNumber);
-                pstmt.setString(7, address);
-                pstmt.setString(8, height);
-                pstmt.setString(9, weight);
-                pstmt.setString(10, sex);
-                pstmt.setString(11, emergencyRelation);
+                pstmt.setString(1, firstName);
+                pstmt.setString(2, lastName);
+                pstmt.setString(3, middleInitial);
+                pstmt.setString(4, email);
+                pstmt.setString(5, number);
+                pstmt.setString(6, DOB);
+                pstmt.setString(7, emergencyNumber);
+                pstmt.setString(8, address);
+                pstmt.setString(9, height);
+                pstmt.setString(10, weight);
+                pstmt.setString(11, sex);
+                pstmt.setString(12, emergencyRelation);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println("SQL Error: " + e);
             }
+        }
+        back.fire();
+    }
+
+    private void fillTextFields() {
+
+        //first just delete the entry from the database,
+        //to be inserted in later as a new record
+
+        deleteFromDatabase();
+        fnT.setText(patient.getFirstName());
+        lnT.setText(patient.getLastName());
+        miT.setText(patient.getMiddleInitial());
+        emailT.setText(patient.getEmail());
+        heightT.setText(patient.getHeight());
+        weightT.setText(patient.getWeight());
+        numberT.setText(patient.getNumber());
+        address1T.setText(patient.getAddress());
+        emergencyT.setText(patient.getEmergencyNumber());
+        relationT.setText(patient.getEmergencyRelation());
+        date.setValue(DateFormat.formatDate(patient.getDOB()));
+
+        int index;
+        String sexPatient = patient.getSex();
+        if (sexPatient.equals("Male"))
+            index = 0;
+        else if (sexPatient.equals("Female"))
+            index = 1;
+        else
+            index = 2;
+        sexC.getSelectionModel().select(index);
+    }
+
+    public void deleteFromDatabase() {
+
+        String SQL = "DELETE FROM patient WHERE firstName = ? AND lastName = ? AND email = ?";
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, patient.getFirstName());
+            pstm.setString(2, patient.getLastName());
+            pstm.setString(3, patient.getEmail());
+            pstm.executeUpdate();
+
+        } catch (SQLException error) {
+            System.out.println("SQL ERROR: " + error);
         }
     }
 }

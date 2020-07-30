@@ -266,7 +266,7 @@ public class Calendar implements EventHandler<ActionEvent> {
             SurgerySchedule surgery = new SurgerySchedule(month + "/" + text + "/" + year, conn);
             SurgeryWindow.display(surgery.getScene());
         } else {
-            AppointmentSchedule appointments = new AppointmentSchedule(month + "/" + text + "/" + year);
+            AppointmentSchedule appointments = new AppointmentSchedule(month + "/" + text + "/" + year, conn);
         }
     }
 
@@ -291,7 +291,8 @@ public class Calendar implements EventHandler<ActionEvent> {
                 default:
                     if (context == BOOK_APPOINTMENT) {
                         AddAppointment aa = new AddAppointment(this.month + "/" +
-                                ((CButton) e.getSource()).getText() + "/" + this.year);
+                                ((CButton) e.getSource()).getText() + "/" + this.year, conn);
+                        aa.display();
                     } else if (context == APPOINTMENT) {
                         getFromDatabase(this.month, ((CButton) e.getSource()).getText(), this.year, APPOINTMENT);
                     } else {

@@ -18,4 +18,9 @@ public class DBUtil {
 
         return conn;
     }
+
+    public static void close(Connection conn) {
+        try { conn.close(); }
+        catch (SQLException error) { System.out.println("SQL ERROR: " + error); }
+    }
 }

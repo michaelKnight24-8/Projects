@@ -12,7 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -30,11 +32,10 @@ public class Main extends Application {
     public Stage window;
     public Scene homePage;
     public Button back, addPatient, search, addSurgery, addEmployee, refinedSearch,
-            calBtn, bookAppointment, viewAppointments, info;
+            calBtn, bookAppointment, viewAppointments, info, clear;
     public BorderPane mainLayout;
     public VBox header, buttons;
     public Label searchL;
-    public ListView resultView;
     public HBox radioButtons, searchContainer, middle;
     public TextField searchField;
     public ToggleGroup radioGroup;
@@ -45,6 +46,8 @@ public class Main extends Application {
     public Connection conn;
     public String currentUserName;
     private TableView <Person> table;
+    private HashMap<String, String> parameters;
+    private String dbTable;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -52,20 +55,17 @@ public class Main extends Application {
         //database connection that will be passed around between
         //view and functions so that I don't keep opening and closing it
         conn = DBUtil.getConnection();
-
+        table = new TableView <>();
+        table.setMinSize(392,200);
+        table.setMaxSize(392,200);
         window = primaryStage;
+        parameters = new HashMap<>();
         //now get the login page ready.
         getLoginPage();
     }
 
     //this is called once the login has been verified as accurate
     public void initHomePage() {
-        //to hold the search results
-        resultView = new ListView();
-        resultView.setMinWidth(600);
-        resultView.setMaxWidth(600);
-        resultView.setMinHeight(400);
-        resultView.setMaxHeight(400);
 
         middle = new HBox(50);
         mainLayout = new BorderPane();
@@ -75,7 +75,7 @@ public class Main extends Application {
         window.setMinHeight(600);
         window.setTitle("Homepage");
 
-        //only go here if the login was real, or verifie
+        // only go here if the login was real, or verify
         window.setScene(homePage);
         window.centerOnScreen();
         window.show();
@@ -108,18 +108,81 @@ public class Main extends Application {
         employeeBtn.setToggleGroup(radioGroup);
         radioButtons.getChildren().addAll(patientBtn, employeeBtn);
 
-        //for search input field
-        searchField = new TextField();
-        searchField.setMinHeight(20);
-        searchField.setMinWidth(300);
-        searchField.setMaxWidth(300);
 
         initButtons();
-        middle.getChildren().addAll(resultView, buttons);
-        header.getChildren().addAll(searchL, radioButtons, searchContainer, middle);
-        mainLayout.setTop(header);
-        mainLayout.setBackground(background);
 
+        GridPane gp = new GridPane();
+        //init text fields
+        PText fNameT = new PText(200);
+        PText lNameT = new PText(200);
+        PText addressT = new PText(200);
+        PText emailT = new PText(150);
+        PText numberT = new PText(100);
+
+        //init the checkboxes
+        CheckBox searchByFirstName = new CheckBox("First Name");
+        CheckBox searchByLastName = new CheckBox("Last Name");
+        CheckBox addressSearch = new CheckBox("Address");
+        CheckBox numberSearch = new CheckBox("Number");
+        CheckBox emailSearch = new CheckBox("Email");
+
+        clear = new Button("CLEAR");
+        clear.setStyle("-fx-background-color: lightskyblue");
+        clear.setOnAction(e -> {
+            fNameT.setText("");
+            lNameT.setText("");
+            emailT.setText("");
+            numberT.setText("");
+            addressT.setText("");
+            table.getItems().clear();
+            searchByFirstName.setSelected(false);
+            searchByLastName.setSelected(false);
+            addressSearch.setSelected(false);
+            numberSearch.setSelected(false);
+            emailSearch.setSelected(false);
+        });
+
+        searchByLastName.setPadding(new Insets(0,0,0,30));
+        numberSearch.setPadding(new Insets(0,0,0,30));
+
+        gp.addRow(0, searchByFirstName, fNameT, searchByLastName, lNameT);
+        gp.addRow(1, addressSearch, addressT, numberSearch, numberT);
+        gp.addRow(2, emailSearch, emailT);
+        gp.setVgap(10);
+
+        Button okBtn = new Button("SEARCH");
+        okBtn.setStyle("-fx-background-color: lightskyblue");
+        okBtn.setMinWidth(100);
+        initRefinedTable();
+        okBtn.setOnAction(e -> {
+            parameters.clear();
+            //get the values that the user has entered in, as well as the search filters.
+            if (searchByFirstName.isSelected())
+                parameters.put("firstName", fNameT.getText());
+            if (searchByLastName.isSelected())
+                parameters.put("lastName", lNameT.getText());
+            if (addressSearch.isSelected())
+                parameters.put("address", addressT.getText());
+            if (numberSearch.isSelected())
+                parameters.put("number", numberT.getText());
+            if (emailSearch.isSelected())
+                parameters.put("email", emailT.getText());
+
+            RadioButton button = (RadioButton) radioGroup.getSelectedToggle();
+            dbTable = button.getText();
+            table.setItems(getPeople());
+        });
+        HBox buttonsHolder = new HBox(15);
+        buttonsHolder.getChildren().addAll(okBtn, clear);
+        gp.addRow(3, new Label(""));
+        gp.addRow(4, buttonsHolder);
+
+        middle.getChildren().addAll(buttons);
+        middle.setPadding(new Insets(150, 90,0,0));
+        header.getChildren().addAll(searchL, radioButtons, searchContainer, gp, table);
+        mainLayout.setRight(middle);
+        mainLayout.setLeft(header);
+        mainLayout.setBackground(background);
         homePage = new Scene(mainLayout, 900,600);
     }
 
@@ -182,7 +245,7 @@ public class Main extends Application {
             window.setMaxWidth(800);
             window.setMaxHeight(700);
             window.setMinHeight(600);
-            window.setMinWidth(600);
+            window.setMinWidth(700);
             window.show();
         });
 
@@ -208,16 +271,7 @@ public class Main extends Application {
             as.display();
         });
 
-        //search button
-        search = new Button("Search");
-        searchContainer.getChildren().addAll(searchField, search);
-
-        //refined search
-        refinedSearch = new Button("Refined Search");
-        refinedSearch.setStyle("-fx-background-color: lightskyblue");
-        refinedSearch.setOnAction(e -> displayRefinedSearch());
-
-        buttons.getChildren().addAll(refinedSearch, calBtn, addSurgery, addPatient,
+        buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
                 addEmployee, bookAppointment, viewAppointments, info);
     }
 
@@ -252,7 +306,6 @@ public class Main extends Application {
         loginHolder.setMinWidth(350);
 
 
-
         Button button = new Button("Login");
         button.setOnAction(e -> {
             if (validateLogin(emailT.getText(), passwordT.getText())) initHomePage();
@@ -282,20 +335,16 @@ public class Main extends Application {
                 "    -fx-background-radius: 18 18 18 18;\n" +
                 "    -fx-border-radius: 18 18 18 18;\n" +
                 "    -fx-background-color: rgb(53,53,53);");
-       // loginHolder.setBackground(new Background(new BackgroundFill(Color.rgb(53,53,53),
-                //CornerRadii.EMPTY, Insets.EMPTY)));
         loginHolder.getChildren().addAll(welcome, login);
-        //loginHolder.setPadding(new Insets(150,0,0,70));
+
         bkd.setCenter(loginHolder);
-
-
         window.setScene(new Scene(bkd));
         window.setMinHeight(500);
-        window.setMinWidth(400);
+        window.setMinWidth(550);
         window.show();
     }
 
-    //find the column in the database associated with taht email, and see if the password
+    //find the column in the database associated with that email, and see if the password
     //is correct
     private boolean validateLogin(String email, String password) {
 
@@ -340,41 +389,47 @@ public class Main extends Application {
         return employee;
     }
 
-    private void displayRefinedSearch() {
-        //logic for displaying the refined search section
-        Stage window = new Stage();
-    }
-
     //get the people that are associated with the search parameters the the user
     //has chose to search for
-    private ObservableList<Person> getPeople(HashMap<String, String> parameters, String dbTable) {
+    private ObservableList<Person> getPeople() {
         ObservableList<Person> people = FXCollections.observableArrayList();
 
         try {
             int mapLength = parameters.size();
             int index = 1;
             //prepare the statement now
-            String SQL = "SELECT * FROM ? WHERE ";
+            String SQL = "SELECT * FROM " + dbTable.toLowerCase() + " WHERE ";
 
             for (String value : parameters.keySet()) {
-                SQL += (index != mapLength ? "? = ? and " : "? = ?");
+                SQL += (index != mapLength ? value + " = ? AND " : value + " = ?");
                 index++;
             }
-            PreparedStatement pstm = conn.prepareStatement(SQL);
-            pstm.setString(1, dbTable);
-            int pstmIndex = 2;
+            System.out.println(SQL);
 
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+
+            int pstmIndex = 1;
             //now set the ? marks with variables
-            for (Map.Entry<String,String> entry : parameters.entrySet()) {
-                pstm.setString(pstmIndex++, entry.getKey());
-                pstm.setString(pstmIndex++, entry.getValue());
-            }
+            for (var value : parameters.values())
+                pstm.setString(pstmIndex++, value);
+
+
             ResultSet rs = pstm.executeQuery();
+
             while (rs.next()) {
                 if (dbTable.equals("Employee")) {
-                    people.add(new Employee())
+                    people.add(new Employee(rs.getString("firstName"),
+                            rs.getString("lastName"), rs.getString("middleInitial"),
+                            rs.getString("email"), rs.getString("number"), rs.getString("DOB"),
+                            rs.getString("emergencyNumber"), rs.getString("address"), rs.getString("sex"),
+                            rs.getString("college"), rs.getString("position"), rs.getString("pastExperience"),
+                            rs.getString("emergencyRelation")));
                 } else {
-                    people.add(new Patient())
+                    people.add(new Patient(rs.getString("firstName"),
+                            rs.getString("lastName"), rs.getString("middleInitial"),
+                            rs.getString("email"), rs.getString("number"), rs.getString("DOB"),
+                            rs.getString("emergencyNumber"), rs.getString("address"),rs.getString("height"),
+                            rs.getString("weight"), rs.getString("sex"), rs.getString("emergencyRelation")));
                 }
             }
         } catch (SQLException error) {
@@ -384,38 +439,63 @@ public class Main extends Application {
     }
     private void initRefinedTable() {
 
+        TableColumn <Person, String> nameCol= new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameCol.setMinWidth(150);
+
+        TableColumn <Person, String> numberCol= new TableColumn<>("Number");
+        numberCol.setCellValueFactory(new PropertyValueFactory<>("number"));
+        numberCol.setMinWidth(50);
+
+        TableColumn <Person, String> dobCol = new TableColumn<>("DOB");
+        dobCol.setCellValueFactory(new PropertyValueFactory<>("DOB"));
+        dobCol.setMinWidth(50);
+
+        TableColumn<Person, String> sexCol = new TableColumn<>("Sex");
+        sexCol.setCellValueFactory(new PropertyValueFactory<>("sex"));
+        sexCol.setMinWidth(50);
+        table.getColumns().addAll(nameCol, numberCol, dobCol, sexCol);
+
+        ContextMenu menu = new ContextMenu();
+        MenuItem view = new MenuItem("View/Edit");
+        view.setOnAction(e -> {
+            if (dbTable.equals("Patient")) {
+                Patient patient = (Patient) table.getSelectionModel().getSelectedItem();
+                AddPatient addPatient = new AddPatient(homePage, back, conn,
+                        (Patient) table.getSelectionModel().getSelectedItem());
+                window.setScene(addPatient.getScene());
+                window.setTitle("Add A Patient");
+                window.setMaxWidth(800);
+                window.setMaxHeight(700);
+                window.setMinHeight(600);
+                window.setMinWidth(600);
+                window.show();
+            } else {
+                Employee employee = (Employee) table.getSelectionModel().getSelectedItem();
+                AddEmployee addEmployee = new AddEmployee(homePage, back, conn,
+                        (Employee) table.getSelectionModel().getSelectedItem());
+                window.setScene(addEmployee.getScene());
+                window.setTitle("Add An Employee");
+                window.setMaxWidth(700);
+                window.setMaxHeight(700);
+                window.setMinHeight(700);
+                window.setMinWidth(700);
+                window.show();
+            }
+        });
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(e -> {
+            if (dbTable.equals("Patient")) {
+                new AddPatient(conn, (Patient) table.getSelectionModel().getSelectedItem());
+            } else {
+                new AddEmployee(conn, (Employee) table.getSelectionModel().getSelectedItem());
+            }
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        });
+        menu.getItems().addAll(view, new SeparatorMenuItem(), delete);
+        table.setOnMouseClicked(e -> {
+            if (table.getSelectionModel().getSelectedItem() != null)
+                menu.show(table, e.getScreenX(), e.getScreenY());
+        });
     }
-        //init the checkboxes
-        CheckBox searchByName = new CheckBox("Name");
-        CheckBox addressSearch = new CheckBox("Address");
-        CheckBox numberSearch = new CheckBox("Number");
-        CheckBox emailSearch = new CheckBox("email");
-
-        //lets you choose between searching for a patient, or an employee
-        ToggleGroup radioSearch;
-        RadioButton patientSearch, employeeSearch;
-        radioSearch = new ToggleGroup();
-        patientSearch = new RadioButton("Patient");
-        patientSearch.setToggleGroup(radioSearch);
-        patientSearch.setSelected(true);
-        employeeSearch = new RadioButton("Employee");
-        employeeSearch.setToggleGroup(radioSearch);
-        HBox choose = new HBox(30);
-        choose.getChildren().addAll(patientSearch, employeeSearch);
-
-        //logic for the window
-        window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("Refined Search");
-        Label header = new Label("Search By");
-
-        Button okBtn = new Button("OK");
-        okBtn.setMinWidth(100);
-        okBtn.setOnAction(e -> window.close());
-
-        VBox v = new VBox();
-        v.getChildren().addAll(header, choose, searchByName, addressSearch, numberSearch, emailSearch, okBtn);
-        window.setScene(new Scene(v,300,150));
-        window.showAndWait();
-    }
-
 }

@@ -22,16 +22,19 @@ public class AppointmentSchedule {
     public TableView <Appointment> table;
     public VBox vbox;
     public String day;
+    public Connection conn;
 
-    public AppointmentSchedule(String day) {
+    public AppointmentSchedule(String day, Connection conn) {
         table = new TableView<>();
         vbox = new VBox(5);
         this.day = day;
+        this.conn = conn;
         initTable();
         display();
     }
 
     private ObservableList<Appointment> getAppointments() {
+
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try {
             Connection conn = DBUtil.getConnection();
@@ -90,10 +93,17 @@ public class AppointmentSchedule {
         ContextMenu menu = new ContextMenu();
         MenuItem view = new MenuItem("View/Edit");
         view.setOnAction(e -> {
-            Appointment a = table.getSelectionModel().getSelectedItem();
-            AddAppointment aa = new AddAppointment(this.day, table.getSelectionModel().getSelectedItem());
+            AddAppointment aa = new AddAppointment(this.day, table.getSelectionModel().getSelectedItem(), conn);
+            aa.display();
         });
-        menu.getItems().addAll(view, new SeparatorMenuItem(), new MenuItem("Delete"));
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(e -> {
+            AddAppointment aa = new AddAppointment(this.day, table.getSelectionModel().getSelectedItem(), conn);
+            aa.deleteFromDataBase();
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        });
+
+        menu.getItems().addAll(view, new SeparatorMenuItem(), delete);
         table.setOnMouseClicked(e -> {
             if (table.getSelectionModel().getSelectedItem() != null)
                 menu.show(table, e.getScreenX(), e.getScreenY());

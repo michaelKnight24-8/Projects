@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -27,7 +29,8 @@ public class AddEmployee {
     public DatePicker date;
     public Button saveBtn, closeBtn, back;
     public Connection conn;
-
+    private Employee employee;
+    private boolean editing;
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation, position, college, pastExperience, name;
 
@@ -36,6 +39,7 @@ public class AddEmployee {
         this.homePage = homePage;
         this.back = back;
         window = new Stage();
+        editing = false;
 
         //get things ready for the labels
         initLabels();
@@ -84,14 +88,12 @@ public class AddEmployee {
         gp.setHgap(20);
         gp.setPadding(new Insets(30,0,0,60));
         //now add the labels to the gridpane
-        gp.addColumn(0, fnL,fnT,emailL,emailT,dobL,date,heightL,heightT,
+        gp.addColumn(0, fnL,fnT,emailL,emailT,dobL,date,
                 numberL,numberT,address1L,address1T,address2L,address2T);
         gp.addRow(0, lnL, miL);
         gp.addRow(1, lnT, miT);
         gp.addRow(2, sexL);
         gp.addRow(3, sexC);
-        gp.addRow(6, weightL);
-        gp.addRow(7, weightT);
         gp.addRow(8, emergencyL, relationL);
         gp.addRow(9, emergencyT, relationT);
         gp.addRow(10, collegeL, positionL);
@@ -99,10 +101,23 @@ public class AddEmployee {
         gp.addRow(14, experienceL);
         gp.addRow(15, experienceT);
 
-        //now add the text field to the gridpane
-
+        //now add the text field to the grid-pane
         mainLayout.setCenter(gp);
         addEmployee = new Scene(mainLayout, 700,900);
+    }
+
+    //for use when deleting an employee from the database
+    public AddEmployee(Connection conn, Employee employee) {
+        this.conn = conn;
+        this.employee = employee;
+        deleteFromDatabase();
+    }
+
+    public AddEmployee(Scene homePage, Button back, Connection conn, Employee employee) {
+        this(homePage, back, conn);
+        this.employee = employee;
+        editing = true;
+        fillFields();
     }
 
     public Scene getScene() { return addEmployee; }
@@ -113,8 +128,6 @@ public class AddEmployee {
         lnL = new PLabel("Last Name");
         miL = new PLabel("Middle Initial");
         emailL = new PLabel("Email");
-        heightL = new PLabel("Height");
-        weightL = new PLabel("Weight");
         numberL = new PLabel("Contact Number");
         address1L = new PLabel("Street Address");
         address2L = new PLabel("Street Address Line 2");
@@ -158,15 +171,44 @@ public class AddEmployee {
         sexC.getItems().addAll("Male", "Female", "Other");
     }
 
+    private void fillFields() {
+
+        //delete the record from the database, then insert it later
+        deleteFromDatabase();
+        fnT.setText(employee.getFirstName());
+        lnT.setText(employee.getLastName());
+        miT.setText(employee.getMiddleInitial());
+        emailT.setText(employee.getEmail());
+        numberT.setText(employee.getNumber());
+        address1T.setText(employee.getAddress());
+        emergencyT.setText(employee.getEmergencyNumber());
+        relationT.setText(employee.getEmergencyRelation());
+        collegeT.setText(employee.getCollege());
+        positionT.setText(employee.getPosition());
+        experienceT.setText(employee.getPastExperience());
+        date.setValue(DateFormat.formatDate(employee.getDOB()));
+
+        int index;
+        String sexPatient = employee.getSex();
+        if (sexPatient.equals("Male"))
+            index = 0;
+        else if (sexPatient.equals("Female"))
+            index = 1;
+        else
+            index = 2;
+        sexC.getSelectionModel().select(index);
+    }
+
     //save the patient to a patient object, then return it
     public void savePatient() {
         //first get all the values
+
         firstName = fnT.getText();
         lastName = lnT.getText();
         middleInitial = miT.getText().toUpperCase();
         email = emailT.getText();
         number = numberT.getText();
-        DOB = date.getEditor().getText();
+        DOB = DateFormat.fixDate(date.getEditor().getText());
         emergencyNumber = emergencyT.getText();
         address = address1T.getText() + " " + address2T.getText();
         height = heightT.getText();
@@ -184,37 +226,54 @@ public class AddEmployee {
 
         //then make sure that they have been entered in, so a nurse doesn't accidentally forget
         //to fill one out
-        name = firstName + " " + lastName;
-        String sql = "INSERT INTO employee (name, middleInitial, email," +
+        String sql = "INSERT INTO employee (firstName, lastName, middleInitial, email," +
                 " number, DOB, emergencyNumber, address, sex, college, position, pastExperience, emergencyRelation) "
-                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
         if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
-                email.equals("") || number.equals("") || emergencyNumber.equals("") || address.equals("") ||
-                height.equals("") || weight.equals("") || emergencyRelation.equals("") || sex.equals("") ||
+                email.equals("") || number.equals("") || emergencyNumber.equals("") ||
+                address.equals("") || emergencyRelation.equals("") || sex.equals("") ||
                 position.equals("") || college.equals("") ||  pastExperience.equals("")) {
             Alert.display();
         } else {
             //insert it into the database!
             //get the connection
             //use prepared statement so that I can use variables as values to insert
+
             try {
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, name);
-                pstmt.setString(2, middleInitial);
-                pstmt.setString(3, email);
-                pstmt.setString(4, number);
-                pstmt.setString(5, DOB);
-                pstmt.setString(6, emergencyNumber);
-                pstmt.setString(7, address);
-                pstmt.setString(8, sex);
-                pstmt.setString(9, college);
-                pstmt.setString(10, position);
-                pstmt.setString(11, pastExperience);
-                pstmt.setString(12, emergencyRelation);
+                pstmt.setString(1, firstName);
+                pstmt.setString(2, lastName);
+                pstmt.setString(3, middleInitial);
+                pstmt.setString(4, email);
+                pstmt.setString(5, number);
+                pstmt.setString(6, DOB);
+                pstmt.setString(7, emergencyNumber);
+                pstmt.setString(8, address);
+                pstmt.setString(9, sex);
+                pstmt.setString(10, college);
+                pstmt.setString(11, position);
+                pstmt.setString(12, pastExperience);
+                pstmt.setString(13, emergencyRelation);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println("SQL Error: " + e);
             }
         }
     }
+
+    public void deleteFromDatabase() {
+        String SQL = "DELETE FROM employee WHERE firstName = ? AND lastName = ? AND email = ?";
+
+        try {
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, employee.getFirstName());
+            pstm.setString(2, employee.getLastName());
+            pstm.setString(3, employee.getEmail());
+            pstm.executeUpdate();
+
+        } catch (SQLException error) {
+            System.out.println("SQL ERROR: " + error);
+        }
+    }
+
 }

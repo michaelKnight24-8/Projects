@@ -10,6 +10,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class AddAppointment {
     public String date, patientName, nurse, doctor, drugsPrescribed,
             additionalRemarks, reasonForAppointment, time, room;
@@ -20,40 +24,30 @@ public class AddAppointment {
     public GridPane mainLayout;
     public Button save;
     public boolean newRecord;
+    private Connection conn;
+    private Appointment appointment;
+    private boolean editing;
 
-    public AddAppointment(String date) {
-        newRecord = true;
+    public AddAppointment(String date, Connection conn) {
+        this.conn = conn;
         this.date = date;
         mainLayout = new GridPane();
         initLabels();
         initText();
         save = new Button("SAVE");
         initLayout();
-        display();
+        editing = false;
     }
 
     //for when you are adding to the appointment
-    public AddAppointment(String date, Appointment appointment) {
-        this.date = appointment.getDate();
-        this.patientName = appointment.getPatientName();
-        this.time = appointment.getTime();
-        this.nurse = appointment.getNurse();
-        this.room = appointment.getRoom();
-        this.doctor = appointment.getDoctor();
-        this.drugsPrescribed = appointment.getDrugsPrescribed();
-        this.additionalRemarks = appointment.getAdditionalRemarks();
-        this.reasonForAppointment = appointment.getReasonForAppointment();
-
-        newRecord = false;
-        mainLayout = new GridPane();
-        initLabels();
-        initText();
-        save = new Button("SAVE");
-        initLayout();
-        display();
+    public AddAppointment(String date, Appointment appointment, Connection conn) {
+        this(date, conn);
+        this.appointment = appointment;
+        setTextFields();
     }
 
     public void display() {
+        if (editing) deleteFromDataBase();
         Scene scene = new Scene(mainLayout, 500, 540);
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -105,14 +99,12 @@ public class AddAppointment {
         saveBtn.setPadding(new Insets(0, 0, 30, 150));
         saveBtn.getChildren().add(save);
         save.setStyle("-fx-background-color: lightskyblue");
+        save.setOnAction(e -> saveData());
 
         HBox labels = new HBox(60);
         HBox textFields = new HBox(20);
         labels.getChildren().addAll(dateL, timeL, roomL);
         textFields.getChildren().addAll(dateT, timeT, roomT);
-
-        if (patientName != null)
-            setTextFields();
 
         mainLayout.addRow(0, patientNameL, labels);
         mainLayout.addRow(1, patientNameT, textFields);
@@ -129,14 +121,16 @@ public class AddAppointment {
     }
 
     private void setTextFields() {
-        patientNameT.setText(patientName);
-        timeT.setText(time);
-        nurseT.setText(nurse);
-        roomT.setText(room);
-        doctorT.setText(doctor);
-        drugsPrescribedT.setText(drugsPrescribed);
-        additionalRemarksT.setText(additionalRemarks);
-        reasonForAppointmentT.setText(reasonForAppointment);
+        patientNameT.setText(appointment.getPatientName());
+        timeT.setText(appointment.getTime());
+        nurseT.setText(appointment.getNurse());
+        roomT.setText(appointment.getRoom());
+        doctorT.setText(appointment.getDoctor());
+        drugsPrescribedT.setText(appointment.getDrugsPrescribed());
+        additionalRemarksT.setText(appointment.getAdditionalRemarks());
+        reasonForAppointmentT.setText(appointment.getReasonForAppointment());
+        dateT.setText(appointment.getDate());
+        editing = true;
     }
 
     private void saveData() {
@@ -154,20 +148,48 @@ public class AddAppointment {
             Alert.display();
         } else {
             //save OR update the file depending on what the user is doing!
-            if (newRecord)
-                saveToDatabase();
-            else
-                updateInDatabase();
+            saveToDatabase();
         }
     }
 
     //save the new record
     public void saveToDatabase() {
 
+        try {
+            String SQL = "INSERT INTO appointments (date, patientName, nurse, doctor," +
+                    " drugsPrescribed, additionalRemarks, reasonForAppointment, time, room)" +
+                    " VALUES (?,?,?,?,?,?,?,?,?);";
+
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, date);
+            pstm.setString(2, patientName);
+            pstm.setString(3, nurse);
+            pstm.setString(4, doctor);
+            pstm.setString(5, drugsPrescribed);
+            pstm.setString(6, additionalRemarks);
+            pstm.setString(7, reasonForAppointment);
+            pstm.setString(8, time);
+            pstm.setString(9, room);
+            //do it!
+            pstm.executeUpdate();
+
+        } catch (SQLException err) {
+            System.out.println(err);
+        }
     }
 
-    //update the existing record
-    public void updateInDatabase() {
+    public void deleteFromDataBase() {
 
+        try {
+            String SQL = "DELETE FROM appointments WHERE patientName = ? AND nurse = ? AND room = ?";
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, appointment.getPatientName());
+            pstm.setString(2, appointment.getNurse());
+            pstm.setString(3, appointment.getRoom());
+            pstm.executeUpdate();
+
+        } catch (SQLException error) {
+            System.out.println("SQL ERROR: " + error);
+        }
     }
 }

@@ -69,7 +69,6 @@ public class AddSurgery {
         this(conn);
         this.surgery = surgery;
         fillTextFields();
-        editing = true;
     }
 
     public void display() {
@@ -120,6 +119,7 @@ public class AddSurgery {
     }
 
     private void initLayout() {
+
         VBox schedule = new VBox();
         datePicker.setPadding(new Insets(20,0,0,0));
         schedule.getChildren().addAll(datePicker, scheduledSurgeries);
@@ -143,6 +143,7 @@ public class AddSurgery {
     }
 
     private void fillTextFields() {
+
         surgeonT.setText(surgery.getSurgeon());
         anesT.setText(surgery.getAnes());
         surgeryTypeT.setText(surgery.getSurgeryType());
@@ -153,14 +154,14 @@ public class AddSurgery {
         patientRoomT.setText(surgery.getPatientRoom());
         ORT.setText(Integer.toString(surgery.getOR()));
         resultsT.setText(surgery.getResults());
-        dateHide.setText(surgery.getDate());
+        datePicker.setValue(DateFormat.formatDate(surgery.getDate()));
+        deleteFromDatabase();
     }
 
     //first check to make sure that all the fields have been entered in
     private void saveSurgery() {
 
         //now get the data that was entered in
-
         if (surgeonT.getText().equals("") || anesT.getText().equals("") || surgeryTypeT.getText().equals("") ||
                 patientT.getText().equals("") || timeT.getText().equals("") || RNT.getText().equals("")
                 || scrubT.getText().equals("") || patientRoomT.getText().equals("") || ORT.getText().equals("")) {
@@ -172,7 +173,7 @@ public class AddSurgery {
             if (conn == null)
                 conn = DBUtil.getConnection();
             try {
-                if (editing) deleteFromDatabase(conn);
+                //fill in the ?'s
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(1, Integer.parseInt(ORT.getText()));
                 pstmt.setString(2, surgeonT.getText());
@@ -183,14 +184,6 @@ public class AddSurgery {
                 pstmt.setString(7, RNT.getText());
                 pstmt.setString(8, scrubT.getText());
                 pstmt.setString(9, patientRoomT.getText());
-
-                if (!editing) {
-                    date = datePicker.getValue().getMonthValue() +
-                            "/" + datePicker.getValue().getDayOfMonth() +
-                            "/" + datePicker.getValue().getYear();
-                } else {
-                    date = dateHide.getText();
-                }
                 pstmt.setString(10, date);
                 pstmt.setString(11, resultsT.getText());
                 pstmt.executeUpdate();
@@ -198,10 +191,9 @@ public class AddSurgery {
                 System.out.println("SQL Error: " + e);
             }
         }
-        editing = false;
     }
 
-    private void deleteFromDatabase(Connection conn) {
+    public void deleteFromDatabase() {
         //delete it form the database, then call the save function and save it as
         //a new one!
         String sql = "DELETE FROM surgery WHERE ORoom = ? and patient = ? and surgeryType = ?";
@@ -214,6 +206,7 @@ public class AddSurgery {
             pstmt.setString(3, surgery.getSurgeryType());
             // execute the delete statement
             pstmt.executeUpdate();
+
         } catch(SQLException e) {
             System.out.println("SQL ERROR: " + e);
         }

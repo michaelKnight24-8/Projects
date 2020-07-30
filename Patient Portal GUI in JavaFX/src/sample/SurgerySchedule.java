@@ -124,7 +124,13 @@ public class SurgerySchedule {
             AddSurgery addSurgery = new AddSurgery(table.getSelectionModel().getSelectedItem(), conn);
             addSurgery.display();
         });
-        menu.getItems().addAll(view, new SeparatorMenuItem(), new MenuItem("Delete"));
+        MenuItem delete = new MenuItem("Delete");
+        delete.setOnAction(e -> {
+            AddSurgery addSurgery = new AddSurgery(table.getSelectionModel().getSelectedItem(), conn);
+            addSurgery.deleteFromDatabase();
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        });
+        menu.getItems().addAll(view, new SeparatorMenuItem(), delete);
         table.setOnMouseClicked(e -> {
             if (table.getSelectionModel().getSelectedItem() != null)
                 menu.show(table, e.getScreenX(), e.getScreenY());

@@ -38,4 +38,11 @@ public class Person {
     public String getSex() { return sex; }
 
     public String getEmergencyRelation() { return emergencyRelation; }
+
+    public String getName() { return firstName + " " + lastName; }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " - " + DOB;
+    }
 }

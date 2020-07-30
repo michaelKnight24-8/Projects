@@ -50,18 +50,8 @@ public class Appointment {
         return reasonForAppointment;
     }
 
+    //use this for when displaying the past appointments for each patient. This is what
+    //will be displayed in the list view that the employees see.
     @Override
-    public String toString() {
-        return "Appointment{" +
-                "date='" + date + '\'' +
-                ", patientName='" + patientName + '\'' +
-                ", nurse='" + nurse + '\'' +
-                ", doctor='" + doctor + '\'' +
-                ", drugsPrescribed='" + drugsPrescribed + '\'' +
-                ", additionalRemarks='" + additionalRemarks + '\'' +
-                ", reasonForAppointment='" + reasonForAppointment + '\'' +
-                ", time='" + time + '\'' +
-                ", room='" + room + '\'' +
-                '}';
-    }
+    public String toString() { return date + " - " + time; }
 }
