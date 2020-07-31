@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -16,14 +17,14 @@ import java.util.regex.Pattern;
 
 public class AddPatient {
     public Stage window;
-    public Scene addPatient, homePage;
+    public Scene addPatient;
     public PLabel fnL, lnL, miL, emailL, heightL, weightL, numberL,
             address1L, address2L, emergencyL, dobL, sexL, relationL;
     public Label header;
     public PText fnT, lnT, miT,emailT, heightT, weightT, numberT, address1T, address2T, emergencyT, relationT;
     public ComboBox sexC;
     public DatePicker date;
-    public Button saveBtn, closeBtn, back;
+    public Button saveBtn;
     public Patient patient;
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation;
@@ -33,15 +34,13 @@ public class AddPatient {
     private ListView <Surgery> surgeriesHolder;
 
     //for when deleting the patient from the database
-    public AddPatient(Connection conn, Patient patient) {
+    public AddPatient(Connection conn, Patient patient, boolean delete) {
         this.conn = conn;
         this.patient = patient;
         deleteFromDatabase();
     }
 
-    public AddPatient(Scene homePage, Button back, Connection conn) {
-        this.homePage = homePage;
-        this.back = back;
+    public AddPatient(Connection conn) {
         this.conn = conn;
         window = new Stage();
         window.setTitle("Add A Patient");
@@ -57,22 +56,12 @@ public class AddPatient {
         HBox buttons = new HBox();
 
         saveBtn = new Button("SAVE");
-        closeBtn = new Button("CLOSE");
-
-        closeBtn.setOnAction(e -> window.close());
-        closeBtn.setStyle("-fx-background-color: red;");
         buttons.setSpacing(20);
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
-        saveBtn.setOnAction(e -> savePatient());
 
-        buttons.getChildren().addAll(saveBtn, back, closeBtn);
-        buttons.setPadding(new Insets(10, 0,30, 340));
+        buttons.getChildren().addAll(saveBtn);
+        buttons.setPadding(new Insets(0, 0,30, 60));
 
-        window.setOnCloseRequest(e -> {
-            e.consume();
-            boolean save = Alert.closeProgram();
-            if (save) savePatient();
-        });
         //main layout for the window
         BorderPane mainLayout = new BorderPane();
 
@@ -109,34 +98,55 @@ public class AddPatient {
         gp.addRow(8, emergencyL, relationL);
         gp.addRow(9, emergencyT, relationT);
 
-        //for the appointment history
-        Label appointments = new Label("Appointment History");
-        appointments.setStyle("-fx-font: 24 arial;");
         VBox apt = new VBox(10);
         apt.setPadding(new Insets(30,10,0,0));
+
+        //for the appointment history
         appointmentsHolder = new ListView<>();
         appointmentsHolder.setMinSize(300,200);
         appointmentsHolder.setMaxSize(300,200);
+        Label appointments = new Label("Appointment History");
+        appointments.setStyle("-fx-font: 24 arial;");
+        VBox apts = new VBox(5);
+        apts.getChildren().addAll(appointments, appointmentsHolder);
 
+        //for the surgical history
+        Label surgeries = new Label("Surgical History");
+        surgeries.setStyle("-fx-font: 24 arial;");
+        surgeriesHolder = new ListView<>();
+        surgeriesHolder.setMinSize(300,200);
+        surgeriesHolder.setMaxSize(300,200);
+        VBox surges = new VBox(5);
+        surges.getChildren().addAll(surgeries, surgeriesHolder);
+
+        VBox history = new VBox(20);
+        history.getChildren().addAll(apts, surges);
         //for the surgeries history
-        apt.getChildren().addAll(appointments, appointmentsHolder);
+        apt.getChildren().addAll(history);
         //now add the text field to the gridpane
         mainLayout.setCenter(gp);
         mainLayout.setRight(apt);
 
-
         addPatient = new Scene(mainLayout, 600,600);
     }
 
-    public AddPatient(Scene homePage, Button home, Connection conn, Patient patient) {
-        this(homePage, home, conn);
+    public AddPatient(Connection conn, Patient patient) {
+        this(conn);
         this.patient = patient;
         fillTextFields();
         editing = true;
         fillAppointmentHistory();
+        fillSurgeryHistory();
     }
 
-    public Scene getScene() { return addPatient; }
+    public boolean allFieldsFilledOut() {
+        if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
+                email.equals("") || number.equals("") || emergencyNumber.equals("") || address.equals("") ||
+                height.equals("") || weight.equals("") || emergencyRelation.equals("") || sex.equals(""))
+            return false;
+
+        return true;
+    }
 
     //initialize all the labels
     public void initLabels() {
@@ -183,8 +193,56 @@ public class AddPatient {
         });
     }
 
-    private void fillSurgeryHistory() {
+    public void display() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setMaxWidth(1000);
+        window.setMaxHeight(700);
+        window.setMinHeight(600);
+        window.setMinWidth(900);
 
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            Alert.confirmClose();
+            if (Alert.save)
+                window.close();
+        });
+
+        saveBtn.setOnAction(e -> {
+            if (savePatient())
+                window.close();
+        });
+
+        window.setTitle("Add Patient");
+        window.setScene(addPatient);
+        window.show();
+
+    }
+
+    //do the same thing that we did for the appointment history, but this time for the
+    //surgical history for the given patient
+    private void fillSurgeryHistory() {
+        String SQL = "SELECT * FROM surgery WHERE patient = ?";
+        try {
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            String name = patient.getFirstName() + " " + patient.getLastName();
+            pstm.setString(1, name);
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                surgeriesHolder.getItems().add(new Surgery(rs.getInt("ORoom"), rs.getString("surgeon"),
+                        rs.getString("anes"), rs.getString("surgeryType"), rs.getString("patient"),
+                        rs.getString("time"), rs.getString("RN"), rs.getString("scrub"), rs.getString("patientRoom"),
+                        rs.getString("date"), rs.getString("results")));
+            }
+        }
+        catch (SQLException error) {
+            System.out.println("SQL ERROR: "+ error);
+        }
+        surgeriesHolder.setStyle("-fx-font: 24 arial;");
+        surgeriesHolder.setOnMouseClicked(e -> {
+            Alert.displaySurgicalData(surgeriesHolder.getSelectionModel().getSelectedItem());
+        });
     }
 
     //initialize the text fields
@@ -213,14 +271,15 @@ public class AddPatient {
     }
 
     //save the patient to a patient object, then return it
-    public void savePatient() {
+    public boolean savePatient() {
         //first get all the values
         firstName = fnT.getText();
         lastName = lnT.getText();
         middleInitial = miT.getText().toUpperCase();
         email = emailT.getText();
         number = numberT.getText();
-        DOB = DateFormat.fixDate(date.getEditor().getText());
+        if (!date.getEditor().getText().equals(""))
+            DOB = DateFormat.fixDate(date.getEditor().getText());
         emergencyNumber = emergencyT.getText();
         address = address1T.getText() + " " + address2T.getText();
         height = heightT.getText();
@@ -234,13 +293,10 @@ public class AddPatient {
 
         //then make sure that they have been entered in, so a nurse doesn't accidentally forget
         //to fill one out
-        if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
-                email.equals("") || number.equals("") || emergencyNumber.equals("") || address.equals("") ||
-                height.equals("") || weight.equals("") || emergencyRelation.equals("") || sex.equals("")) {
+        if (!allFieldsFilledOut()) {
             Alert.display();
-        }
-        else {
-            String name = firstName + " " + lastName;
+            return false;
+        } else {
             String sql = "INSERT INTO patient (firstName, lastName, middleInitial, email," +
                     " number, DOB, emergencyNumber, address, height, weight, sex, emergencyRelation) "
                     + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -259,11 +315,13 @@ public class AddPatient {
                 pstmt.setString(11, sex);
                 pstmt.setString(12, emergencyRelation);
                 pstmt.executeUpdate();
+
             } catch (SQLException e) {
                 System.out.println("SQL Error: " + e);
             }
         }
-        back.fire();
+
+        return true;
     }
 
     private void fillTextFields() {

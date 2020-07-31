@@ -12,10 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class AppointmentSchedule {
 
@@ -27,7 +24,7 @@ public class AppointmentSchedule {
     public AppointmentSchedule(String day, Connection conn) {
         table = new TableView<>();
         vbox = new VBox(5);
-        this.day = day;
+        this.day = DateFormat.fixDate(day);
         this.conn = conn;
         initTable();
         display();
@@ -37,9 +34,10 @@ public class AppointmentSchedule {
 
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         try {
-            Connection conn = DBUtil.getConnection();
-            Statement state = conn.createStatement();
-            ResultSet rs = state.executeQuery("SELECT * FROM appointments");
+            String SQL = "SELECT * FROM appointments WHERE date = ?";
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, DateFormat.fixDate(day));
+            ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
                 appointments.add(new Appointment(rs.getString("date"), rs.getString("patientName"),
                         rs.getString("nurse"), rs.getString("doctor"), rs.getString("drugsPrescribed"),

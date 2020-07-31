@@ -53,6 +53,12 @@ public class AddAppointment {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Add An Appointment");
         window.setScene(scene);
+
+        save.setOnAction(e -> {
+            saveData();
+            window.close();
+        });
+
         window.showAndWait();
     }
 
@@ -99,7 +105,6 @@ public class AddAppointment {
         saveBtn.setPadding(new Insets(0, 0, 30, 150));
         saveBtn.getChildren().add(save);
         save.setStyle("-fx-background-color: lightskyblue");
-        save.setOnAction(e -> saveData());
 
         HBox labels = new HBox(60);
         HBox textFields = new HBox(20);
@@ -136,7 +141,7 @@ public class AddAppointment {
     private void saveData() {
         patientName = patientNameT.getText();
         time = timeT.getText();
-        date = dateT.getText();
+        date = DateFormat.fixDate(dateT.getText());
         room = roomT.getText();
         nurse = nurseT.getText();
         doctor = doctorT.getText();

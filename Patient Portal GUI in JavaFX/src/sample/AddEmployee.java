@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
@@ -34,10 +35,8 @@ public class AddEmployee {
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation, position, college, pastExperience, name;
 
-    public AddEmployee(Scene homePage, Button back, Connection conn) {
+    public AddEmployee(Connection conn) {
         this.conn = conn;
-        this.homePage = homePage;
-        this.back = back;
         window = new Stage();
         editing = false;
 
@@ -52,16 +51,12 @@ public class AddEmployee {
         HBox buttons = new HBox();
 
         saveBtn = new Button("ADD");
-        closeBtn = new Button("CLOSE");
-
-        closeBtn.setOnAction(e -> window.close());
-        closeBtn.setStyle("-fx-background-color: red;");
         buttons.setSpacing(20);
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
         saveBtn.setOnAction(e -> savePatient());
 
-        buttons.getChildren().addAll(saveBtn, back, closeBtn);
-        buttons.setPadding(new Insets(10, 0,30, 340));
+        buttons.getChildren().addAll(saveBtn);
+        buttons.setPadding(new Insets(10, 0,30, 60));
 
         //main layout for the window
         BorderPane mainLayout = new BorderPane();
@@ -103,24 +98,48 @@ public class AddEmployee {
 
         //now add the text field to the grid-pane
         mainLayout.setCenter(gp);
-        addEmployee = new Scene(mainLayout, 700,900);
+        addEmployee = new Scene(mainLayout, 700,600);
     }
 
     //for use when deleting an employee from the database
-    public AddEmployee(Connection conn, Employee employee) {
+    public AddEmployee(Connection conn, Employee employee, boolean delete) {
         this.conn = conn;
         this.employee = employee;
         deleteFromDatabase();
     }
 
-    public AddEmployee(Scene homePage, Button back, Connection conn, Employee employee) {
-        this(homePage, back, conn);
+    public AddEmployee(Connection conn, Employee employee) {
+        this(conn);
         this.employee = employee;
         editing = true;
         fillFields();
     }
 
-    public Scene getScene() { return addEmployee; }
+    public void display() {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setMaxWidth(700);
+        window.setMaxHeight(700);
+        window.setMinHeight(700);
+        window.setMinWidth(700);
+
+        window.setOnCloseRequest(e -> {
+            e.consume();
+            Alert.confirmClose();
+            if (Alert.save)
+                window.close();
+        });
+
+        saveBtn.setOnAction(e -> {
+            if ((savePatient()))
+                window.close();
+        });
+
+        window.setTitle("Add an Employee");
+        window.setScene(addEmployee);
+        window.show();
+
+    }
 
     //initialize all the labels
     public void initLabels() {
@@ -199,8 +218,17 @@ public class AddEmployee {
         sexC.getSelectionModel().select(index);
     }
 
+    private boolean allFieldsFilledOut() {
+        if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
+                email.equals("") || number.equals("") || emergencyNumber.equals("") ||
+                address.equals("") || emergencyRelation.equals("") || sex.equals("") ||
+                position.equals("") || college.equals("") ||  pastExperience.equals(""))
+            return false;
+        return true;
+    }
+
     //save the patient to a patient object, then return it
-    public void savePatient() {
+    public boolean savePatient() {
         //first get all the values
 
         firstName = fnT.getText();
@@ -208,11 +236,10 @@ public class AddEmployee {
         middleInitial = miT.getText().toUpperCase();
         email = emailT.getText();
         number = numberT.getText();
-        DOB = DateFormat.fixDate(date.getEditor().getText());
+        if (!date.getEditor().getText().equals(""))
+            DOB = DateFormat.fixDate(date.getEditor().getText());
         emergencyNumber = emergencyT.getText();
         address = address1T.getText() + " " + address2T.getText();
-        height = heightT.getText();
-        weight = weightT.getText();
         pastExperience = experienceT.getText();
         college = collegeT.getText();
         position = positionT.getText();
@@ -229,11 +256,9 @@ public class AddEmployee {
         String sql = "INSERT INTO employee (firstName, lastName, middleInitial, email," +
                 " number, DOB, emergencyNumber, address, sex, college, position, pastExperience, emergencyRelation) "
                 + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
-                email.equals("") || number.equals("") || emergencyNumber.equals("") ||
-                address.equals("") || emergencyRelation.equals("") || sex.equals("") ||
-                position.equals("") || college.equals("") ||  pastExperience.equals("")) {
+        if (!allFieldsFilledOut()) {
             Alert.display();
+            return false;
         } else {
             //insert it into the database!
             //get the connection
@@ -259,6 +284,7 @@ public class AddEmployee {
                 System.out.println("SQL Error: " + e);
             }
         }
+        return true;
     }
 
     public void deleteFromDatabase() {

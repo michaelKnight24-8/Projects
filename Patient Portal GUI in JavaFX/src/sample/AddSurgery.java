@@ -48,7 +48,6 @@ public class AddSurgery {
         window.setTitle("Schedule A Surgery");
         saveBtn = new Button("ADD");
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
-        saveBtn.setOnAction(e -> saveSurgery());
 
         buttons = new HBox(10);
         buttons.getChildren().addAll(saveBtn);
@@ -80,6 +79,13 @@ public class AddSurgery {
         window.setMaxHeight(600);
         window.setMinHeight(600);
         window.setMinWidth(600);
+
+        saveBtn.setOnAction(e -> {
+
+        saveSurgery();
+        window.close();
+        });
+
         window.showAndWait();
     }
 
@@ -98,9 +104,6 @@ public class AddSurgery {
         resultsT.setMinHeight(100);
         resultsT.setMaxWidth(200);
         resultsT.setWrapText(true);
-        dateHide = new PText(50);
-        dateHide.setVisible(false);
-        dateHide.setText("");
         resultsT.setText("Pending");
     }
 
@@ -135,7 +138,7 @@ public class AddSurgery {
         mainLayout.addRow(8, ORL, patientRoomL);
         mainLayout.addRow(9, ORT, patientRoomT);
         mainLayout.addRow(10, resultsL);
-        mainLayout.addRow(11, resultsT, dateHide);
+        mainLayout.addRow(11, resultsT);
         mainLayout.addRow(13, new Label(""), new Label(""), buttons);
         mainLayout.setHgap(20);
         mainLayout.setVgap(10);
@@ -184,7 +187,7 @@ public class AddSurgery {
                 pstmt.setString(7, RNT.getText());
                 pstmt.setString(8, scrubT.getText());
                 pstmt.setString(9, patientRoomT.getText());
-                pstmt.setString(10, date);
+                pstmt.setString(10, DateFormat.fixDate(datePicker.getEditor().getText()));
                 pstmt.setString(11, resultsT.getText());
                 pstmt.executeUpdate();
             } catch (SQLException e) {

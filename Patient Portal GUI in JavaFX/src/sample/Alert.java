@@ -139,22 +139,122 @@ public class Alert {
         window.showAndWait();
     }
 
-    public static boolean closeProgram() {
+    //same thing as for the appointment, except now for the surgeries
+    public static void displaySurgicalData(Surgery s) {
+
+        Stage window = new Stage();
+        //labels for the information
+        Label surgeonL, surgeonT, surgeryTypeL, surgeryTypeT, rnL, rnT, scrubL,
+                scrubT, resultsL, resultsT, header, topLabel;
+        VBox surgeonBox, rnBox, typeBox, scrubBox, resultsBox;
+        GridPane sDetails = new GridPane();
+        header = new Label("Surgery Summary");
+        header.setStyle("-fx-font: 40 Tahoma");
+        sDetails.setVgap(20);
+        sDetails.setPadding(new Insets(30,0,0,30));
+
+        //first init the vboxes that hold the information
+        surgeonBox = new VBox();
+        rnBox = new VBox();
+        typeBox = new VBox();
+        scrubBox = new VBox();
+        resultsBox = new VBox();
+
+        //init all the labels, as well as style them as needed
+        topLabel = new Label(s.getDate() + " - " + s.getTime());
+        topLabel.setStyle("-fx-font: 24 Tahoma");
+
+        //surgeon stuff
+        surgeonL = new Label("Surgeon");
+        surgeonT = new Label(s.getSurgeon());
+        surgeonT.setPadding(new Insets(0,0,0,20));
+        surgeonL.setStyle("-fx-font: 16 Tahoma");
+        surgeonBox.getChildren().addAll(surgeonL, surgeonT);
+
+        //rn stuff
+        rnL = new Label("RN");
+        rnT = new Label(s.getRN());
+        rnT.setPadding(new Insets(0,0,0,20));
+        rnL.setStyle("-fx-font: 16 Tahoma");
+        rnBox.getChildren().addAll(rnL, rnT);
+
+        //surgery type stuff
+        surgeryTypeL = new Label("Surgery Type");
+        surgeryTypeT = new Label(s.getSurgeryType() );
+        surgeryTypeT.setPadding(new Insets(0,0,0,20));
+        surgeryTypeL.setStyle("-fx-font: 16 Tahoma");
+        typeBox.getChildren().addAll(surgeryTypeL, surgeryTypeT);
+
+        //scrub nurse stuff
+        scrubL = new Label("Scrub Nurse");
+        scrubT = new Label(s.getScrub());
+        scrubT.setPadding(new Insets(0,0,0,20));
+        scrubT.setWrapText(true);
+        scrubL.setStyle("-fx-font: 16 Tahoma");
+        scrubBox.getChildren().addAll(scrubL, scrubT);
+
+        //notes stuff
+        resultsL = new Label("Results");
+        resultsT = new Label(s.getResults());
+        resultsT.setMaxWidth(400);
+        resultsT.setWrapText(true);
+        resultsT.setPadding(new Insets(0,0,0,20));
+        resultsL.setStyle("-fx-font: 16 Tahoma");
+        resultsBox.getChildren().addAll(resultsL, resultsT);
+
+        //now add them in
+        sDetails.addRow(0, header);
+        sDetails.addRow(1, new Separator());
+        sDetails.addRow(2, topLabel);
+        sDetails.addRow(3, surgeonBox);
+        sDetails.addRow(4, rnBox);
+        sDetails.addRow(5, scrubBox);
+        sDetails.addRow(6, typeBox);
+        sDetails.addRow(7, resultsBox);
+        sDetails.setHgap(5);
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Surgery Summary ");
+        window.setScene(new Scene(sDetails,500,600));
+        window.showAndWait();
+    }
+
+    public static void confirmClose() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Confirm close");
 
-        VBox content = new VBox();
+        VBox content = new VBox(30);
+        content.setPadding(new Insets(20,0,0,0));
+
+        HBox hbox = new HBox(20);
+        hbox.setPadding(new Insets(0,0,0,80));
+
         Label title = new Label("You sure that you want to close?");
+        title.setMaxWidth(300);
+        title.setWrapText(true);
+        title.setPadding(new Insets(0,0,0,30));
+        title.setStyle("-fx-font: 24 Tahoma");
+
         Button ok = new Button("OK");
-        ok.setOnAction(e -> save = true );
+        ok.setStyle("-fx-background-color: lightskyblue;");
+        ok.setMinSize(40,20);
+        ok.setOnAction(e ->  {
+            save = true;
+            window.close();
+        });
 
         Button close = new Button("NO");
-        close.setOnAction(e -> save = false );
-        content.getChildren().addAll(title, ok, close);
+        close.setStyle("-fx-background-color: lightskyblue;");
+        close.setMinSize(40,20);
+        close.setOnAction(e -> {
+            save = false;
+            window.close();
+        });
+
+        hbox.getChildren().addAll(ok, close);
+        content.getChildren().addAll(title, hbox);
         window.setScene(new Scene(content,300,150));
         window.showAndWait();
-
-        return save;
     }
 }

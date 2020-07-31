@@ -48,6 +48,7 @@ public class Main extends Application {
     private TableView <Person> table;
     private HashMap<String, String> parameters;
     private String dbTable;
+    private boolean searchAll;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -62,6 +63,7 @@ public class Main extends Application {
         parameters = new HashMap<>();
         //now get the login page ready.
         getLoginPage();
+        searchAll = true;
     }
 
     //this is called once the login has been verified as accurate
@@ -142,8 +144,8 @@ public class Main extends Application {
             emailSearch.setSelected(false);
         });
 
-        searchByLastName.setPadding(new Insets(0,0,0,30));
-        numberSearch.setPadding(new Insets(0,0,0,30));
+        searchByLastName.setPadding(new Insets(0,20,0,30));
+        numberSearch.setPadding(new Insets(0,20,0,30));
 
         gp.addRow(0, searchByFirstName, fNameT, searchByLastName, lNameT);
         gp.addRow(1, addressSearch, addressT, numberSearch, numberT);
@@ -157,16 +159,26 @@ public class Main extends Application {
         okBtn.setOnAction(e -> {
             parameters.clear();
             //get the values that the user has entered in, as well as the search filters.
-            if (searchByFirstName.isSelected())
+            if (searchByFirstName.isSelected()) {
+                searchAll = false;
                 parameters.put("firstName", fNameT.getText());
-            if (searchByLastName.isSelected())
+            }
+            if (searchByLastName.isSelected()) {
+                searchAll = false;
                 parameters.put("lastName", lNameT.getText());
-            if (addressSearch.isSelected())
+            }
+            if (addressSearch.isSelected()) {
+                searchAll = false;
                 parameters.put("address", addressT.getText());
-            if (numberSearch.isSelected())
+            }
+            if (numberSearch.isSelected()) {
+                searchAll = false;
                 parameters.put("number", numberT.getText());
-            if (emailSearch.isSelected())
+            }
+            if (emailSearch.isSelected()) {
+                searchAll = false;
                 parameters.put("email", emailT.getText());
+            }
 
             RadioButton button = (RadioButton) radioGroup.getSelectedToggle();
             dbTable = button.getText();
@@ -239,27 +251,15 @@ public class Main extends Application {
         addPatient = new Button("Add Patient");
         addPatient.setStyle("-fx-background-color: lightskyblue;");
         addPatient.setOnAction(e -> {
-            AddPatient ap = new AddPatient(homePage, back, conn);
-            window.setScene(ap.getScene());
-            window.setTitle("Add A Patient");
-            window.setMaxWidth(800);
-            window.setMaxHeight(700);
-            window.setMinHeight(600);
-            window.setMinWidth(700);
-            window.show();
+            AddPatient ap = new AddPatient(conn);
+            ap.display();
         });
 
         //new employee
         addEmployee = new Button("Add Employee");
         addEmployee.setOnAction(e -> {
-            AddEmployee aE = new AddEmployee(homePage, back, conn);
-            window.setScene(aE.getScene());
-            window.setTitle("Add An Employee");
-            window.setMaxWidth(700);
-            window.setMaxHeight(700);
-            window.setMinHeight(700);
-            window.setMinWidth(700);
-            window.show();
+            AddEmployee aE = new AddEmployee(conn);
+            aE.display();
         });
         addEmployee.setStyle("-fx-background-color: lightskyblue");
 
@@ -397,21 +397,29 @@ public class Main extends Application {
         try {
             int mapLength = parameters.size();
             int index = 1;
-            //prepare the statement now
-            String SQL = "SELECT * FROM " + dbTable.toLowerCase() + " WHERE ";
 
-            for (String value : parameters.keySet()) {
-                SQL += (index != mapLength ? value + " = ? AND " : value + " = ?");
-                index++;
+            PreparedStatement pstm;
+            //if nothing was selected, show either all the patients or all the employees
+            if (!searchAll) {
+                //prepare the statement now
+                String SQL = "SELECT * FROM " + dbTable.toLowerCase() + " WHERE ";
+
+                for (String value : parameters.keySet()) {
+                    SQL += (index != mapLength ? value + " = ? AND " : value + " = ?");
+                    index++;
+                }
+                System.out.println(SQL);
+
+                pstm = conn.prepareStatement(SQL);
+
+                int pstmIndex = 1;
+                //now set the ? marks with variables
+                for (var value : parameters.values())
+                    pstm.setString(pstmIndex++, value);
+            } else {
+                String SQL = "SELECT * FROM " + dbTable;
+                pstm = conn.prepareStatement(SQL);
             }
-            System.out.println(SQL);
-
-            PreparedStatement pstm = conn.prepareStatement(SQL);
-
-            int pstmIndex = 1;
-            //now set the ? marks with variables
-            for (var value : parameters.values())
-                pstm.setString(pstmIndex++, value);
 
 
             ResultSet rs = pstm.executeQuery();
@@ -435,6 +443,7 @@ public class Main extends Application {
         } catch (SQLException error) {
             System.out.println("SQL ERROR: " + error);
         }
+        searchAll = true;
         return people;
     }
     private void initRefinedTable() {
@@ -461,34 +470,22 @@ public class Main extends Application {
         view.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
                 Patient patient = (Patient) table.getSelectionModel().getSelectedItem();
-                AddPatient addPatient = new AddPatient(homePage, back, conn,
+                AddPatient addPatient = new AddPatient(conn,
                         (Patient) table.getSelectionModel().getSelectedItem());
-                window.setScene(addPatient.getScene());
-                window.setTitle("Add A Patient");
-                window.setMaxWidth(800);
-                window.setMaxHeight(700);
-                window.setMinHeight(600);
-                window.setMinWidth(600);
-                window.show();
+                addPatient.display();
             } else {
                 Employee employee = (Employee) table.getSelectionModel().getSelectedItem();
-                AddEmployee addEmployee = new AddEmployee(homePage, back, conn,
+                AddEmployee addEmployee = new AddEmployee(conn,
                         (Employee) table.getSelectionModel().getSelectedItem());
-                window.setScene(addEmployee.getScene());
-                window.setTitle("Add An Employee");
-                window.setMaxWidth(700);
-                window.setMaxHeight(700);
-                window.setMinHeight(700);
-                window.setMinWidth(700);
-                window.show();
+                addEmployee.display();
             }
         });
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
-                new AddPatient(conn, (Patient) table.getSelectionModel().getSelectedItem());
+                new AddPatient(conn, (Patient) table.getSelectionModel().getSelectedItem(), true);
             } else {
-                new AddEmployee(conn, (Employee) table.getSelectionModel().getSelectedItem());
+                new AddEmployee(conn, (Employee) table.getSelectionModel().getSelectedItem(), true);
             }
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });

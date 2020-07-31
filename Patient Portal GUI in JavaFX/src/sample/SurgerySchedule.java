@@ -8,10 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SurgerySchedule {
 
@@ -24,7 +21,7 @@ public class SurgerySchedule {
         this.conn = conn;
         table = new TableView<>();
         vbox = new VBox(5);
-        this.day = day;
+        this.day = DateFormat.fixDate(day);
         initTable();
     }
 
@@ -36,20 +33,20 @@ public class SurgerySchedule {
         ObservableList<Surgery> surgeries = FXCollections.observableArrayList();
 
         try {
-            if (conn == null)
-                conn = DBUtil.getConnection();
-            Statement state = conn.createStatement();
-            ResultSet rs = state.executeQuery("SELECT * FROM surgery");
-            if (rs != null) {
-                while (rs.next()) {
-                    if (rs.getString("date").equals(day)) {
-                        surgeries.add(new Surgery(rs.getInt("ORoom"), rs.getString("surgeon"),
-                                rs.getString("anes"), rs.getString("surgeryType"), rs.getString("patient"),
-                                rs.getString("time"), rs.getString("RN"), rs.getString("scrub"),
-                                rs.getString("patientRoom"), rs.getString("date"), rs.getString("results")));
-                    }
+
+            String SQL = "SELECT * FROM surgery WHERE date = ?";
+
+            PreparedStatement pstm = conn.prepareStatement(SQL);
+            pstm.setString(1, day);
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                surgeries.add(new Surgery(rs.getInt("ORoom"), rs.getString("surgeon"),
+                        rs.getString("anes"), rs.getString("surgeryType"), rs.getString("patient"),
+                        rs.getString("time"), rs.getString("RN"), rs.getString("scrub"),
+                        rs.getString("patientRoom"), rs.getString("date"), rs.getString("results")));
                 }
-            }
         } catch (SQLException error){
             System.out.println("SQL ERROR: " + error);
         }

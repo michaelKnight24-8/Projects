@@ -53,19 +53,8 @@ public class Surgery {
 
     public String getPatientRoom() { return patientRoom; }
 
+    //use this for when displaying the past surgeries for each patient. This is what
+    //will be displayed in the list view that the employees see.
     @Override
-    public String toString() {
-        return "Surgery{" +
-                "OR=" + OR +
-                ", surgeon='" + surgeon + '\'' +
-                ", anes='" + anes + '\'' +
-                ", surgeryType='" + surgeryType + '\'' +
-                ", patient='" + patient + '\'' +
-                ", time='" + time + '\'' +
-                ", RN='" + RN + '\'' +
-                ", scrub='" + scrub + '\'' +
-                ", patientRoom='" + patientRoom + '\'' +
-                ", date='" + date + '\'' +
-                '}';
-    }
+    public String toString() { return date + " - " + time; }
 }
