@@ -11,16 +11,13 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class AddEmployee {
     public Stage window;
-    public Scene addEmployee, homePage;
-    public PLabel fnL, lnL, miL, emailL, heightL, weightL, numberL,
+    public Scene addEmployee;
+    public PLabel fnL, lnL, miL, emailL, numberL,
             address1L, address2L, emergencyL, dobL, sexL, relationL, collegeL, positionL, experienceL;
     public Label header;
     public PText fnT, lnT, miT,emailT, heightT, weightT, numberT, address1T, address2T, emergencyT, relationT,
@@ -28,17 +25,16 @@ public class AddEmployee {
     public TextArea experienceT;
     public ComboBox sexC;
     public DatePicker date;
-    public Button saveBtn, closeBtn, back;
+    public Button saveBtn;
     public Connection conn;
     private Employee employee;
-    private boolean editing;
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
-            height, weight, sex, emergencyRelation, position, college, pastExperience, name;
+            sex, emergencyRelation, position, college, pastExperience, name;
 
+    // base constructor for when making a new employee
     public AddEmployee(Connection conn) {
         this.conn = conn;
         window = new Stage();
-        editing = false;
 
         //get things ready for the labels
         initLabels();
@@ -49,9 +45,9 @@ public class AddEmployee {
 
         //hbox for the buttons at the bottom
         HBox buttons = new HBox();
+        buttons.setSpacing(20);
 
         saveBtn = new Button("ADD");
-        buttons.setSpacing(20);
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
         saveBtn.setOnAction(e -> savePatient());
 
@@ -62,22 +58,26 @@ public class AddEmployee {
         BorderPane mainLayout = new BorderPane();
 
         date = new DatePicker();
+
         header = new Label("Add An Employee");
         header.setStyle("-fx-font: 24 arial;");
+        header.setPadding(new Insets(20,0,0, 30));
+
         Separator separator = new Separator();
         separator.setPadding(new Insets(5,0,0,30));
-        header.setPadding(new Insets(20,0,0, 30));
 
         //now add the things to the layouts
         topHeader.getChildren().addAll(header,separator);
         mainLayout.setTop(topHeader);
         mainLayout.setBottom(buttons);
+
         BackgroundFill background_fill = new BackgroundFill(Color.rgb(105,105,105),
                 CornerRadii.EMPTY, Insets.EMPTY);
-
         // create Background
         Background background = new Background(background_fill);
         mainLayout.setBackground(background);
+
+        // this holds all the labels and the text fields I'll be using
         GridPane gp = new GridPane();
         gp.setVgap(10);
         gp.setHgap(20);
@@ -101,20 +101,21 @@ public class AddEmployee {
         addEmployee = new Scene(mainLayout, 700,600);
     }
 
-    //for use when deleting an employee from the database
+    //for use when deleting an employee from the database via the search table
     public AddEmployee(Connection conn, Employee employee, boolean delete) {
         this.conn = conn;
         this.employee = employee;
         deleteFromDatabase();
     }
 
+    // for when viewing the file of an existing employee
     public AddEmployee(Connection conn, Employee employee) {
         this(conn);
         this.employee = employee;
-        editing = true;
         fillFields();
     }
 
+    // displays all the information to the screen
     public void display() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -122,7 +123,6 @@ public class AddEmployee {
         window.setMaxHeight(700);
         window.setMinHeight(700);
         window.setMinWidth(700);
-
         window.setOnCloseRequest(e -> {
             e.consume();
             Alert.confirmClose();
@@ -138,7 +138,6 @@ public class AddEmployee {
         window.setTitle("Add an Employee");
         window.setScene(addEmployee);
         window.show();
-
     }
 
     //initialize all the labels
@@ -179,17 +178,20 @@ public class AddEmployee {
         experienceT.setMaxWidth(200);
         experienceT.setWrapText(true);
 
+        // make it so that the user can only enter in 1 letter in the middle initial text field
         Pattern pattern = Pattern.compile(".{0,1}");
-        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-        });
+        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>)
+                change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
 
         miT.setTextFormatter(formatter);
-        //sex drop down
+
+        // Employees sex drop down
         sexC = new ComboBox();
         sexC.getItems().addAll("Male", "Female", "Other");
     }
 
+
+    // fill in the fields when you are viewing an existing employee
     private void fillFields() {
 
         //delete the record from the database, then insert it later
@@ -215,9 +217,11 @@ public class AddEmployee {
             index = 1;
         else
             index = 2;
+
         sexC.getSelectionModel().select(index);
     }
 
+    // makes sure that all the fields are filled out so there are no errors
     private boolean allFieldsFilledOut() {
         if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
                 email.equals("") || number.equals("") || emergencyNumber.equals("") ||
@@ -301,5 +305,4 @@ public class AddEmployee {
             System.out.println("SQL ERROR: " + error);
         }
     }
-
 }

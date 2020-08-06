@@ -15,6 +15,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -31,24 +35,24 @@ import java.util.regex.Pattern;
 public class Main extends Application {
     public Stage window;
     public Scene homePage;
-    public Button back, addPatient, search, addSurgery, addEmployee, refinedSearch,
-            calBtn, bookAppointment, viewAppointments, info, clear;
+    public Button addPatient, addSurgery, addEmployee, calBtn, bookAppointment,
+            viewAppointments, info, clear;
     public BorderPane mainLayout;
     public VBox header, buttons;
     public Label searchL;
     public HBox radioButtons, searchContainer, middle;
-    public TextField searchField;
     public ToggleGroup radioGroup;
     public RadioButton patientBtn, employeeBtn;
     public final int SURGERY = 1;
     public final int APPOINTMENT = 2;
     public final int BOOK_APPOINTMENT = 3;
     public Connection conn;
-    public String currentUserName;
+    public String currentUserName, dbTable;
     private TableView <Person> table;
     private HashMap<String, String> parameters;
-    private String dbTable;
     private boolean searchAll;
+    //for the accelerator
+    private KeyCombination kc;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -56,13 +60,20 @@ public class Main extends Application {
         //database connection that will be passed around between
         //view and functions so that I don't keep opening and closing it
         conn = DBUtil.getConnection();
+
         table = new TableView <>();
         table.setMinSize(392,200);
         table.setMaxSize(392,200);
+
         window = primaryStage;
+
+        //for when searching with multiple search parameters
         parameters = new HashMap<>();
+
         //now get the login page ready.
         getLoginPage();
+        //if the user doesn't select any search parameters, it searches for all
+        //employees, or all patients as specified
         searchAll = true;
     }
 
@@ -102,6 +113,7 @@ public class Main extends Application {
 
         //lets you choose between searching for a patient, or an employee
         radioGroup = new ToggleGroup();
+
         patientBtn = new RadioButton("Patient");
         patientBtn.setToggleGroup(radioGroup);
         patientBtn.setSelected(true);
@@ -110,24 +122,25 @@ public class Main extends Application {
         employeeBtn.setToggleGroup(radioGroup);
         radioButtons.getChildren().addAll(patientBtn, employeeBtn);
 
-
         initButtons();
 
         GridPane gp = new GridPane();
-        //init text fields
+
+        //init text search fields
         PText fNameT = new PText(200);
         PText lNameT = new PText(200);
         PText addressT = new PText(200);
         PText emailT = new PText(150);
         PText numberT = new PText(100);
 
-        //init the checkboxes
+        //init the search checkboxes
         CheckBox searchByFirstName = new CheckBox("First Name");
         CheckBox searchByLastName = new CheckBox("Last Name");
         CheckBox addressSearch = new CheckBox("Address");
         CheckBox numberSearch = new CheckBox("Number");
         CheckBox emailSearch = new CheckBox("Email");
 
+        //clear all the fields, checkboxes an results when clicked
         clear = new Button("CLEAR");
         clear.setStyle("-fx-background-color: lightskyblue");
         clear.setOnAction(e -> {
@@ -147,55 +160,61 @@ public class Main extends Application {
         searchByLastName.setPadding(new Insets(0,20,0,30));
         numberSearch.setPadding(new Insets(0,20,0,30));
 
-        gp.addRow(0, searchByFirstName, fNameT, searchByLastName, lNameT);
-        gp.addRow(1, addressSearch, addressT, numberSearch, numberT);
-        gp.addRow(2, emailSearch, emailT);
-        gp.setVgap(10);
+        //now set up the table to display the query results
+        initRefinedTable();
 
         Button okBtn = new Button("SEARCH");
         okBtn.setStyle("-fx-background-color: lightskyblue");
         okBtn.setMinWidth(100);
-        initRefinedTable();
         okBtn.setOnAction(e -> {
             parameters.clear();
+
             //get the values that the user has entered in, as well as the search filters.
-            if (searchByFirstName.isSelected()) {
-                searchAll = false;
-                parameters.put("firstName", fNameT.getText());
-            }
-            if (searchByLastName.isSelected()) {
-                searchAll = false;
-                parameters.put("lastName", lNameT.getText());
-            }
-            if (addressSearch.isSelected()) {
-                searchAll = false;
-                parameters.put("address", addressT.getText());
-            }
-            if (numberSearch.isSelected()) {
-                searchAll = false;
-                parameters.put("number", numberT.getText());
-            }
-            if (emailSearch.isSelected()) {
-                searchAll = false;
-                parameters.put("email", emailT.getText());
-            }
+            if (searchByFirstName.isSelected())
+                addToParameters("firstName", fNameT);
+            if (searchByLastName.isSelected())
+                addToParameters("lastName", lNameT);
+            if (addressSearch.isSelected())
+                addToParameters("address", addressT);
+            if (numberSearch.isSelected())
+                addToParameters("number", numberT);
+            if (emailSearch.isSelected())
+                addToParameters("email", emailT);
 
             RadioButton button = (RadioButton) radioGroup.getSelectedToggle();
             dbTable = button.getText();
             table.setItems(getPeople());
         });
+
         HBox buttonsHolder = new HBox(15);
         buttonsHolder.getChildren().addAll(okBtn, clear);
+
+        //add to the search gridpane
+        gp.addRow(0, searchByFirstName, fNameT, searchByLastName, lNameT);
+        gp.addRow(1, addressSearch, addressT, numberSearch, numberT);
+        gp.addRow(2, emailSearch, emailT);
         gp.addRow(3, new Label(""));
         gp.addRow(4, buttonsHolder);
+        gp.setVgap(10);
+
 
         middle.getChildren().addAll(buttons);
         middle.setPadding(new Insets(150, 90,0,0));
+
         header.getChildren().addAll(searchL, radioButtons, searchContainer, gp, table);
+
         mainLayout.setRight(middle);
         mainLayout.setLeft(header);
         mainLayout.setBackground(background);
+
         homePage = new Scene(mainLayout, 900,600);
+        homePage.addMnemonic(new Mnemonic(addPatient, kc));
+    }
+
+    //  little function to make adding to the search parameters map easier
+    public void addToParameters(String value, TextField context) {
+        searchAll = false;
+        parameters.put(value, context.getText());
     }
 
     //set up the buttons
@@ -203,19 +222,11 @@ public class Main extends Application {
 
         buttons = new VBox(20);
 
-        //back button
-        back = new Button("HOME");
-        back.setStyle("-fx-background-color: lightskyblue");
-        back.setOnAction(e -> {
-            window.setScene(homePage);
-            window.setTitle("Home");
-            window.setMinHeight(600);
-            window.setMaxHeight(600);
-            window.setMinWidth(900);
-            window.setMaxWidth(900);
-            window.show();
-        });
+        //initialize the accelerator
+        kc = new KeyCodeCombination(KeyCode.P, KeyCombination.ALT_DOWN);
 
+        // the various buttons you see on the main screen that allows the user to
+        // carry out various tasks
         viewAppointments = new Button("View Appointments");
         viewAppointments.setOnAction(e -> {
             Calendar calendar = new Calendar(APPOINTMENT, conn);
@@ -279,32 +290,33 @@ public class Main extends Application {
 
         //init the labels
         Label welcome = new Label("Welcome");
-        Label email = new Label("Email:");
-        email.setPadding(new Insets(0,0,0,50));
-        email.setTextFill(Color.WHITE);
-        Label password = new Label("Password:");
-        password.setTextFill(Color.WHITE);
-        password.setPadding(new Insets(0,0,0,50));
         welcome.setStyle("-fx-font: 24 Arial");
         welcome.setTextFill(Color.WHITE);
         welcome.setMinWidth(100);
         welcome.setPadding(new Insets(45,0,0,50));
+
+        Label email = new Label("Email:");
+        email.setPadding(new Insets(0,0,0,50));
+        email.setTextFill(Color.WHITE);
+
+        Label password = new Label("Password:");
+        password.setTextFill(Color.WHITE);
+        password.setPadding(new Insets(0,0,0,50));
 
         //now the text input fields
         PText emailT = new PText(200);
         PText passwordT = new PText(200);
 
         VBox loginHolder = new VBox(30);
+        loginHolder.setMinHeight(250);
+        loginHolder.setMaxSize(350,250);
+        loginHolder.setMinWidth(350);
+
         BackgroundFill background_fill = new BackgroundFill(Color.rgb(105,105,105),
                 CornerRadii.EMPTY, Insets.EMPTY);
 
         // create Background
         Background background = new Background(background_fill);
-
-        loginHolder.setMinHeight(250);
-        loginHolder.setMaxSize(350,250);
-        loginHolder.setMinWidth(350);
-
 
         Button button = new Button("Login");
         button.setOnAction(e -> {
@@ -318,15 +330,18 @@ public class Main extends Application {
         bkd.setBackground(background);
 
         BorderPane middle = new BorderPane();
+
         GridPane login = new GridPane();
         login.setMaxSize(350,250);
         login.addRow(1, email, emailT);
         login.addRow(2, new Label(""));
         login.addRow(3, password, passwordT);
         login.addRow(4, new Label(""));
+
         VBox buttons = new VBox();
         buttons.getChildren().add(button);
         buttons.setPadding(new Insets(0,0,0,100));
+
         login.addRow(5, new Label(""),buttons);
         login.setHgap(20);
         button.setStyle("-fx-background-color: steelblue");
@@ -338,6 +353,7 @@ public class Main extends Application {
         loginHolder.getChildren().addAll(welcome, login);
 
         bkd.setCenter(loginHolder);
+
         window.setScene(new Scene(bkd));
         window.setMinHeight(500);
         window.setMinWidth(550);
@@ -371,11 +387,13 @@ public class Main extends Application {
         launch(args);
     }
 
+    // gets the information about the user that is currently logged in
     private Employee getEmployee() {
         Employee employee = null;
         try {
             PreparedStatement pstm = conn.prepareStatement("SELECT * FROM employee WHERE name = ?");
             pstm.setString(1, currentUserName);
+
             ResultSet rs = pstm.executeQuery();
             String [] names = rs.getString("name").split(" ");
             employee = new Employee(names[0], names[1], rs.getString("middleInitial"),
@@ -386,6 +404,7 @@ public class Main extends Application {
         } catch (SQLException err) {
             System.out.println("SQL ERROR: " + err);
         }
+
         return employee;
     }
 
@@ -404,23 +423,24 @@ public class Main extends Application {
                 //prepare the statement now
                 String SQL = "SELECT * FROM " + dbTable.toLowerCase() + " WHERE ";
 
+                // now add the ? marks where needed, as well as the AND when needed
                 for (String value : parameters.keySet()) {
                     SQL += (index != mapLength ? value + " = ? AND " : value + " = ?");
                     index++;
                 }
-                System.out.println(SQL);
 
                 pstm = conn.prepareStatement(SQL);
-
                 int pstmIndex = 1;
+
                 //now set the ? marks with variables
                 for (var value : parameters.values())
                     pstm.setString(pstmIndex++, value);
+
             } else {
+                //just get everything from the table that is selected by the user
                 String SQL = "SELECT * FROM " + dbTable;
                 pstm = conn.prepareStatement(SQL);
             }
-
 
             ResultSet rs = pstm.executeQuery();
 
@@ -443,11 +463,17 @@ public class Main extends Application {
         } catch (SQLException error) {
             System.out.println("SQL ERROR: " + error);
         }
+
+        //reset the search all variable
         searchAll = true;
+
         return people;
     }
+
+    //init the table that holds the results
     private void initRefinedTable() {
 
+        // init all the columns
         TableColumn <Person, String> nameCol= new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameCol.setMinWidth(150);
@@ -463,23 +489,22 @@ public class Main extends Application {
         TableColumn<Person, String> sexCol = new TableColumn<>("Sex");
         sexCol.setCellValueFactory(new PropertyValueFactory<>("sex"));
         sexCol.setMinWidth(50);
+
         table.getColumns().addAll(nameCol, numberCol, dobCol, sexCol);
 
+        // add functionality for when the user clicks on a record
         ContextMenu menu = new ContextMenu();
         MenuItem view = new MenuItem("View/Edit");
         view.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
-                Patient patient = (Patient) table.getSelectionModel().getSelectedItem();
-                AddPatient addPatient = new AddPatient(conn,
-                        (Patient) table.getSelectionModel().getSelectedItem());
-                addPatient.display();
+                new AddPatient(conn,
+                        (Patient) table.getSelectionModel().getSelectedItem()).display();
             } else {
-                Employee employee = (Employee) table.getSelectionModel().getSelectedItem();
-                AddEmployee addEmployee = new AddEmployee(conn,
-                        (Employee) table.getSelectionModel().getSelectedItem());
-                addEmployee.display();
+              new AddEmployee(conn,
+                        (Employee) table.getSelectionModel().getSelectedItem()).display();
             }
         });
+
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
@@ -489,7 +514,10 @@ public class Main extends Application {
             }
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
+
         menu.getItems().addAll(view, new SeparatorMenuItem(), delete);
+
+        // now add the menu to the table
         table.setOnMouseClicked(e -> {
             if (table.getSelectionModel().getSelectedItem() != null)
                 menu.show(table, e.getScreenX(), e.getScreenY());

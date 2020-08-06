@@ -29,7 +29,6 @@ public class AddPatient {
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
             height, weight, sex, emergencyRelation;
     private Connection conn;
-    private boolean editing;
     private ListView <Appointment> appointmentsHolder;
     private ListView <Surgery> surgeriesHolder;
 
@@ -40,11 +39,12 @@ public class AddPatient {
         deleteFromDatabase();
     }
 
+    // the base constuctor
     public AddPatient(Connection conn) {
         this.conn = conn;
         window = new Stage();
         window.setTitle("Add A Patient");
-        editing = false;
+
         //get things ready for the labels
         initLabels();
         initTextFields();
@@ -52,13 +52,12 @@ public class AddPatient {
         //box on top for the header
         VBox topHeader = new VBox();
 
-        //hbox for the buttons at the bottom
-        HBox buttons = new HBox();
-
         saveBtn = new Button("SAVE");
-        buttons.setSpacing(20);
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
 
+        //hbox for the buttons at the bottom
+        HBox buttons = new HBox();
+        buttons.setSpacing(20);
         buttons.getChildren().addAll(saveBtn);
         buttons.setPadding(new Insets(0, 0,30, 60));
 
@@ -66,11 +65,13 @@ public class AddPatient {
         BorderPane mainLayout = new BorderPane();
 
         date = new DatePicker();
+
         header = new Label("Add A Patient");
         header.setStyle("-fx-font: 24 arial;");
+        header.setPadding(new Insets(20,0,0, 30));
+
         Separator separator = new Separator();
         separator.setPadding(new Insets(5,0,0,30));
-        header.setPadding(new Insets(20,0,0, 30));
 
         //now add the things to the layouts
         topHeader.getChildren().addAll(header,separator);
@@ -134,7 +135,6 @@ public class AddPatient {
         this(conn);
         this.patient = patient;
         fillTextFields();
-        editing = true;
         fillAppointmentHistory();
         fillSurgeryHistory();
     }

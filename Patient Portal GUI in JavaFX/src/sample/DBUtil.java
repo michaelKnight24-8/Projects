@@ -10,8 +10,7 @@ public class DBUtil {
 
     public static Connection getConnection() {
         try {
-            if (conn == null)
-                conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\mknig\\Documents\\database\\PatientPortal.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\mknig\\Documents\\database\\PatientPortal.db");
         } catch (SQLException e) {
             System.out.println("SQL Error: " + e);
         }

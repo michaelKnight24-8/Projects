@@ -23,11 +23,11 @@ public class AddAppointment {
     public TextArea reasonForAppointmentT, additionalRemarksT, drugsPrescribedT;
     public GridPane mainLayout;
     public Button save;
-    public boolean newRecord;
     private Connection conn;
     private Appointment appointment;
     private boolean editing;
 
+    // base constructor for when you are adding in a new appointment
     public AddAppointment(String date, Connection conn) {
         this.conn = conn;
         this.date = date;
@@ -46,6 +46,7 @@ public class AddAppointment {
         setTextFields();
     }
 
+    // displays the popup menu for the add appointment
     public void display() {
         if (editing) deleteFromDataBase();
         Scene scene = new Scene(mainLayout, 500, 540);
@@ -62,6 +63,7 @@ public class AddAppointment {
         window.showAndWait();
     }
 
+
     private void initLabels() {
         dateL = new Label("Date");
         patientNameL = new Label("Patient");
@@ -74,6 +76,7 @@ public class AddAppointment {
         roomL = new Label("Room");
     }
 
+    // init the text fields
     private void initText() {
         dateT = new PText(75);
         dateT.setText(this.date);
@@ -100,7 +103,9 @@ public class AddAppointment {
         reasonForAppointmentT.setWrapText(true);
     }
 
+    // add all the components I made to the layout
     private void initLayout() {
+
         HBox saveBtn = new HBox();
         saveBtn.setPadding(new Insets(0, 0, 30, 150));
         saveBtn.getChildren().add(save);
@@ -125,6 +130,8 @@ public class AddAppointment {
         mainLayout.setPadding(new Insets(30, 0, 0, 30));
     }
 
+    // set the textfields with the values that are retrieved from the database when you
+    // are viewing an already set appointment
     private void setTextFields() {
         patientNameT.setText(appointment.getPatientName());
         timeT.setText(appointment.getTime());
@@ -138,6 +145,7 @@ public class AddAppointment {
         editing = true;
     }
 
+    // save the data to the database
     private void saveData() {
         patientName = patientNameT.getText();
         time = timeT.getText();
@@ -175,11 +183,12 @@ public class AddAppointment {
             pstm.setString(7, reasonForAppointment);
             pstm.setString(8, time);
             pstm.setString(9, room);
+
             //do it!
             pstm.executeUpdate();
 
         } catch (SQLException err) {
-            System.out.println(err);
+            System.out.println("SQL ERROR in addAppointment line 191: " + err);
         }
     }
 
@@ -194,7 +203,7 @@ public class AddAppointment {
             pstm.executeUpdate();
 
         } catch (SQLException error) {
-            System.out.println("SQL ERROR: " + error);
+            System.out.println("SQL ERROR in addAppointment line 206: " + error);
         }
     }
 }
