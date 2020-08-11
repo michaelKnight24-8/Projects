@@ -21,22 +21,18 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.awt.*;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.function.UnaryOperator;
-import java.util.regex.Pattern;
+
 
 public class Main extends Application {
     public Stage window;
     public Scene homePage;
     public Button addPatient, addSurgery, addEmployee, calBtn, bookAppointment,
-            viewAppointments, info, clear;
+            viewAppointments, info, clear, viewChanges;
     public BorderPane mainLayout;
     public VBox header, buttons;
     public Label searchL;
@@ -282,8 +278,27 @@ public class Main extends Application {
             as.display();
         });
 
-        buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
-                addEmployee, bookAppointment, viewAppointments, info);
+        //view the changes that have been made to data pertaining to appointments, employees,
+        //and surgeries to make sure that unnecessary changes weren't made, and to see
+        //who made those changes
+        viewChanges = new Button("View Changes");
+        viewChanges.setStyle("-fx-background-color: lightskyblue");
+        viewChanges.setOnAction(e -> new ViewChanges().display(conn));
+
+        if (getEmployee().getIsAdmin())
+            buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
+                bookAppointment, viewAppointments, info, addEmployee, viewChanges);
+        else
+            buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
+                    bookAppointment, viewAppointments, info);
+    }
+
+    //DELETE THIS LATER WHEN I HAVE EVERYTHING MADE UP IN THE ALERT ISPLAY THING!!!
+    ///////////////////////
+    private void initChangesLayout() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dtf.format(now));
     }
 
     private void getLoginPage() {
@@ -329,8 +344,6 @@ public class Main extends Application {
         BorderPane bkd = new BorderPane();
         bkd.setBackground(background);
 
-        BorderPane middle = new BorderPane();
-
         GridPane login = new GridPane();
         login.setMaxSize(350,250);
         login.addRow(1, email, emailT);
@@ -364,22 +377,23 @@ public class Main extends Application {
     //is correct
     private boolean validateLogin(String email, String password) {
 
-//        try {
-//            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM login WHERE email = ?");
-//            pstm.setString(1, email);
-//            ResultSet rs = pstm.executeQuery();
-//            if (rs != null && rs.getString("password").equals(password)) {
-//                //use this to query for the details about the person
-//                //that is currently logged in
-//                this.currentUserName = rs.getString("name");
-//                return true;
-//            }
-//            else
-//                return false;
-//
-//        } catch (SQLException error) {
-//            System.out.println("SQL ERROR in main.java 298: " + error);
-//        }
+        try {
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM login WHERE email = ?");
+            pstm.setString(1, email);
+
+            ResultSet rs = pstm.executeQuery();
+            if (rs != null && rs.getString("password").equals(password)) {
+                //use this to query for the details about the person
+                //that is currently logged in
+                this.currentUserName = rs.getString("name");
+                return true;
+            }
+            else
+                return false;
+
+        } catch (SQLException error) {
+            System.out.println("SQL ERROR in main.java 298: " + error);
+        }
         return true;
     }
 
@@ -391,16 +405,18 @@ public class Main extends Application {
     private Employee getEmployee() {
         Employee employee = null;
         try {
-            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM employee WHERE name = ?");
-            pstm.setString(1, currentUserName);
+            PreparedStatement pstm = conn.prepareStatement("SELECT * FROM employee WHERE firstName = ? " +
+                    "AND lastName = ?");
+            pstm.setString(1, currentUserName.split(" ")[0]);
+            pstm.setString(2, currentUserName.split(" ")[1]);
 
             ResultSet rs = pstm.executeQuery();
-            String [] names = rs.getString("name").split(" ");
-            employee = new Employee(names[0], names[1], rs.getString("middleInitial"),
+
+            employee = new Employee(rs.getString("firstName"), rs.getString("lastName"), rs.getString("middleInitial"),
                     rs.getString("email"), rs.getString("number"), rs.getString("DOB"),
                     rs.getString("emergencyNumber"), rs.getString("address"), rs.getString("sex"),
                     rs.getString("college"), rs.getString("position"), rs.getString("pastExperience"),
-                    rs.getString("emergencyRelation"));
+                    rs.getString("emergencyRelation"), rs.getString("isAdmin").equals("true"));
         } catch (SQLException err) {
             System.out.println("SQL ERROR: " + err);
         }
@@ -451,7 +467,7 @@ public class Main extends Application {
                             rs.getString("email"), rs.getString("number"), rs.getString("DOB"),
                             rs.getString("emergencyNumber"), rs.getString("address"), rs.getString("sex"),
                             rs.getString("college"), rs.getString("position"), rs.getString("pastExperience"),
-                            rs.getString("emergencyRelation")));
+                            rs.getString("emergencyRelation"), rs.getString("isAdmin").equals("true")));
                 } else {
                     people.add(new Patient(rs.getString("firstName"),
                             rs.getString("lastName"), rs.getString("middleInitial"),
@@ -505,6 +521,8 @@ public class Main extends Application {
             }
         });
 
+        MenuItem deleteRequest = new MenuItem("Request deletion");
+
         MenuItem delete = new MenuItem("Delete");
         delete.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
@@ -515,7 +533,7 @@ public class Main extends Application {
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
 
-        menu.getItems().addAll(view, new SeparatorMenuItem(), delete);
+        menu.getItems().addAll(view, new SeparatorMenuItem(), getEmployee().getIsAdmin() ? delete : deleteRequest);
 
         // now add the menu to the table
         table.setOnMouseClicked(e -> {

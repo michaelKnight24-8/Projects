@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
+// little utility class for displaying alerts to the screen
 public class Alert {
     static boolean save;
 
@@ -30,6 +32,7 @@ public class Alert {
         window.showAndWait();
     }
 
+    // for displaying to the user that they have left fields empty in any of the pages
     public static void display() {
         Stage window = new Stage();
 
@@ -67,12 +70,17 @@ public class Alert {
         //labels for the information
         Label topLabel, nurseL, nurseT, doctorL, doctorT, drugsL,
                 drugsT, reasonL, reasonT, notesL, notesT, header;
+
+        //contain the information for all the different boxes
         VBox nurseBox, doctorBox, drugsBox, reasonBox, notesBox;
+
         GridPane apDetails = new GridPane();
-        header = new Label("Appointment Summary");
-        header.setStyle("-fx-font: 40 Tahoma");
         apDetails.setVgap(20);
         apDetails.setPadding(new Insets(30,0,0,30));
+
+        header = new Label("Appointment Summary");
+        header.setStyle("-fx-font: 40 Tahoma");
+
         //first init the vboxes that hold the information
         nurseBox = new VBox();
         doctorBox = new VBox();
@@ -147,11 +155,13 @@ public class Alert {
         Label surgeonL, surgeonT, surgeryTypeL, surgeryTypeT, rnL, rnT, scrubL,
                 scrubT, resultsL, resultsT, header, topLabel;
         VBox surgeonBox, rnBox, typeBox, scrubBox, resultsBox;
+
         GridPane sDetails = new GridPane();
-        header = new Label("Surgery Summary");
-        header.setStyle("-fx-font: 40 Tahoma");
         sDetails.setVgap(20);
         sDetails.setPadding(new Insets(30,0,0,30));
+
+        header = new Label("Surgery Summary");
+        header.setStyle("-fx-font: 40 Tahoma");
 
         //first init the vboxes that hold the information
         surgeonBox = new VBox();
@@ -219,6 +229,8 @@ public class Alert {
         window.showAndWait();
     }
 
+    // confirms if the user is sure that they want to exit the program so that any data that
+    // that is not saved can be saved
     public static void confirmClose() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

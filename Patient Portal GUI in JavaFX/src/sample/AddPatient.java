@@ -42,6 +42,8 @@ public class AddPatient {
     // the base constuctor
     public AddPatient(Connection conn) {
         this.conn = conn;
+
+        // init all the text fields and labels
         window = new Stage();
         window.setTitle("Add A Patient");
 
@@ -77,12 +79,13 @@ public class AddPatient {
         topHeader.getChildren().addAll(header,separator);
         mainLayout.setTop(topHeader);
         mainLayout.setBottom(buttons);
+
         BackgroundFill background_fill = new BackgroundFill(Color.rgb(105,105,105),
                 CornerRadii.EMPTY, Insets.EMPTY);
-
         // create Background
         Background background = new Background(background_fill);
         mainLayout.setBackground(background);
+
         GridPane gp = new GridPane();
         gp.setVgap(10);
         gp.setHgap(20);
@@ -106,8 +109,10 @@ public class AddPatient {
         appointmentsHolder = new ListView<>();
         appointmentsHolder.setMinSize(300,200);
         appointmentsHolder.setMaxSize(300,200);
+
         Label appointments = new Label("Appointment History");
         appointments.setStyle("-fx-font: 24 arial;");
+
         VBox apts = new VBox(5);
         apts.getChildren().addAll(appointments, appointmentsHolder);
 
@@ -117,12 +122,13 @@ public class AddPatient {
         surgeriesHolder = new ListView<>();
         surgeriesHolder.setMinSize(300,200);
         surgeriesHolder.setMaxSize(300,200);
+
         VBox surges = new VBox(5);
         surges.getChildren().addAll(surgeries, surgeriesHolder);
 
         VBox history = new VBox(20);
         history.getChildren().addAll(apts, surges);
-        //for the surgeries history
+
         apt.getChildren().addAll(history);
         //now add the text field to the gridpane
         mainLayout.setCenter(gp);
@@ -139,6 +145,7 @@ public class AddPatient {
         fillSurgeryHistory();
     }
 
+    // makes sure all fields are filled out so there is no errors
     public boolean allFieldsFilledOut() {
         if (firstName.equals("") || lastName.equals("") || middleInitial.equals("") ||
                 email.equals("") || number.equals("") || emergencyNumber.equals("") || address.equals("") ||
@@ -187,12 +194,14 @@ public class AddPatient {
         catch (SQLException error) {
             System.out.println("SQL ERROR: "+ error);
         }
+
         appointmentsHolder.setStyle("-fx-font: 24 arial;");
         appointmentsHolder.setOnMouseClicked(e -> {
             Alert.displayAppointmentData(appointmentsHolder.getSelectionModel().getSelectedItem());
         });
     }
 
+    // displays all the information to the screen
     public void display() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -239,6 +248,7 @@ public class AddPatient {
         catch (SQLException error) {
             System.out.println("SQL ERROR: "+ error);
         }
+
         surgeriesHolder.setStyle("-fx-font: 24 arial;");
         surgeriesHolder.setOnMouseClicked(e -> {
             Alert.displaySurgicalData(surgeriesHolder.getSelectionModel().getSelectedItem());
@@ -259,10 +269,10 @@ public class AddPatient {
         emergencyT = new PText(130);
         relationT = new PText(100);
 
+        // makes it so that the user can only enter in one letter for the middle initial field
         Pattern pattern = Pattern.compile(".{0,1}");
-        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>) change -> {
-            return pattern.matcher(change.getControlNewText()).matches() ? change : null;
-        });
+        TextFormatter formatter = new TextFormatter((UnaryOperator<TextFormatter.Change>)
+                change -> pattern.matcher(change.getControlNewText()).matches() ? change : null);
 
         miT.setTextFormatter(formatter);
         //sex drop down
@@ -324,8 +334,8 @@ public class AddPatient {
         return true;
     }
 
+    // fills the text fields with the data that was retrieved from the database
     private void fillTextFields() {
-
         //first just delete the entry from the database,
         //to be inserted in later as a new record
 
@@ -356,7 +366,6 @@ public class AddPatient {
     public void deleteFromDatabase() {
 
         String SQL = "DELETE FROM patient WHERE firstName = ? AND lastName = ? AND email = ?";
-
         try {
             PreparedStatement pstm = conn.prepareStatement(SQL);
             pstm.setString(1, patient.getFirstName());

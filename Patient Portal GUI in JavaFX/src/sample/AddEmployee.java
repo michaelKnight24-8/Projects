@@ -29,7 +29,9 @@ public class AddEmployee {
     public Connection conn;
     private Employee employee;
     public String firstName, lastName, middleInitial, email, number, DOB, emergencyNumber, address,
-            sex, emergencyRelation, position, college, pastExperience, name;
+            sex, emergencyRelation, position, college, pastExperience;
+    public RadioButton isAdmin;
+
 
     // base constructor for when making a new employee
     public AddEmployee(Connection conn) {
@@ -46,6 +48,8 @@ public class AddEmployee {
         //hbox for the buttons at the bottom
         HBox buttons = new HBox();
         buttons.setSpacing(20);
+
+        isAdmin = new RadioButton("Admin Privileges");
 
         saveBtn = new Button("ADD");
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
@@ -94,7 +98,7 @@ public class AddEmployee {
         gp.addRow(10, collegeL, positionL);
         gp.addRow(11, collegeT, positionT);
         gp.addRow(14, experienceL);
-        gp.addRow(15, experienceT);
+        gp.addRow(15, experienceT, isAdmin);
 
         //now add the text field to the grid-pane
         mainLayout.setCenter(gp);
@@ -219,6 +223,7 @@ public class AddEmployee {
             index = 2;
 
         sexC.getSelectionModel().select(index);
+        isAdmin.setSelected(employee.getIsAdmin());
     }
 
     // makes sure that all the fields are filled out so there are no errors
@@ -258,8 +263,8 @@ public class AddEmployee {
         //then make sure that they have been entered in, so a nurse doesn't accidentally forget
         //to fill one out
         String sql = "INSERT INTO employee (firstName, lastName, middleInitial, email," +
-                " number, DOB, emergencyNumber, address, sex, college, position, pastExperience, emergencyRelation) "
-                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                " number, DOB, emergencyNumber, address, sex, college, position, pastExperience, emergencyRelation, isAdmin) "
+                + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         if (!allFieldsFilledOut()) {
             Alert.display();
             return false;
@@ -283,6 +288,8 @@ public class AddEmployee {
                 pstmt.setString(11, position);
                 pstmt.setString(12, pastExperience);
                 pstmt.setString(13, emergencyRelation);
+                pstmt.setString(14, isAdmin.isSelected() ? "true" : "false");
+
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println("SQL Error: " + e);

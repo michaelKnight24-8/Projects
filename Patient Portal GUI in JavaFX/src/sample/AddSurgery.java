@@ -13,19 +13,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
-public class AddSurgery {
-    public int OR;
-    public String surgeon, anes, surgeryType, patient, time, RN, scrub, patientRoom, date, results;
+public class AddSurgery  {
+
+    public String patient, time, date;
     public PLabel surgeonL, anesL, surgeryTypeL, patientL, timeL, RNL, scrubL, patientRoomL, ORL, dateL, resultsL;
     public PText surgeonT, anesT, surgeryTypeT, patientT, timeT, RNT, scrubT, patientRoomT, ORT, dateHide;
     public DatePicker datePicker;
     public TextArea resultsT;
-    public Button scheduledSurgeries, back, saveBtn;
-    public Scene addSurgery, homePage;
+    public Button scheduledSurgeries, saveBtn;
+    public Scene addSurgery;
     public Stage window;
     public GridPane mainLayout;
     public HBox buttons;
@@ -33,25 +30,32 @@ public class AddSurgery {
     public boolean editing;
     public Connection conn;
 
+    // the base constructor
     public AddSurgery(Connection conn) {
 
         this.conn = conn;
         editing = false;
         datePicker = new DatePicker();
+
         scheduledSurgeries = new Button("View Scheduled Surgeries");
         scheduledSurgeries.setOnAction(e -> {
             Calendar calendar = new Calendar(1, conn);
             CalendarPane.display(calendar.getScene(), 1);
         });
+
         mainLayout = new GridPane();
+
         window = new Stage();
         window.setTitle("Schedule A Surgery");
+
         saveBtn = new Button("ADD");
         saveBtn.setStyle("-fx-background-color: lightskyblue;");
 
         buttons = new HBox(10);
         buttons.getChildren().addAll(saveBtn);
         buttons.setPadding(new Insets(0,0,20,0));
+
+        // init all the necessary components
         initTextFields();
         initLabels();
         initLayout();
@@ -64,12 +68,14 @@ public class AddSurgery {
         addSurgery = new Scene(mainLayout, 580,600);
     }
 
+    // for when you are viewing a set surgery
     public AddSurgery(Surgery surgery, Connection conn) {
         this(conn);
         this.surgery = surgery;
         fillTextFields();
     }
 
+    // displays all the information to the screen
     public void display() {
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -145,6 +151,7 @@ public class AddSurgery {
         mainLayout.setPadding(new Insets(20, 0, 0, 30));
     }
 
+    // fill the text fields with data retrieved from the database
     private void fillTextFields() {
 
         surgeonT.setText(surgery.getSurgeon());
