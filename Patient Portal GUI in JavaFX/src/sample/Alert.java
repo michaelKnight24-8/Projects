@@ -12,7 +12,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-// little utility class for displaying alerts to the screen
+// utility class for displaying alerts to the screen, as well as small pop up windows that contain
+// immutable information
 public class Alert {
     static boolean save;
 
@@ -149,7 +150,6 @@ public class Alert {
 
     //same thing as for the appointment, except now for the surgeries
     public static void displaySurgicalData(Surgery s) {
-
         Stage window = new Stage();
         //labels for the information
         Label surgeonL, surgeonT, surgeryTypeL, surgeryTypeT, rnL, rnT, scrubL,
@@ -227,6 +227,11 @@ public class Alert {
         window.setTitle("Surgery Summary ");
         window.setScene(new Scene(sDetails,500,600));
         window.showAndWait();
+    }
+
+    //function that displays the given employees schedule to whomever clicks on the employees name
+    public static void displayEmployeeSchedule(Employee e) {
+
     }
 
     // confirms if the user is sure that they want to exit the program so that any data that

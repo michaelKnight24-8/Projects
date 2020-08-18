@@ -3,11 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -32,9 +28,10 @@ public class Main extends Application {
     public Stage window;
     public Scene homePage;
     public Button addPatient, addSurgery, addEmployee, calBtn, bookAppointment,
-            viewAppointments, info, clear, viewChanges;
+            viewAppointments, info, clear, viewChanges, messaging;
     public BorderPane mainLayout;
-    public VBox header, buttons;
+    public VBox header;
+    public HBox buttons;
     public Label searchL;
     public HBox radioButtons, searchContainer, middle;
     public ToggleGroup radioGroup;
@@ -47,8 +44,8 @@ public class Main extends Application {
     private TableView <Person> table;
     private HashMap<String, String> parameters;
     private boolean searchAll;
-    //for the accelerator
-    private KeyCombination kc;
+    //for the accelerators
+    private KeyCombination kc, ae, as, aa;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -71,6 +68,7 @@ public class Main extends Application {
         //if the user doesn't select any search parameters, it searches for all
         //employees, or all patients as specified
         searchAll = true;
+        dbTable = "Patient";
     }
 
     //this is called once the login has been verified as accurate
@@ -80,7 +78,7 @@ public class Main extends Application {
         mainLayout = new BorderPane();
         initLayouts();
 
-        window.setMinWidth(900);
+        window.setMinWidth(970);
         window.setMinHeight(600);
         window.setTitle("Homepage");
 
@@ -113,9 +111,12 @@ public class Main extends Application {
         patientBtn = new RadioButton("Patient");
         patientBtn.setToggleGroup(radioGroup);
         patientBtn.setSelected(true);
+        patientBtn.setOnAction(e -> dbTable = "Patient");
 
         employeeBtn = new RadioButton("Employee");
         employeeBtn.setToggleGroup(radioGroup);
+        employeeBtn.setOnAction(e -> dbTable = "Employee");
+
         radioButtons.getChildren().addAll(patientBtn, employeeBtn);
 
         initButtons();
@@ -165,6 +166,7 @@ public class Main extends Application {
         okBtn.setOnAction(e -> {
             parameters.clear();
 
+            initMenuItems();
             //get the values that the user has entered in, as well as the search filters.
             if (searchByFirstName.isSelected())
                 addToParameters("firstName", fNameT);
@@ -193,18 +195,24 @@ public class Main extends Application {
         gp.addRow(4, buttonsHolder);
         gp.setVgap(10);
 
-
-        middle.getChildren().addAll(buttons);
         middle.setPadding(new Insets(150, 90,0,0));
 
-        header.getChildren().addAll(searchL, radioButtons, searchContainer, gp, table);
+        header.getChildren().addAll(buttons, searchL, radioButtons, searchContainer, gp, table);
 
         mainLayout.setRight(middle);
         mainLayout.setLeft(header);
         mainLayout.setBackground(background);
 
         homePage = new Scene(mainLayout, 900,600);
+
+        //add the shortcuts
         homePage.addMnemonic(new Mnemonic(addPatient, kc));
+        homePage.addMnemonic(new Mnemonic(addSurgery, as));
+        homePage.addMnemonic(new Mnemonic(bookAppointment, aa));
+        //only let them use the add employee shortcut if they are in a leadership position
+        if (getEmployee().getIsAdmin())
+            homePage.addMnemonic(new Mnemonic(addEmployee, ae));
+
     }
 
     //  little function to make adding to the search parameters map easier
@@ -216,10 +224,14 @@ public class Main extends Application {
     //set up the buttons
     public void initButtons() {
 
-        buttons = new VBox(20);
+        buttons = new HBox(10);
+        buttons.setPadding(new Insets(0,0,20,0));
 
         //initialize the accelerator
-        kc = new KeyCodeCombination(KeyCode.P, KeyCombination.ALT_DOWN);
+        kc = new KeyCodeCombination(KeyCode.P, KeyCombination.ALT_ANY);
+        ae = new KeyCodeCombination(KeyCode.E, KeyCombination.ALT_ANY);
+        as = new KeyCodeCombination(KeyCode.S, KeyCombination.ALT_ANY);
+        aa = new KeyCodeCombination(KeyCode.A, KeyCombination.ALT_ANY);
 
         // the various buttons you see on the main screen that allows the user to
         // carry out various tasks
@@ -230,6 +242,7 @@ public class Main extends Application {
         });
         viewAppointments.setStyle("-fx-background-color: lightskyblue");
 
+        //see your profile information
         info = new Button("View Profile");
         info.setStyle("-fx-background-color: lightskyblue");
         info.setOnAction(e -> {
@@ -285,12 +298,17 @@ public class Main extends Application {
         viewChanges.setStyle("-fx-background-color: lightskyblue");
         viewChanges.setOnAction(e -> new ViewChanges().display(conn));
 
+        messaging = new Button();
+        messaging.setStyle("-fx-background-image: url('file:///C://Users//mknig//Downloads//mail.png')");
+        messaging.setMinSize(30, 25);
+        messaging.setOnAction(e -> new Messaging(getEmployee()).display());
+
         if (getEmployee().getIsAdmin())
             buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
-                bookAppointment, viewAppointments, info, addEmployee, viewChanges);
+                bookAppointment, viewAppointments, info, addEmployee, messaging);
         else
             buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
-                    bookAppointment, viewAppointments, info);
+                    bookAppointment, viewAppointments, info, messaging);
     }
 
     //DELETE THIS LATER WHEN I HAVE EVERYTHING MADE UP IN THE ALERT ISPLAY THING!!!
@@ -486,6 +504,53 @@ public class Main extends Application {
         return people;
     }
 
+    public void initMenuItems() {
+        // add functionality for when the user clicks on a record
+        ContextMenu menu = new ContextMenu();
+
+        //the menu items we will have
+        MenuItem view = new MenuItem("View/Edit");
+        MenuItem deleteRequest = new MenuItem("Request deletion");
+        MenuItem schedule = new MenuItem("View Schedule");
+        MenuItem delete = new MenuItem("Delete");
+
+        view.setOnAction(e -> {
+            if (dbTable.equals("Patient")) {
+                new AddPatient(conn,
+                        (Patient) table.getSelectionModel().getSelectedItem()).display();
+            } else {
+                new AddEmployee(conn,
+                        (Employee) table.getSelectionModel().getSelectedItem()).display();
+            }
+        });
+
+        delete.setOnAction(e -> {
+            if (dbTable.equals("Patient")) {
+                new AddPatient(conn, (Patient) table.getSelectionModel().getSelectedItem(), true);
+            } else {
+                new AddEmployee(conn, (Employee) table.getSelectionModel().getSelectedItem(), true);
+            }
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        });
+
+        //now add the menuitems depending on which table we are referencing
+        if (dbTable.equals("Patient")) {
+            menu.getItems().addAll(view, new SeparatorMenuItem(),
+                    getEmployee().getIsAdmin() ? delete : deleteRequest);
+        } else {
+            if (getEmployee().getIsAdmin())
+                menu.getItems().addAll(view, new SeparatorMenuItem(), schedule, new SeparatorMenuItem(),delete);
+            else
+                menu.getItems().addAll(schedule, deleteRequest);
+        }
+
+        // now add the menu to the table
+        table.setOnMouseClicked(e -> {
+            if (table.getSelectionModel().getSelectedItem() != null)
+                menu.show(table, e.getScreenX(), e.getScreenY());
+        });
+    }
+
     //init the table that holds the results
     private void initRefinedTable() {
 
@@ -508,37 +573,9 @@ public class Main extends Application {
 
         table.getColumns().addAll(nameCol, numberCol, dobCol, sexCol);
 
-        // add functionality for when the user clicks on a record
-        ContextMenu menu = new ContextMenu();
-        MenuItem view = new MenuItem("View/Edit");
-        view.setOnAction(e -> {
-            if (dbTable.equals("Patient")) {
-                new AddPatient(conn,
-                        (Patient) table.getSelectionModel().getSelectedItem()).display();
-            } else {
-              new AddEmployee(conn,
-                        (Employee) table.getSelectionModel().getSelectedItem()).display();
-            }
-        });
-
-        MenuItem deleteRequest = new MenuItem("Request deletion");
-
-        MenuItem delete = new MenuItem("Delete");
-        delete.setOnAction(e -> {
-            if (dbTable.equals("Patient")) {
-                new AddPatient(conn, (Patient) table.getSelectionModel().getSelectedItem(), true);
-            } else {
-                new AddEmployee(conn, (Employee) table.getSelectionModel().getSelectedItem(), true);
-            }
-            table.getItems().remove(table.getSelectionModel().getSelectedItem());
-        });
-
-        menu.getItems().addAll(view, new SeparatorMenuItem(), getEmployee().getIsAdmin() ? delete : deleteRequest);
-
-        // now add the menu to the table
-        table.setOnMouseClicked(e -> {
-            if (table.getSelectionModel().getSelectedItem() != null)
-                menu.show(table, e.getScreenX(), e.getScreenY());
-        });
     }
 }
+//for email table for all messages.. column that shows if unread or read
+//if read, bold and blue the title
+//when message is clicked on, change the status to be read
+//date is the date it was sent at
