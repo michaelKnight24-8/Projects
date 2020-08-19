@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+
 
 // utility class for displaying alerts to the screen, as well as small pop up windows that contain
 // immutable information

@@ -301,7 +301,7 @@ public class Main extends Application {
         messaging = new Button();
         messaging.setStyle("-fx-background-image: url('file:///C://Users//mknig//Downloads//mail.png')");
         messaging.setMinSize(30, 25);
-        messaging.setOnAction(e -> new Messaging(getEmployee()).display());
+        messaging.setOnAction(e -> new Messaging(getEmployee(), conn).display());
 
         if (getEmployee().getIsAdmin())
             buttons.getChildren().addAll(calBtn, addSurgery, addPatient,
