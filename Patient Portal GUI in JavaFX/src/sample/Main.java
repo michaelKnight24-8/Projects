@@ -311,14 +311,6 @@ public class Main extends Application {
                     bookAppointment, viewAppointments, info, messaging);
     }
 
-    //DELETE THIS LATER WHEN I HAVE EVERYTHING MADE UP IN THE ALERT ISPLAY THING!!!
-    ///////////////////////
-    private void initChangesLayout() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy - HH:mm");
-        LocalDateTime now = LocalDateTime.now();
-        System.out.println(dtf.format(now));
-    }
-
     private void getLoginPage() {
 
         //init the labels
@@ -575,7 +567,3 @@ public class Main extends Application {
 
     }
 }
-//for email table for all messages.. column that shows if unread or read
-//if read, bold and blue the title
-//when message is clicked on, change the status to be read
-//date is the date it was sent at

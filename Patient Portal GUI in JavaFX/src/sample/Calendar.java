@@ -270,6 +270,12 @@ public class Calendar implements EventHandler<ActionEvent> {
         }
     }
 
+    //small utility class that compares two dates, and tells if the first date is older or newer
+    //than the secocnd date
+    public static boolean dateIsPassed(String date1, String date2) {
+        return true;
+    }
+
     @Override
     public void handle(ActionEvent e) {
         if (e.getSource() instanceof CButton) {
