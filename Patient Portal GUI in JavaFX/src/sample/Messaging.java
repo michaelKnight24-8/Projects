@@ -1,6 +1,8 @@
 package sample;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Side;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -8,12 +10,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Messaging {
 
@@ -36,6 +36,7 @@ public class Messaging {
         }
     }
 
+    private AutoCompleteTrie trie;
     private Employee employee;
     private ListView<Message> listView;
     private BorderPane mainLayout;
@@ -162,16 +163,44 @@ public class Messaging {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Create a new message");
 
+        // first, make an object for the trie, then fill it with all the names from the database.
+        // Then every time a user types in a letter, the trie will search all the names in the trie,
+        // and print out any suggestions that contain the name prefix that the user has typed in,
+        // should they exist
+        trie = new AutoCompleteTrie();
+        fillTheTrie();
+
         //now make the components
         //container that holds all the subcontainers
         BorderPane mainContainer = new BorderPane();
         VBox messagingContent = new VBox(5);
 
-        //for the "TO" label as well as the input field
+        // this will hold the suggestions for employee names that the user can click on to make sure
+        // that the spelling of the persons name is correct
+        ContextMenu employeeNamesPopUp = new ContextMenu();
+
         TextField recipient = new TextField();
         recipient.textProperty().addListener((observable, oldText, newText) -> {
-            System.out.println(newText);
+
+            employeeNamesPopUp.getItems().clear();
+            if (!recipient.getText().equals("")) {
+                // list of all the names that are possibly the one that the user is searching for
+                List<String> names = trie.findNames(newText);
+
+                //now iterate over all those names, and add them into the popup suggestions
+                for (var name : names) {
+                    MenuItem newName = new MenuItem(name);
+                    newName.setOnAction(e -> {
+                        recipient.setText(newName.getText());
+                    });
+                    if (!employeeNamesPopUp.getItems().contains(newName))
+                        employeeNamesPopUp.getItems().add(newName);
+                }
+
+                employeeNamesPopUp.show(recipient, Side.BOTTOM, 0, 0);
+            }
         });
+
 
         if (isReply) recipient.setText(replyee);
 
@@ -218,19 +247,29 @@ public class Messaging {
         messagingContent.getChildren().addAll(toContainer, titleContainer, contentContainer);
         mainContainer.setCenter(messagingContent);
 
-        // this will hold all the names of the employees, which will allow the user to MAKE SURE
-        // that they send the email to the correct person, and spell the name correctly
-        ListView<String> names = new ListView<>();
         VBox namesContainer = new VBox();
 
-        names.setMinSize(60, 80);
         namesContainer.setPadding(new Insets(60,5,0,5));
-        namesContainer.getChildren().add(names);
         mainContainer.setRight(namesContainer);
         mainContainer.setBottom(btn);
 
         window.setScene(new Scene(mainContainer, 600,320));
         window.showAndWait();
+    }
+
+    private void fillTheTrie() {
+        //query the employee database, selecting only the names from the table, then add them into the trie
+        try {
+            Statement stmt  = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT firstName, lastName FROM employee");
+
+            // now insert it into the trie!
+            while (rs.next())
+                trie.insert(rs.getString("firstName") + " " + rs.getString("lastName"));
+
+        } catch (SQLException error) {
+                System.out.println("Error in line 249 in messaging class: " + error);
+        }
     }
 
     //saves the new message to the database, and gets the current time that it is sent at
