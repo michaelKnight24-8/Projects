@@ -191,10 +191,19 @@ public class Messaging {
                 for (var name : names) {
                     MenuItem newName = new MenuItem(name);
                     newName.setOnAction(e -> {
-                        recipient.setText(newName.getText());
+
+                        if (newName.getText().indexOf(',') == -1) {
+                            //first, check the case that the user knows the first name, so you get
+                            //it in 'first name, last name' format
+                            recipient.setText(newName.getText());
+                        } else {
+                            //if they only know the last name, you get 'last name, first name' format
+                            //for this case, you need to put it in the correct format, then set the text
+                            recipient.setText(newName.getText().split(",")[1].trim() + " "
+                                    + newName.getText().split(",")[0].trim());
+                        }
                     });
-                    if (!employeeNamesPopUp.getItems().contains(newName))
-                        employeeNamesPopUp.getItems().add(newName);
+                    employeeNamesPopUp.getItems().add(newName);
                 }
 
                 employeeNamesPopUp.show(recipient, Side.BOTTOM, 0, 0);
@@ -238,6 +247,7 @@ public class Messaging {
                 Alert.display();
             else
                 saveToDatabase(recipient.getText(), title.getText(), content.getText());
+            window.close();
         });
 
         VBox btn = new VBox();
@@ -264,8 +274,12 @@ public class Messaging {
             ResultSet rs = stmt.executeQuery("SELECT firstName, lastName FROM employee");
 
             // now insert it into the trie!
-            while (rs.next())
+            while (rs.next()) {
+                //for if they know the first name
                 trie.insert(rs.getString("firstName") + " " + rs.getString("lastName"));
+                //but if they only know the doctors last name, it will also show up
+                trie.insert(rs.getString("lastName") + ", " + rs.getString("firstName"));
+            }
 
         } catch (SQLException error) {
                 System.out.println("Error in line 249 in messaging class: " + error);
@@ -307,7 +321,8 @@ public class Messaging {
         //user that is logged in
 
         try {
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM messages WHERE recipient = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT * FROM messages WHERE recipient = ? " +
+                    "ORDER BY rowid DESC");
             ps.setString(1, employee.getName());
             ResultSet rs = ps.executeQuery();
 
