@@ -2,7 +2,6 @@ package sample;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Side;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -117,11 +116,8 @@ public class Messaging {
         Label date = new Label(message.date);
         Label sender = new Label(message.sender);
 
-        VBox header = new VBox();
-        header.getChildren().addAll(titleLabel, date, sender);
-        header.setPadding(new Insets(10,0,20,30));
-
-        Button delete = new Button("DELETE");
+        Button delete = new Button();
+        Tooltip.install(delete, new Tooltip("Delete"));
         delete.setOnAction(e -> {
             // first delete the item from the list view, then reset the content to show
             // that nothing is selected, like it did before
@@ -130,17 +126,25 @@ public class Messaging {
             listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
             displayEmptyMail();
         });
-        Button reply = new Button("REPLY");
+        Button reply = new Button();
+        Tooltip.install(reply, new Tooltip("Reply"));
+
         reply.setOnAction(e -> newMessage(true, listView.getSelectionModel().getSelectedItem().sender));
-        Button forward = new Button("FORWARD");
+        Button forward = new Button();
+        Tooltip.install(forward, new Tooltip("Forward"));
+
 
         HBox btnsHeader = new HBox();
         btnsHeader.getChildren().addAll(delete, reply, forward);
-        btnsHeader.setPadding(new Insets(10,0,0,0));
+        btnsHeader.setPadding(new Insets(10,0,10,0));
+
+        VBox header = new VBox();
+        header.getChildren().addAll(btnsHeader, titleLabel, date, sender);
+        header.setPadding(new Insets(10,0,20,30));
 
         HBox headerContainer = new HBox(110);
-        headerContainer.getChildren().addAll(header, btnsHeader);
-        headerContainer.setPadding(new Insets(20,0,0,0));
+        headerContainer.getChildren().addAll(header);
+        headerContainer.setPadding(new Insets(0,0,0,0));
 
         Label messageContent = new Label(message.content);
         messageContent.setMaxWidth(300);
@@ -210,7 +214,8 @@ public class Messaging {
             }
         });
 
-
+        //if you are replying to an email, automatically fill the 'to' textfield with
+        //the name of the person that you are replying to 
         if (isReply) recipient.setText(replyee);
 
         Label toLabel = new Label("  TO  ");
