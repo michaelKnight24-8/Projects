@@ -116,21 +116,24 @@ public class Messaging {
         Label date = new Label(message.date);
         Label sender = new Label(message.sender);
 
-        Button delete = new Button();
+        Button delete = new Button("DELETE");
         Tooltip.install(delete, new Tooltip("Delete"));
+        delete.setMinWidth(25);
         delete.setOnAction(e -> {
+
             // first delete the item from the list view, then reset the content to show
             // that nothing is selected, like it did before
-
             updateReadOrDelete(listView.getSelectionModel().getSelectedItem(), "isDeleted");
             listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
             displayEmptyMail();
         });
-        Button reply = new Button();
+
+        Button reply = new Button("REPLY");
         Tooltip.install(reply, new Tooltip("Reply"));
 
         reply.setOnAction(e -> newMessage(true, listView.getSelectionModel().getSelectedItem().sender));
-        Button forward = new Button();
+        Button forward = new Button("FORWARD");
+        forward.setMinWidth(25);
         Tooltip.install(forward, new Tooltip("Forward"));
 
 
@@ -215,7 +218,7 @@ public class Messaging {
         });
 
         //if you are replying to an email, automatically fill the 'to' textfield with
-        //the name of the person that you are replying to 
+        //the name of the person that you are replying to
         if (isReply) recipient.setText(replyee);
 
         Label toLabel = new Label("  TO  ");
