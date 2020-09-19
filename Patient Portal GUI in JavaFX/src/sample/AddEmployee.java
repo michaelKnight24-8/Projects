@@ -295,6 +295,23 @@ public class AddEmployee {
                 System.out.println("SQL Error: " + e);
             }
         }
+
+        //now enter the employee into the login database, with their email,
+        //and their name as the default password, to be changed later
+        sql = "INSERT INTO login (email, password, name) VALUES (?,?,?)";
+        try {
+            String name = firstName + " " + lastName;
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, email);
+            pstmt.setString(2, name);
+            pstmt.setString(3, name);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Error in addEmployee line 305: " + e);
+        }
+
         return true;
     }
 

@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.Mnemonic;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -502,9 +503,14 @@ public class Main extends Application {
 
         //the menu items we will have
         MenuItem view = new MenuItem("View/Edit");
+        MenuItem password = new MenuItem("Change Password");
         MenuItem deleteRequest = new MenuItem("Request deletion");
         MenuItem schedule = new MenuItem("View Schedule");
         MenuItem delete = new MenuItem("Delete");
+
+        // give actions to the menu items
+
+        password.setOnAction(e -> changePassword(table.getSelectionModel().getSelectedItem().getName()));
 
         view.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
@@ -531,7 +537,8 @@ public class Main extends Application {
                     getEmployee().getIsAdmin() ? delete : deleteRequest);
         } else {
             if (getEmployee().getIsAdmin())
-                menu.getItems().addAll(view, new SeparatorMenuItem(), schedule, new SeparatorMenuItem(),delete);
+                menu.getItems().addAll(view, new SeparatorMenuItem(), password, new SeparatorMenuItem(),
+                        schedule, new SeparatorMenuItem(),delete);
             else
                 menu.getItems().addAll(schedule, deleteRequest);
         }
@@ -541,6 +548,60 @@ public class Main extends Application {
             if (table.getSelectionModel().getSelectedItem() != null)
                 menu.show(table, e.getScreenX(), e.getScreenY());
         });
+    }
+
+    //provides the pop up screen that lets the admin change the password of a current user
+    //it will then be updated in the database!
+    private void changePassword(String eName) {
+
+        //text fields for the inputs
+        PText nameT = new PText(150);
+        nameT.setText(eName);
+        nameT.setEditable(false);
+        PText emailT = new PText(150);
+        PasswordField password = new PasswordField();
+        password.setMaxWidth(150);
+        PasswordField confirmPassword = new PasswordField();
+        confirmPassword.setMaxWidth(150);
+
+        //labels for the boxes
+        Label name = new Label("Name:");
+        name.setMinWidth(150);
+
+        Label email = new Label("Email:");
+        email.setMinWidth(150);
+
+        Label passwordL = new Label("New Password:");
+        passwordL.setMinWidth(150);
+
+        Label confirmPasswordL = new Label("Confirm Password:");
+        confirmPasswordL.setMinWidth(150);
+
+        //now containers that hold the label and the text fields
+        HBox nameContainer = new HBox();
+        HBox emailContainer = new HBox();
+        HBox passwordContainer = new HBox();
+        HBox passwordConfirmContainer = new HBox();
+
+        //add in the labels and the text fields
+        nameContainer.getChildren().addAll(name, nameT);
+        emailContainer.getChildren().addAll(email, emailT);
+        passwordContainer.getChildren().addAll(passwordL, password);
+        passwordConfirmContainer.getChildren().addAll(confirmPasswordL, confirmPassword);
+
+        Button confirm = new Button("Confirm");
+
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Change Password");
+
+        VBox lay = new VBox();
+        lay.getChildren().addAll(nameContainer, emailContainer, passwordContainer,
+                passwordConfirmContainer, confirm);
+
+        window.setScene(new Scene(lay,300,150));
+        window.showAndWait();
     }
 
     //init the table that holds the results
