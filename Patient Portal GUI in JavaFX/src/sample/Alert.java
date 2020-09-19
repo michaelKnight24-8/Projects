@@ -23,8 +23,24 @@ public class Alert {
         Stage window = new Stage();
 
         window.initModality(Modality.APPLICATION_MODAL);
-        window.setTitle("invalid Credentials");
+        window.setTitle("Invalid Credentials");
         Label label = new Label("Invalid Credentials");
+        Button okBtn = new Button("OK");
+        okBtn.setMinWidth(100);
+        okBtn.setOnAction(e -> window.close());
+
+        VBox v = new VBox();
+        v.getChildren().addAll(label, okBtn);
+        window.setScene(new Scene(v,300,150));
+        window.showAndWait();
+    }
+
+    public static void passwordsMustMatch() {
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Passwords do not match");
+        Label label = new Label("Both password fields must match");
         Button okBtn = new Button("OK");
         okBtn.setMinWidth(100);
         okBtn.setOnAction(e -> window.close());

@@ -509,8 +509,9 @@ public class Main extends Application {
         MenuItem delete = new MenuItem("Delete");
 
         // give actions to the menu items
-
         password.setOnAction(e -> changePassword(table.getSelectionModel().getSelectedItem().getName()));
+
+        schedule.setOnAction(e -> getSchedule((Employee)table.getSelectionModel().getSelectedItem()));
 
         view.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
@@ -550,9 +551,15 @@ public class Main extends Application {
         });
     }
 
+    private void getSchedule(Employee e) {
+
+    }
+
     //provides the pop up screen that lets the admin change the password of a current user
     //it will then be updated in the database!
     private void changePassword(String eName) {
+
+        Stage window = new Stage();
 
         //text fields for the inputs
         PText nameT = new PText(150);
@@ -590,8 +597,29 @@ public class Main extends Application {
         passwordConfirmContainer.getChildren().addAll(confirmPasswordL, confirmPassword);
 
         Button confirm = new Button("Confirm");
-
-        Stage window = new Stage();
+        confirm.setOnAction(e -> {
+            if (nameT.getLength() == 0 || emailT.getLength() == 0 ||
+                    password.getLength() == 0 || confirmPassword.getLength() == 0)
+                Alert.display();
+            else if (!password.getText().equals(confirmPassword.getText()))
+                Alert.passwordsMustMatch();
+            else  {
+                // update the password in the database
+                String SQL = "UPDATE login SET password = ? WHERE email = ?";
+                try {
+                    PreparedStatement pstm = conn.prepareStatement(SQL);
+                    pstm.setString(1, password.getText());
+                    pstm.setString(2, emailT.getText());
+                    if (pstm.execute())
+                        System.out.println("found the email!");
+                    else
+                        System.out.println("Didnt find it");
+                } catch (SQLException err) {
+                    System.out.println("Error in line 603 of Main: " + err);
+                }
+                window.close();
+            }
+        });
 
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Change Password");
@@ -603,6 +631,7 @@ public class Main extends Application {
         window.setScene(new Scene(lay,300,150));
         window.showAndWait();
     }
+
 
     //init the table that holds the results
     private void initRefinedTable() {
