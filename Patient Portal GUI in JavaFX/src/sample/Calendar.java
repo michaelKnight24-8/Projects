@@ -270,8 +270,16 @@ public class Calendar implements EventHandler<ActionEvent> {
         }
     }
 
-    //small utility class that compares two dates, and tells if the first date is older or newer
-    //than the secocnd date
+    // we have the employee, so now query the database based upon the name of the employee
+    // look in the appointments, and surgeries table to find if their name is in any of the
+    // tables. When the right button is clicked, the day increases, and the database is queried again.
+    // Same for the left button, but the day goes back one day. It shows the chosen employees schedule for that day
+    public static void showSchedule(Employee employee, Connection conn) {
+
+    }
+
+    // small utility class that compares two dates, and tells if the first date is older or newer
+    // than the second date
     public static boolean dateIsPassed(String date1, String date2) {
         return true;
     }

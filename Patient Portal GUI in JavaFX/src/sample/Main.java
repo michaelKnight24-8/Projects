@@ -511,7 +511,7 @@ public class Main extends Application {
         // give actions to the menu items
         password.setOnAction(e -> changePassword(table.getSelectionModel().getSelectedItem().getName()));
 
-        schedule.setOnAction(e -> getSchedule((Employee)table.getSelectionModel().getSelectedItem()));
+        schedule.setOnAction(e -> Calendar.showSchedule((Employee)table.getSelectionModel().getSelectedItem(), conn));
 
         view.setOnAction(e -> {
             if (dbTable.equals("Patient")) {
@@ -549,10 +549,6 @@ public class Main extends Application {
             if (table.getSelectionModel().getSelectedItem() != null)
                 menu.show(table, e.getScreenX(), e.getScreenY());
         });
-    }
-
-    private void getSchedule(Employee e) {
-
     }
 
     //provides the pop up screen that lets the admin change the password of a current user
@@ -610,10 +606,8 @@ public class Main extends Application {
                     PreparedStatement pstm = conn.prepareStatement(SQL);
                     pstm.setString(1, password.getText());
                     pstm.setString(2, emailT.getText());
-                    if (pstm.execute())
-                        System.out.println("found the email!");
-                    else
-                        System.out.println("Didnt find it");
+                    pstm.executeUpdate();
+                    
                 } catch (SQLException err) {
                     System.out.println("Error in line 603 of Main: " + err);
                 }
