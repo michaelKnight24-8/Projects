@@ -9,16 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.awt.*;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EventListener;
 
 public class Calendar implements EventHandler<ActionEvent> {
 
@@ -40,6 +37,9 @@ public class Calendar implements EventHandler<ActionEvent> {
             btn23, btn24, btn25, btn26, btn27, btn28, btn29, btn30, btn31, btn32, btn33, btn34,
             btn35, btn36, btn37, btn38, btn39, btn40, btn41, btn42, moveLeft, moveRight;
     public ArrayList <CButton> buttons;
+
+    final static int LEFT = 1;
+    final static int RIGHT = 0;
 
     public Scene getScene() { return new Scene(mainLayout,465,550); }
 
@@ -127,7 +127,6 @@ public class Calendar implements EventHandler<ActionEvent> {
         }
 
         clearTexbtniewText();
-        Button startDay;
         String[] months = {"January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"};
 
@@ -276,8 +275,82 @@ public class Calendar implements EventHandler<ActionEvent> {
     // Same for the left button, but the day goes back one day. It shows the chosen employees schedule for that day
     public static void showSchedule(Employee employee, Connection conn) {
 
+        Stage cal = new Stage();
+
+        cal.initModality(Modality.APPLICATION_MODAL);
+        cal.setTitle("Schedule");
+
+        BorderPane lay = new BorderPane();
+        HBox header = new HBox();
+        Label date = new Label("12/23/2020");
+
+        Button left = new Button("<");
+        left.setOnAction(e -> date.setText(changeDate(date.getText(), LEFT)));
+
+        Button right = new Button(">");
+        right.setOnAction(e -> date.setText(changeDate(date.getText(), RIGHT)));
+
+        header.getChildren().addAll(left, date, right);
+        lay.setTop(header);
+        cal.setScene(new Scene(lay,300,150));
+        cal.showAndWait();
     }
 
+    private static String changeDate(String date, int DIRECTION) {
+        //months with 30 days
+        //4,6,9,11
+        //months with 31 days
+        //1,3,5,7,8,10,12
+        //split the date into month, day, year to manipulate it
+        int month = Integer.parseInt(date.split("/")[0]);
+        int day = Integer.parseInt(date.split("/")[1]);
+        int year = Integer.parseInt(date.split("/")[2]);
+        //first change the day. If 0, change the month, and set the date to be the correct number of days
+        //for the given month, and maybe year
+        boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        if (DIRECTION == LEFT) {
+            //date will go down
+            day--;
+            if (day == 0) {
+                if (month == 4 || month == 6 || month == 9 || month == 11)
+                    day = 30;
+                else if (month == 2)
+                    day = isLeapYear ? 29 : 28;
+                else
+                    day = 31;
+                month--;
+            }
+            if (month == 0) {
+                year--;
+                day = 31;
+                month = 12;
+            }
+        } else {
+            //date will go up
+            day++;
+            if (day == 31 || day == 32 || day == 29 || day == 30) {
+                if (month == 2 && (day == 29 || day == 30)) {
+                    if (isLeapYear && day == 30)
+                        month++;
+                    else if (!isLeapYear && day == 29)
+                        month++;
+                    day = 1;
+                } else if ((month == 4 || month == 6 || month == 9 || month == 11) && day == 31) {
+                    month++;
+                    day = 1;
+                } else if (day == 32){
+                    month++;
+                    day = 1;
+                }
+            }
+            if (month == 13) {
+                month = 1;
+                year++;
+                day = 1;
+            }
+        }
+        return month + "/" + day + "/" + year;
+    }
     // small utility class that compares two dates, and tells if the first date is older or newer
     // than the second date
     public static boolean dateIsPassed(String date1, String date2) {

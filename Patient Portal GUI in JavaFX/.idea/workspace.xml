@@ -4,7 +4,6 @@
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Calendar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Calendar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,38 +217,38 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="369" y="86" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1596667027086" />
-    <state width="1237" height="154" key="GridCell.Tab.0.bottom" timestamp="1600542683074">
+    <state width="1237" height="132" key="GridCell.Tab.0.bottom" timestamp="1600988066226">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1237" height="154" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1600542683074" />
-    <state width="1237" height="154" key="GridCell.Tab.0.center" timestamp="1600542683073">
+    <state width="1237" height="132" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1600988066226" />
+    <state width="1237" height="132" key="GridCell.Tab.0.center" timestamp="1600988066226">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1237" height="154" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1600542683073" />
-    <state width="1237" height="154" key="GridCell.Tab.0.left" timestamp="1600542683073">
+    <state width="1237" height="132" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1600988066226" />
+    <state width="1237" height="132" key="GridCell.Tab.0.left" timestamp="1600988066225">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1237" height="154" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1600542683073" />
-    <state width="1237" height="154" key="GridCell.Tab.0.right" timestamp="1600542683073">
+    <state width="1237" height="132" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1600988066225" />
+    <state width="1237" height="132" key="GridCell.Tab.0.right" timestamp="1600988066226">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1237" height="154" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1600542683073" />
+    <state width="1237" height="132" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1600988066226" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1596948126275">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.689@0.0.1280.689" timestamp="1596948126275" />
-    <state x="337" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1600552227870">
+    <state x="337" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1600980133537">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="337" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1600552227870" />
+    <state x="337" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1600980133537" />
     <state x="307" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1593987384655">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="307" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1280.689@0.0.1280.689" timestamp="1593987384655" />
-    <state x="450" y="262" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1597894235257">
+    <state x="450" y="262" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1600980814481">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="450" y="262" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1597894235257" />
+    <state x="450" y="262" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1600980814481" />
     <state x="91" y="0" key="new project wizard" timestamp="1596647206136">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
