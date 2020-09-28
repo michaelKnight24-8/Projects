@@ -6,12 +6,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -30,7 +34,6 @@ public class Calendar implements EventHandler<ActionEvent> {
     public final int APPOINTMENT = 2;
     public final int BOOK_APPOINTMENT = 3;
     public Connection conn;
-
 
     private CButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
             btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20, btn21, btn22,
@@ -281,22 +284,30 @@ public class Calendar implements EventHandler<ActionEvent> {
         cal.setTitle("Schedule");
 
         BorderPane lay = new BorderPane();
+
         HBox header = new HBox();
+        header.setAlignment(Pos.CENTER);
+
         Label date = new Label("12/23/2020");
+        date.setMinWidth(150);
+        date.setAlignment(Pos.CENTER);
+        date.setStyle("-fx-font: 24 Arial;");
 
         Button left = new Button("<");
-        left.setOnAction(e -> date.setText(changeDate(date.getText(), LEFT)));
+        left.setOnAction(e -> date.setText(changeDate(date.getText(),
+                LEFT, employee.getName(), employee.getPosition(), conn)));
 
         Button right = new Button(">");
-        right.setOnAction(e -> date.setText(changeDate(date.getText(), RIGHT)));
+        right.setOnAction(e -> date.setText(changeDate(date.getText(),
+                RIGHT, employee.getName(), employee.getPosition(), conn)));
 
         header.getChildren().addAll(left, date, right);
         lay.setTop(header);
-        cal.setScene(new Scene(lay,300,150));
+        cal.setScene(new Scene(lay,500,600));
         cal.showAndWait();
     }
 
-    private static String changeDate(String date, int DIRECTION) {
+    private static String changeDate(String date, int DIRECTION, String name, String position, Connection conn) {
         //months with 30 days
         //4,6,9,11
         //months with 31 days
@@ -349,12 +360,44 @@ public class Calendar implements EventHandler<ActionEvent> {
                 day = 1;
             }
         }
-        return month + "/" + day + "/" + year;
+
+        //now pass the new date to the database to have it be displayed on the screen
+        String newDate = month + "/" + day + "/" + year;
+        getScheduleFromDatabase(newDate, name, position.toLowerCase(), conn);
+        return newDate;
     }
     // small utility class that compares two dates, and tells if the first date is older or newer
     // than the second date
     public static boolean dateIsPassed(String date1, String date2) {
         return true;
+    }
+
+    private static void getScheduleFromDatabase(String date, String name, String position, Connection conn) {
+
+        // query the name from the appointments, and surgery tables
+        if (position.equals("nurse") || position.equals("doctor")) {
+            //query the appointments database for data
+            String sql = "SELECT * FROM appointments WHERE (nurse = ? OR doctor = ?) AND date = ?";
+
+           try {
+               PreparedStatement pstm = conn.prepareStatement(sql);
+               pstm.setString(1, name);
+               pstm.setString(2, name);
+               pstm.setString(3, date);
+               ResultSet rs = pstm.executeQuery();
+
+               while (rs.next())
+                   System.out.println(rs.getString("date") + " at: " + rs.getString("time"));
+
+           } catch (SQLException error) {
+               System.out.println("Error in SQL: " + error);
+           }
+        }
+        if (position.equals("surgeon") || position.equals("anes") ||
+                position.equals("RN") || position.equals("scrub")) {
+            //query the surgery database for the data
+
+        }
     }
 
     @Override
