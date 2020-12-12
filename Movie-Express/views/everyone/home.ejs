@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <script src="home.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<% if (user) { %>
+<input type="text" hidden value="yes" id="hasUser">
+<body id="theBody" onload="loadTopInfo('<%=user.colorScheme%>')">
+<% } else { %>
+<input type="text" hidden value="no" id="hasUser">
+<body id="theBody" onload="loadTopInfo('none')">
+<% }  %>
+    <div id="main-container">
+        <input type="text" hidden value="USERID">
+        <div id="sidebar">
+            <div class="toggle-btn" onclick="toggleSidebar()">
+                <div id="bar1"></div>
+                <div id="bar2"></div>
+                <div id="bar3"></div>
+            </div>
+            <% if (user) { %>
+            <div id="preferences">
+                <div id="color-scheme">
+                    <span class="pref-headers">Color Scheme</span>
+                    <div id="colors-holder">
+                        <div id="white-col" class="<%= user.colorScheme === 'white' ? 'color-options active' : 'color-options' %>" 
+                        onclick="setActive(this.id)">WHITE</div>
+                        <div id="dark-col" class="<%= user.colorScheme === 'dark' ? 'color-options active' : 'color-options' %>"
+                         onclick="setActive(this.id)">DARK</div>
+                        <div id="blue-col" class="<%= user.colorScheme === 'blue' ? 'color-options active' : 'color-options' %>"
+                        onclick="setActive(this.id)">BLUE</div>
+                    </div>
+                    <div class="pref-headers" id="chg-avatar">Change Avatar</div>
+                    <div id="avatars">
+                        <div class="avatar-rows">
+                            <div id="a1" onclick="changeAvatar(this.id)"></div><div id="a2" onclick="changeAvatar(this.id)"></div>
+                            <div id="a3" onclick="changeAvatar(this.id)"></div><div id="a4" onclick="changeAvatar(this.id)"></div>
+                            <div id="a5" onclick="changeAvatar(this.id)"></div><div id="a6" onclick="changeAvatar(this.id)"></div>
+                            <div id="a7" onclick="changeAvatar(this.id)"></div><div id="a8" onclick="changeAvatar(this.id)"></div>
+                        </div>
+                        <div class="avatar-rows">
+                            <div id="a9" onclick="changeAvatar(this.id)"></div><div id="a10" onclick="changeAvatar(this.id)"></div>
+                            <div id="a11" onclick="changeAvatar(this.id)"></div><div id="a12" onclick="changeAvatar(this.id)"></div>
+                            <div id="a13" onclick="changeAvatar(this.id)"></div><div id="a14" onclick="changeAvatar(this.id)"></div>
+                            <div  id="a15" onclick="changeAvatar(this.id)"></div><div id="a16" onclick="changeAvatar(this.id)"></div>
+                        </div>
+                        <div class="avatar-rows">
+                            <div id="a17" onclick="changeAvatar(this.id)"></div><div id="a18" onclick="changeAvatar(this.id)"></div>
+                            <div id="a19" onclick="changeAvatar(this.id)"></div><div id="a20" onclick="changeAvatar(this.id)"></div>
+                            <div id="a21" onclick="changeAvatar(this.id)"></div><div id="a22" onclick="changeAvatar(this.id)"></div>
+                            <div id="a23" onclick="changeAvatar(this.id)"></div><div id="a24" onclick="changeAvatar(this.id)"></div>
+                        </div>
+                        <div class="avatar-rows">
+                            <div id="a25" onclick="changeAvatar(this.id)"></div><div id="a26" onclick="changeAvatar(this.id)"></div>
+                            <div id="a27" onclick="changeAvatar(this.id)"></div><div id="a28" onclick="changeAvatar(this.id)"></div>
+                            <div id="a29" onclick="changeAvatar(this.id)"></div><div id="a30" onclick="changeAvatar(this.id)"></div>
+                            <div id="a31" onclick="changeAvatar(this.id)"></div><div id="a32" onclick="changeAvatar(this.id)"></div>
+                        </div>
+                        <div class="avatar-rows">
+                            <div id="a33" onclick="changeAvatar(this.id)"></div><div id="a34" onclick="changeAvatar(this.id)"></div>
+                            <div id="a35" onclick="changeAvatar(this.id)"></div><div id="a36" onclick="changeAvatar(this.id)"></div>
+                            <div id="a37" onclick="changeAvatar(this.id)"></div><div id="a38" onclick="changeAvatar(this.id)"></div>
+                            <div id="a39" onclick="changeAvatar(this.id)"></div><div id="a40" onclick="changeAvatar(this.id)"></div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="saveUser()">SAVE</button>
+            </div>
+            <div id="personal-info">
+                <input type="text" hidden id="avatar-holder" value="<%=user.avatar%>">
+                <div id="personal-img" style="background-image: url('../images/<%=user.avatar%>.png');"></div>
+                <div>
+                    <label>Display Name</label><br>
+                    <input type="text" value="<%=user.firstName%> <%=user.lastName%>" readonly>
+                    <label>Email</label><br>
+                    <input type="text" id="email-holder" value="<%=user.email%>" readonly>
+                </div>
+            </div>
+            <div id="reviews">
+                <div>Reviews You Have Left</div>
+                <div id="reviews-holder">
+                    <% if (review.length > 0) { 
+                        for (reviews of review) { %>
+                            <div class="individual-review">
+                                <div class="review-header"><%=reviews.reviewId.movieName%></div>
+                                <div><%=reviews.reviewId.date%></div>
+                                <div class="show-rating"><span class="fa fa-star checked"></span><%=reviews.reviewId.rating%>/10</div>
+                                <div class="headline"><%=reviews.reviewId.headline%></div>
+                                <div class="review-text">
+                                    <%=reviews.reviewId.review%>
+                                </div>
+                            </div>
+                    <%  }
+                    } %>        
+                </div>
+            </div>
+            <div id="your-favorites">
+                <div id="fav-head">Your Favorited Movies</div>
+                <div id="favorites-holder">
+                    <div class="fav-sliders" onclick="moveRight('favorites-shower')"><</div>
+                        <div id="favorites-shower"> 
+                           <% if (favorite) {
+                                for (favs of favorite) { %>
+                                    <div class="individual-fav"><img src="<%=favs.showURL%>"></div> 
+                           <%   } 
+                              }   %>
+                        </div>
+                    <div class="fav-sliders" onclick="moveLeft('favorites-shower')">></div>
+                </div>
+            </div>
+            
+            
+                <ul>
+                <li><div id="img" style="background-image: url('../images/<%=user.avatar%>.png');"></div></li>
+                <a href="#" class="list-items" id="reviews-container" onclick="showHidden('reviews', this.id)">
+                    <i class="glyphicon glyphicon-thumbs-up" style="margin-right: 35px; color: black;"></i>Reviews
+                </a>
+                <a href="#" class="list-items" id="favorite-movies-container" onclick="showHidden('your-favorites', this.id)">
+                    <i class="fas fa-heart" style="margin-right: 35px;"></i>Favorite Movies
+                </a>
+                <a href="#" class="list-items" id="info-container" onclick="showHidden('personal-info', this.id)">
+                    <i class="glyphicon glyphicon-user" style="margin-right: 35px;"></i>Personal Info
+                </a>
+                <a href="#" class="list-items" id="prefs-container" onclick="showHidden('preferences', this.id)">
+                    <i class="fa fa-gear" style="margin-right: 35px;"></i>Preferences
+                </a>
+                <li id="logout"><a href="../auth/logout">Sign out</a></li>
+            </ul>
+            <% } else { %>
+                <a id="login" href="/auth/login">Log in</a>
+            <% } %>
+        </div>
+        <div id="main-crap" onclick="bodyClick()">
+            <div class="container">
+                <div class="">
+                    <h3 class="text-center" id="search-header">Search For Any Movie</h3>
+                    <% for (tvShow of TvShows) { %>
+                        <input type="text" class="top-tv-shows" hidden style="color: white" value="<%= tvShow %>">
+                    <% } 
+                       for (movie of Movies) { %>
+                        <input type="text" class="top-movies-all" hidden style="color: white" value="<%= movie %>">
+                    <% } %>
+                    <form id="searchForm">
+                        <input type="text" autocomplete="off" class="form-control" oninput="getMovies(this.value)" id="searchText" placeholder="Search Movies...">
+                    </form>
+                    <div id="top-shows-header" class="scrape-headers">Top Rated TV Shows</div>
+                    <div id="top-shows-container">
+                        <div id="slideLeft" class="sliders" onclick="moveRight('top-shows')"><</div>                      
+                            <div id="top-shows"></div>
+                        <div id="slideRight" class="sliders" onclick="moveLeft('top-shows')">></div>
+                    </div>
+
+                    <div id="top-movies-header" class="scrape-headers">Top Rated Movies</div>
+                    <div id="top-movies-container">
+                        <div id="slideLeftMovie" class="sliders" onclick="moveRight('top-movies')"><</div>
+                            <div id="top-movies"></div>
+                        <div id="slideRightMovie" class="sliders" onclick="moveLeft('top-movies')">></div>
+                    </div>
+                    <% if (user) { 
+                            if (recent) { %>
+                                <div id="recents-header">Recently Viewed </div>
+                                <div id="recents">
+                            <%  for (recents of recent) { %>
+                                    <div class="recent-movie"><img src='<%=recents.showURL%>'></div>
+                    <%          } %>
+                                </div>
+                    <%      } 
+                        } %>                    
+                </div>
+            </div>
+            <div id="container">
+                <div id="movies" class="row"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
