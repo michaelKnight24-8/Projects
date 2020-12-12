@@ -34,6 +34,8 @@ public class Calendar implements EventHandler<ActionEvent> {
     public final int APPOINTMENT = 2;
     public final int BOOK_APPOINTMENT = 3;
     public Connection conn;
+    private static ArrayList<Label> details;
+    private static VBox scheduleDetails = new VBox();
 
     private CButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10,
             btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20, btn21, btn22,
@@ -235,7 +237,7 @@ public class Calendar implements EventHandler<ActionEvent> {
         moveRight.setOnAction(this);
 
         //now add them to the array list containing all the buttons
-        //lot to do here, but it makes it alot easier to use them later!
+        //lot to do here, but it makes it a lot easier to use them later!
 
         buttons.add(btn1); buttons.add(btn2); buttons.add(btn3); buttons.add(btn4);
         buttons.add(btn5); buttons.add(btn6); buttons.add(btn7); buttons.add(btn8);
@@ -285,7 +287,8 @@ public class Calendar implements EventHandler<ActionEvent> {
 
         BorderPane lay = new BorderPane();
 
-        HBox header = new HBox();
+        VBox header = new VBox(30);
+        HBox dateHeader = new HBox(30);
         header.setAlignment(Pos.CENTER);
 
         Label date = new Label("12/23/2020");
@@ -294,15 +297,32 @@ public class Calendar implements EventHandler<ActionEvent> {
         date.setStyle("-fx-font: 24 Arial;");
 
         Button left = new Button("<");
-        left.setOnAction(e -> date.setText(changeDate(date.getText(),
-                LEFT, employee.getName(), employee.getPosition(), conn)));
+        left.setOnAction(e -> {
+            date.setText(DateFormat.fixDate(changeDate(date.getText(),
+                    LEFT, employee.getName(), employee.getPosition(), conn)));
+            scheduleDetails.getChildren().clear();
+            for (var value : details)
+                scheduleDetails.getChildren().add(value);
+        });
 
         Button right = new Button(">");
-        right.setOnAction(e -> date.setText(changeDate(date.getText(),
-                RIGHT, employee.getName(), employee.getPosition(), conn)));
+        right.setOnAction(e ->  {
+            date.setText(DateFormat.fixDate(changeDate(date.getText(),
+                    RIGHT, employee.getName(), employee.getPosition(), conn)));
+            scheduleDetails.getChildren().clear();
+            for (var value : details)
+                scheduleDetails.getChildren().add(value);
+        });
 
-        header.getChildren().addAll(left, date, right);
+        scheduleDetails.setPadding(new Insets(0,0,0,100));
+
+        Label label = new Label("TODAY'S SCHEDULE");
+        label.setStyle("-fx-font: 24 Arial");
+        dateHeader.setAlignment(Pos.CENTER);
+        dateHeader.getChildren().addAll(left, date, right);
+        header.getChildren().addAll(dateHeader, label);
         lay.setTop(header);
+        lay.setCenter(scheduleDetails);
         cal.setScene(new Scene(lay,500,600));
         cal.showAndWait();
     }
@@ -316,6 +336,7 @@ public class Calendar implements EventHandler<ActionEvent> {
         int month = Integer.parseInt(date.split("/")[0]);
         int day = Integer.parseInt(date.split("/")[1]);
         int year = Integer.parseInt(date.split("/")[2]);
+
         //first change the day. If 0, change the month, and set the date to be the correct number of days
         //for the given month, and maybe year
         boolean isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
@@ -373,10 +394,12 @@ public class Calendar implements EventHandler<ActionEvent> {
     }
 
     private static void getScheduleFromDatabase(String date, String name, String position, Connection conn) {
-
+        details = new ArrayList<>();
         // query the name from the appointments, and surgery tables
         if (position.equals("nurse") || position.equals("doctor")) {
-            //query the appointments database for data
+
+            //query the appointments database for data. Since we know that the employee is either
+            //a nurse or a doctor, that narrows it down to the appointments table.
             String sql = "SELECT * FROM appointments WHERE (nurse = ? OR doctor = ?) AND date = ?";
 
            try {
@@ -386,8 +409,11 @@ public class Calendar implements EventHandler<ActionEvent> {
                pstm.setString(3, date);
                ResultSet rs = pstm.executeQuery();
 
-               while (rs.next())
-                   System.out.println(rs.getString("date") + " at: " + rs.getString("time"));
+               while (rs.next()) {
+                   Label time = new Label(rs.getString("time"));
+                   time.setStyle("-fx-font: 24 Arial");
+                   details.add(time);
+               }
 
            } catch (SQLException error) {
                System.out.println("Error in SQL: " + error);
@@ -396,7 +422,26 @@ public class Calendar implements EventHandler<ActionEvent> {
         if (position.equals("surgeon") || position.equals("anes") ||
                 position.equals("RN") || position.equals("scrub")) {
             //query the surgery database for the data
+            String sql = "SELECT * FROM surgery WHERE (surgeon = ? OR anes = ? OR RN = ? OR scrub = ?) AND date = ?";
+            try {
+                PreparedStatement pstm = conn.prepareStatement(sql);
+                pstm.setString(1, name);
+                pstm.setString(2, name);
+                pstm.setString(3, name);
+                pstm.setString(4, name);
+                pstm.setString(5, date);
 
+                ResultSet rs = pstm.executeQuery();
+
+                while (rs.next()) {
+                    Label time = new Label(rs.getString("time"));
+                    time.setStyle("-fx-font: 24 Arial");
+                    details.add(time);
+                }
+
+            } catch (SQLException err) {
+                System.out.println("Error in main at line 408: " + err);
+            }
         }
     }
 

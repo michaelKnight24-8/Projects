@@ -155,7 +155,7 @@ public class Employee extends Person {
     }
 
     //formats the number in this format: (xxx) xxx-xxxx
-    private String formatNumber(String number) {
+    public static String formatNumber(String number) {
         String formattedNumber = "(";
         for (int i = 0; i < number.length(); i++) {
             if (i == 3)

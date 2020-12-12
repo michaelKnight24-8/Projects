@@ -12,6 +12,12 @@ public class DateFormat {
         return LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
     }
 
+    //function to remove the zero from the database when finding appointments and surgeries
+    public static String removeZeros(String date) {
+        return Integer.toString(Integer.parseInt(date.split("/")[0])) + "/" +
+                date.split("/")[1] + "/" + date.split("/")[2];
+    }
+
     // fixes the date by adding zeros when needed if below 10
     public static String fixDate(String date) {
         String [] dates = date.split("/");

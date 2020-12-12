@@ -36,10 +36,11 @@ public class AppointmentSchedule {
         try {
             String SQL = "SELECT * FROM appointments WHERE date = ?";
             PreparedStatement pstm = conn.prepareStatement(SQL);
-            pstm.setString(1, DateFormat.fixDate(day));
+            pstm.setString(1, DateFormat.removeZeros(day));
+            System.out.println(DateFormat.removeZeros(day));
             ResultSet rs = pstm.executeQuery();
             while (rs.next()) {
-                appointments.add(new Appointment(rs.getString("date"), rs.getString("patientName"),
+                appointments.add(new Appointment(DateFormat.fixDate(rs.getString("date")), rs.getString("patientName"),
                         rs.getString("nurse"), rs.getString("doctor"), rs.getString("drugsPrescribed"),
                         rs.getString("additionalRemarks"), rs.getString("reasonForAppointment"),
                         rs.getString("time"), rs.getString("room")));

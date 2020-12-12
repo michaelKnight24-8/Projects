@@ -37,7 +37,7 @@ public class SurgerySchedule {
             String SQL = "SELECT * FROM surgery WHERE date = ?";
 
             PreparedStatement pstm = conn.prepareStatement(SQL);
-            pstm.setString(1, day);
+            pstm.setString(1, DateFormat.removeZeros(day));
 
             ResultSet rs = pstm.executeQuery();
 
