@@ -76,9 +76,10 @@ namespace ChessTerminal
             {
                 Console.WriteLine("Possible colors are: Red, Blue, Dark blue, Yellow, Cyan, White and Gray");
                 Console.Write("Player 1, please choose a color \n > ");
-                p1Color = Console.ReadLine();
+                p1Color = Console.ReadLine().Trim();
+               
                 Console.Write("Player 2, please choose a color \n > ");
-                p2Color = Console.ReadLine();
+                p2Color = Console.ReadLine().Trim();
                 if (!colorList.Contains(p1Color.ToUpper()) || !colorList.Contains(p2Color.ToUpper()))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

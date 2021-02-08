@@ -646,6 +646,5 @@ public class Main extends Application {
         sexCol.setMinWidth(50);
 
         table.getColumns().addAll(nameCol, numberCol, dobCol, sexCol);
-
     }
 }
