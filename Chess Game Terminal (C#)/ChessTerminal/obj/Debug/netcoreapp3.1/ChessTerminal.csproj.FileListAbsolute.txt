@@ -1,0 +1,13 @@
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\bin\Debug\netcoreapp3.1\ChessTerminal.exe
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\bin\Debug\netcoreapp3.1\ChessTerminal.deps.json
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\bin\Debug\netcoreapp3.1\ChessTerminal.runtimeconfig.json
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\bin\Debug\netcoreapp3.1\ChessTerminal.runtimeconfig.dev.json
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\bin\Debug\netcoreapp3.1\ChessTerminal.dll
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\bin\Debug\netcoreapp3.1\ChessTerminal.pdb
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.csprojAssemblyReference.cache
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.AssemblyInfoInputs.cache
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.AssemblyInfo.cs
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.csproj.CoreCompileInputs.cache
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.dll
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.pdb
+C:\Users\mknig\source\repos\ChessTerminal\ChessTerminal\obj\Debug\netcoreapp3.1\ChessTerminal.genruntimeconfig.cache
