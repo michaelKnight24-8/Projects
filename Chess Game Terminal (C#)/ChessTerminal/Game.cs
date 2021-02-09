@@ -19,7 +19,7 @@ namespace ChessTerminal
                  new Pawn(new Player(1)),  new Pawn(new Player(1)),   new Pawn(new Player(1)),   new Pawn(new Player(1))},
                 {null, null, null, null, null, null, null, null },
                 {null, null, null, null, null, null, null, null },
-                {null, new Knight(new Player(1)), null, null, null, null, null, null },
+                {null, null, null, null, null, null, null, null },
                 {null, null, null, null, null, null, null, null },
                 {new Pawn(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)), new Pawn(new Player(2)),
                  new Pawn(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)),   new Pawn(new Player(2))},
