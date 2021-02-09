@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mknig\\Downloads\\Projects-master (1)\\Projects-master\\Chess Game Terminal (C#)\\ChessTerminal\\ChessTerminal.csproj",
+      "projectUniqueName": "C:\\Users\\mknig\\Documents\\GitHub\\Projects\\Chess Game Terminal (C#)\\ChessTerminal\\ChessTerminal.csproj",
       "projectName": "ChessTerminal",
-      "projectPath": "C:\\Users\\mknig\\Downloads\\Projects-master (1)\\Projects-master\\Chess Game Terminal (C#)\\ChessTerminal\\ChessTerminal.csproj",
+      "projectPath": "C:\\Users\\mknig\\Documents\\GitHub\\Projects\\Chess Game Terminal (C#)\\ChessTerminal\\ChessTerminal.csproj",
       "packagesPath": "C:\\Users\\mknig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mknig\\Downloads\\Projects-master (1)\\Projects-master\\Chess Game Terminal (C#)\\ChessTerminal\\obj\\",
+      "outputPath": "C:\\Users\\mknig\\Documents\\GitHub\\Projects\\Chess Game Terminal (C#)\\ChessTerminal\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mknig\\AppData\\Roaming\\NuGet\\NuGet.Config",

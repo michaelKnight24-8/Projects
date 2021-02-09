@@ -10,6 +10,7 @@ namespace ChessTerminal
             override
             public void showPossible(Piece[,] board, int sx, int sy)
             {
+                Console.Write(sx + " " + sy);
                 var player3 = new Player(3);
                 player3.PlayerColor = ConsoleColor.Green;
                 var knightShow = new Knight(player3);
@@ -24,14 +25,13 @@ namespace ChessTerminal
                         else if (board[sy - 1, sx - 2].getPlayer() != Game.player)
                             board[sy - 1, sx - 2].setPlayerNumber(3);
                     }
-                    if (sy + 1 >= 0)
+                    if (sy + 1 <= 7)
                     {
                         if (board[sy + 1, sx - 2] == null)
                             board[sy + 1, sx - 2] = knightShow;
                         else if (board[sy + 1, sx - 2].getPlayer() != Game.player)
                             board[sy + 1, sx - 2].setPlayerNumber(3);
                     }
-                        
                 }
                 if (sx - 1 >= 0) 
                 {
@@ -42,7 +42,7 @@ namespace ChessTerminal
                         else if (board[sy - 2, sx - 1].getPlayer() != Game.player)
                             board[sy - 2, sx - 1].setPlayerNumber(3);
                     }
-                    if (sy + 2 >= 0)
+                    if (sy + 1 <= 7)
                     {
                         if (board[sy + 2, sx - 1] == null)
                             board[sy + 2, sx - 1] = knightShow;
@@ -50,7 +50,7 @@ namespace ChessTerminal
                             board[sy + 2, sx - 1].setPlayerNumber(3);
                     }
                 }
-                //for showig possible spots to the right
+                //for showing possible spots to the right
                 if (sx + 2 <= 7)
                 {
                     if (sy - 1 >= 0)
@@ -60,7 +60,7 @@ namespace ChessTerminal
                         else if (board[sy - 1, sx + 2].getPlayer() != Game.player)
                             board[sy - 1, sx + 2].setPlayerNumber(3);
                     }
-                    if (sy + 1 >= 0)
+                    if (sy + 1 <= 7)
                     {
                         if (board[sy + 1, sx + 2] == null)
                             board[sy + 1, sx + 2] = knightShow;
@@ -78,7 +78,8 @@ namespace ChessTerminal
                         else if (board[sy - 2, sx + 1].getPlayer() != Game.player)
                             board[sy - 2, sx + 1].setPlayerNumber(3);
                     }
-                    if (sy + 2 >= 0) 
+
+                    if (sy + 1<= 7)
                     {
                         if (board[sy + 2, sx + 1] == null)
                             board[sy + 2, sx + 1] = knightShow;

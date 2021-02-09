@@ -19,10 +19,10 @@ namespace ChessTerminal
                  new Pawn(new Player(1)),  new Pawn(new Player(1)),   new Pawn(new Player(1)),   new Pawn(new Player(1))},
                 {null, null, null, null, null, null, null, null },
                 {null, null, null, null, null, null, null, null },
-                {null, null, null, null, null, null, null, null },
+                {null, new Knight(new Player(1)), null, null, null, null, null, null },
                 {null, null, null, null, null, null, null, null },
                 {new Pawn(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)), new Pawn(new Player(2)),
-                 new Queen(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)),   new Pawn(new Player(2))},
+                 new Pawn(new Player(2)),  new Pawn(new Player(2)),   new Pawn(new Player(2)),   new Pawn(new Player(2))},
                 {new Rook(new Player(2)),  new Bishop(new Player(2)), new Knight(new Player(2)), new Queen(new Player(2)),
                  new King(new Player(2)),  new Knight(new Player(2)), new Bishop(new Player(2)), new Rook(new Player(2)) }
         };
@@ -96,7 +96,10 @@ namespace ChessTerminal
             while (!hasWon)
             {
                 DrawBoard(board, p1Color, p2Color);
-                Console.Write("Player {0}, which piece are you going to move? (Hint: add an 's' at the end to see the possible moves) \n> ", player);
+                Console.ForegroundColor = getColor(player == 1 ? p1Color : p2Color);
+                Console.Write("Player {0}", player);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(", which piece are you going to move? (Hint: add an 's' at the end to see the possible moves) \n> ", player);
                 string source = Console.ReadLine();
                 if (source.Length == 3 && Char.ToUpper(source[2]) == 'S')
                 {

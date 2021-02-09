@@ -8,7 +8,6 @@ namespace ChessTerminal
         public class Player
         {
             //list of possible colors for a player
-          
             public int PlayerNumber { get; set; }
 
             /************************************************************

@@ -17,14 +17,10 @@ namespace ChessTerminal
             public bool getIsAlive()                       { return isAlive; }
             public string name;
             public void setPlayerNumber(int num)           { player.PlayerNumber = num; }
-            public void setPlayerColor(ConsoleColor color) { player.PlayerColor = color; }
-            public ConsoleColor getPlayerColor()           { return player.PlayerColor; }
             public string getName()                        { return name; }
             public int getPlayer()                         { return player.PlayerNumber; }
-            public Player player   { get; set; }
-            public int Player      { get; set; }
-            public string PieceType     { get; set; }
-
+            public Player player                           { get; set; }
+            public string PieceType                        { get; set; }
             public int getTempPlayerNumber()               { return player.TempPlayerNum; }
 
             /**********************************************************************************
